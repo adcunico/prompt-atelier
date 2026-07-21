@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:2560px;height:1440px;overflow:hidden}
+  .stage{width:2560px;height:1440px;position:relative;display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(45% 55% at 82% 18%,rgba(193,154,61,.30) 0%,transparent 60%),
+      radial-gradient(50% 60% at 12% 88%,rgba(51,98,92,.38) 0%,transparent 60%),
+      linear-gradient(152deg,#16130E,#2B2418)}
+  /* ghost monogram, outside the safe zone (decorative only) */
+  .ghost{position:absolute;right:80px;bottom:-180px;font-family:'Fraunces',serif;font-style:italic;font-weight:300;
+    font-size:900px;line-height:1;color:rgba(220,188,105,.07);letter-spacing:-40px}
+  .ghost2{position:absolute;left:60px;top:-260px;font-family:'Fraunces',serif;font-style:italic;font-weight:300;
+    font-size:760px;line-height:1;color:rgba(246,240,228,.04);letter-spacing:-30px}
+  /* everything important inside the 1546x423 centered safe zone */
+  .safe{width:1546px;height:423px;display:flex;align-items:center;justify-content:center;gap:54px}
+  .tile{width:220px;height:220px;border-radius:60px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(148deg,#26221A,#17140F);border:2px solid rgba(220,188,105,.55);
+    box-shadow:0 24px 70px rgba(5,4,2,.6), inset 0 1px 0 rgba(255,255,255,.12)}
+  .tile .mono{font-family:'Fraunces',serif;font-size:118px;line-height:1;letter-spacing:-5px;margin-top:-8px}
+  .tile .p{font-style:italic;font-weight:400;color:#DCBC69}
+  .tile .a{font-style:italic;font-weight:300;font-size:84px;color:#F6F0E4}
+  .text h1{font-family:'Fraunces',serif;font-weight:400;font-size:150px;line-height:1;color:#F6F0E4;letter-spacing:-2px}
+  .text h1 em{font-style:italic;color:#DCBC69}
+  .text .tag{margin-top:30px;font-family:'Inter',sans-serif;font-size:29px;font-weight:600;
+    letter-spacing:.34em;text-transform:uppercase;color:#B5AC9C}
+  .text .tag b{color:#DCBC69;font-weight:600}
+</style></head>
+<body>
+  <div class="stage">
+    <div class="ghost">Pa</div>
+    <div class="ghost2">Pa</div>
+    <div class="safe">
+      <div class="tile"><div class="mono"><span class="p">P</span><span class="a">a</span></div></div>
+      <div class="text">
+        <h1>Prompt <em>Atelier</em></h1>
+        <div class="tag">The tools are free · <b>The taste is the craft</b></div>
+      </div>
+    </div>
+  </div>
+</body></html>

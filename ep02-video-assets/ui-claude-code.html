@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1920px;height:1080px;overflow:hidden}
+  body{background:linear-gradient(150deg,#211d17,#33291c);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif}
+  .win{width:1480px;border-radius:18px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.08)}
+  .bar{background:#2A2622;padding:16px 22px;display:flex;align-items:center;gap:10px}
+  .dot{width:14px;height:14px;border-radius:50%}
+  .bar .title{flex:1;text-align:center;color:#8a8177;font-size:15px;font-family:ui-monospace,Consolas,monospace}
+  .body{background:#1B1815;padding:44px 52px;font-family:ui-monospace,Consolas,monospace;font-size:22px;line-height:2.05;color:#D8D2C8}
+  .p{color:#D97757}
+  .cmd{color:#F6F0E4}
+  .b{color:#D97757}
+  .dim{color:#6d675e}
+  .ok{color:#7FB88F}
+  .amber{color:#D9A957}
+  .sub{padding-left:34px}
+  .cursor{display:inline-block;width:12px;height:24px;background:#D97757;vertical-align:middle;animation:b 1s steps(1) infinite}
+  @keyframes b{50%{opacity:0}}
+</style></head>
+<body>
+  <div class="win">
+    <div class="bar">
+      <div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FEBC2E"></div><div class="dot" style="background:#28C840"></div>
+      <div class="title">claude — chubletz production</div>
+    </div>
+    <div class="body">
+      <span class="b">✻</span> <span class="cmd" style="font-weight:600">Claude Code</span> <span class="dim">· agent session</span><br>
+      <br>
+      <span class="p">❯</span> <span class="cmd">produce the pending shots from chubletz.xlsx</span><br>
+      <br>
+      <span class="b">●</span> Reading shot list… <span class="ok">24 rows · 21 done · 3 pending</span><br>
+      <span class="b">●</span> <span class="cmd">Row 04</span> <span class="dim">— Einstein · side profile</span><br>
+      <span class="sub">⎿ image → Veo, camera: <span class="amber">side, slow push-in</span>… <span class="ok">done</span> <span class="dim">(8s clip)</span></span><br>
+      <span class="sub">⎿ dialogue → ElevenLabs… <span class="ok">done</span> <span class="dim">(4.2s)</span></span><br>
+      <span class="sub">⎿ status → <span class="ok">DONE</span> · output linked</span><br>
+      <span class="b">●</span> <span class="cmd">Row 05</span> <span class="dim">— Rome · full view</span><br>
+      <span class="sub">⎿ generating motion… <span class="cursor"></span></span><br>
+      <br>
+      <span class="dim">2 rows remaining · rerun failures automatically</span>
+    </div>
+  </div>
+</body></html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1080px;overflow:hidden}
+  .stage{width:1080px;height:1080px;position:relative;display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(60% 60% at 72% 22%,rgba(193,154,61,.30) 0%,transparent 62%),
+      radial-gradient(55% 55% at 22% 82%,rgba(51,98,92,.38) 0%,transparent 62%),
+      linear-gradient(150deg,#17140F,#2B2418)}
+  /* gold ring inside the circular crop */
+  .ring{position:absolute;inset:74px;border-radius:50%;border:3px solid rgba(220,188,105,.75)}
+  .ring2{position:absolute;inset:94px;border-radius:50%;border:1.5px solid rgba(246,240,228,.28)}
+  .mono{font-family:'Fraunces',serif;font-size:470px;line-height:1;color:#DCBC69;
+    text-shadow:0 24px 80px rgba(193,154,61,.35);letter-spacing:-18px;margin-top:-40px}
+  .mono .p{font-style:italic;font-weight:400}
+  .mono .a{font-style:italic;font-weight:300;font-size:340px;color:#F6F0E4}
+  .word{position:absolute;bottom:206px;left:0;right:0;text-align:center;
+    font-family:'Fraunces',serif;font-size:44px;letter-spacing:.42em;color:#B5AC9C;text-transform:uppercase}
+</style></head>
+<body>
+  <div class="stage">
+    <div class="ring"></div>
+    <div class="ring2"></div>
+    <div class="mono"><span class="p">P</span><span class="a">a</span></div>
+    <div class="word">Atelier</div>
+  </div>
+</body></html>

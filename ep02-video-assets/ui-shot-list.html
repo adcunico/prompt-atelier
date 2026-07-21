@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1920px;height:1080px;overflow:hidden}
+  body{background:#E8E5DE;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif}
+  .win{width:1640px;border-radius:16px;overflow:hidden;box-shadow:0 40px 120px rgba(30,25,15,.35);background:#fff}
+  .bar{background:#F4F2ED;padding:14px 22px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #E2DFD7}
+  .dot{width:13px;height:13px;border-radius:50%}
+  .bar .title{flex:1;text-align:center;color:#6d675e;font-size:14px;font-weight:500}
+  .toolbar{display:flex;gap:22px;padding:12px 24px;border-bottom:1px solid #E9E6DF;font-size:13px;color:#6d675e}
+  .toolbar b{color:#211D15;font-weight:600}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th{background:#FAF8F4;border:1px solid #ECE9E2;padding:12px 16px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8a8378;text-align:left;font-weight:700}
+  td{border:1px solid #F0EDE6;padding:12px 16px;color:#2A251C;vertical-align:middle;line-height:1.45}
+  td.mono{font-family:ui-monospace,monospace;font-size:13px;color:#6d675e}
+  td img{width:86px;height:48px;object-fit:cover;border-radius:8px;display:block}
+  .st{display:inline-block;padding:4px 14px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.1em}
+  .done{background:#E3F0E6;color:#2E6B44}
+  .run{background:#FBF0D8;color:#8A6A24}
+  .pend{background:#EFEDE8;color:#8a8378}
+  .tabs{display:flex;gap:4px;padding:10px 18px;background:#F4F2ED;border-top:1px solid #E2DFD7}
+  .tab{padding:8px 22px;border-radius:8px 8px 0 0;font-size:13px;color:#6d675e}
+  .tab.on{background:#fff;color:#211D15;font-weight:600;box-shadow:0 -2px 8px rgba(0,0,0,.05)}
+</style></head>
+<body>
+  <div class="win">
+    <div class="bar">
+      <div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FEBC2E"></div><div class="dot" style="background:#28C840"></div>
+      <div class="title">chubletz.xlsx — The Story of Numbers · shot list</div>
+    </div>
+    <div class="toolbar"><b>File</b><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span style="margin-left:auto;color:#2E6B44;font-weight:600">● Agent connected</span></div>
+    <table>
+      <tr><th style="width:60px">id</th><th style="width:120px">image</th><th>dialogue</th><th>video_prompt</th><th style="width:150px">camera</th><th style="width:110px">status</th><th style="width:130px">output</th></tr>
+      <tr><td class="mono">01</td><td><img src="../ep02/einstein-front.jpg"></td><td>"Ah, hello my curious friends! I'm Albert — today, the story of numbers!"</td><td class="mono">Character says: "Ah, hello my curious…"</td><td class="mono">front, fixed</td><td><span class="st done">DONE</span></td><td class="mono">shot_01.mp4</td></tr>
+      <tr><td class="mono">02</td><td><img src="../ep02/egypt-scribe.png"></td><td>"Five thousand years ago, Egyptian scribes counted with strokes and symbols…"</td><td class="mono">Character says: "Five thousand years…"</td><td class="mono">full view</td><td><span class="st done">DONE</span></td><td class="mono">shot_02.mp4</td></tr>
+      <tr><td class="mono">03</td><td><img src="../ep02/roman-sundial.png"></td><td>"The Romans carved their numbers in stone — but try multiplying with them!"</td><td class="mono">Character says: "The Romans carved…"</td><td class="mono">¾ push-in</td><td><span class="st done">DONE</span></td><td class="mono">shot_03.mp4</td></tr>
+      <tr><td class="mono">04</td><td><img src="../ep02/einstein-side.jpg"></td><td>"But something was missing. A hero called… zero!"</td><td class="mono">Character says: "But something was…"</td><td class="mono">side profile</td><td><span class="st run">RUNNING</span></td><td class="mono">—</td></tr>
+      <tr><td class="mono">05</td><td><img src="../ep02/counting-sheep.png"></td><td>"And tonight, when you count sheep to fall asleep — thank the story of numbers."</td><td class="mono">Character says: "And tonight, when…"</td><td class="mono">slow zoom out</td><td><span class="st pend">PENDING</span></td><td class="mono">—</td></tr>
+    </table>
+    <div class="tabs"><div class="tab on">shot_list</div><div class="tab">image_prompts</div><div class="tab">voices</div></div>
+  </div>
+</body></html>

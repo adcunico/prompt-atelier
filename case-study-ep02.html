@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 02 — One Spreadsheet, One Agent · Prompt Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --glass-dark:rgba(24,20,14,.46); --glass-dark-b:rgba(255,255,255,.26);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+  .glass{backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+    border-radius:20px;box-shadow:0 12px 40px rgba(15,12,6,.28)}
+  .g-dark{background:var(--glass-dark);border:1px solid var(--glass-dark-b);color:var(--text-cream)}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+
+  .hero{padding:64px 0 40px;background:
+    radial-gradient(55% 70% at 85% 0%,rgba(193,154,61,.10),transparent 60%),
+    radial-gradient(40% 55% at 5% 30%,rgba(51,98,92,.07),transparent 60%)}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:56px;line-height:1.12;margin:18px 0 20px;max-width:900px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  /* video — YouTube embed slot */
+  .video-shell{margin:44px 0 0;aspect-ratio:16/9;border-radius:26px;position:relative;overflow:hidden;
+    box-shadow:0 24px 70px rgba(20,16,8,.28);background:#16130E}
+  .video-shell iframe{width:100%;height:100%;border:0;display:block}
+  .video-cover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;cursor:default}
+  .video-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+  .video-cover .scrim{position:absolute;inset:0;background:linear-gradient(160deg,rgba(15,12,6,.55),rgba(15,12,6,.25))}
+  .play{position:relative;width:92px;height:92px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(145deg,var(--gold),var(--gold-deep));box-shadow:0 14px 40px rgba(193,154,61,.4)}
+  .play::after{content:'';border-left:26px solid #fff;border-top:16px solid transparent;border-bottom:16px solid transparent;margin-left:7px}
+  .video-cover p{position:relative;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--text-cream);font-weight:600}
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:12px;letter-spacing:.04em}
+  .figcap b{color:var(--gold-deep)}
+
+  section{padding:72px 0 8px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  h2 em{font-style:italic;color:var(--gold-deep)}
+  .lede{color:var(--text-soft);max-width:660px;margin-bottom:8px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 26px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block;color:var(--text-ink)}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* concept gallery */
+  .gallery{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-top:40px}
+  @media(max-width:840px){.gallery{grid-template-columns:1fr}}
+  .shot{border-radius:22px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 14px 44px rgba(20,16,8,.14);position:relative}
+  .shot img{width:100%;height:100%;object-fit:cover;display:block}
+  .shot .lab{position:absolute;left:16px;bottom:16px;padding:8px 18px;border-radius:999px;font-size:11px;font-weight:700;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--text-cream);background:rgba(24,20,14,.55);
+    border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(12px)}
+  .gallery .col{display:grid;gap:18px}
+
+  .step{display:grid;grid-template-columns:340px 1fr;gap:40px;padding:44px 0;border-top:1px solid var(--linen);align-items:start}
+  @media(max-width:840px){.step{grid-template-columns:1fr}}
+  .step .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:64px;line-height:1;color:var(--gold-deep)}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:12px 0 10px}
+  .step p{font-size:15.5px;color:var(--text-soft)}
+  .chip{display:inline-flex;align-items:center;gap:9px;margin-top:16px;margin-right:8px;padding:8px 18px;border-radius:999px;
+    background:var(--ivory);border:1px solid var(--linen);font-size:12.5px;font-weight:600;letter-spacing:.06em}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+
+  .fig{border-radius:24px;overflow:hidden;position:relative;min-height:300px;padding:30px;
+    display:flex;align-items:center;justify-content:center;gap:24px;
+    background:radial-gradient(50% 65% at 82% 18%,rgba(193,154,61,.28) 0%,transparent 60%),
+      radial-gradient(55% 70% at 10% 90%,rgba(51,98,92,.45) 0%,transparent 60%),
+      linear-gradient(155deg,#16130E,#2B2418);box-shadow:0 18px 50px rgba(20,16,8,.22)}
+
+  /* angle grid (step 01) */
+  .angles{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;width:100%}
+  .angles .a{border-radius:16px;overflow:hidden;position:relative;aspect-ratio:16/9}
+  .angles .a img{width:100%;height:100%;object-fit:cover;display:block}
+  .angles .a span{position:absolute;left:10px;bottom:10px;font-size:10px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--text-cream);background:rgba(24,20,14,.6);padding:5px 12px;border-radius:999px}
+
+  /* spreadsheet recreation (step 02) */
+  .sheet{width:100%;border-radius:18px;overflow:hidden;background:rgba(255,252,245,.95);font-size:12.5px;
+    box-shadow:0 18px 50px rgba(10,8,4,.4)}
+  .sheet table{width:100%;border-collapse:collapse}
+  .sheet th{background:var(--ivory);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);
+    text-align:left;padding:10px 14px;border-bottom:1px solid var(--linen)}
+  .sheet td{padding:10px 14px;border-bottom:1px solid var(--linen);color:var(--text-ink);vertical-align:top}
+  .sheet td.mono{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--text-soft)}
+  .sheet .done{display:inline-block;padding:3px 12px;border-radius:999px;background:rgba(51,98,92,.12);
+    color:var(--teal);font-size:10px;font-weight:700;letter-spacing:.12em}
+  .sheet .running{background:rgba(193,154,61,.14);color:var(--gold-deep)}
+
+  /* veo clips (step 03) */
+  .clips{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%}
+  @media(max-width:700px){.clips{grid-template-columns:1fr}}
+  .clip{border-radius:16px;overflow:hidden;position:relative;aspect-ratio:16/9;border:1.5px solid rgba(255,255,255,.25)}
+  .clip video{width:100%;height:100%;object-fit:cover;display:block}
+  .clip span{position:absolute;left:10px;bottom:10px;font-size:10px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--text-cream);background:rgba(24,20,14,.6);padding:5px 12px;border-radius:999px}
+
+  /* voice (step 04) */
+  .voicebox{padding:34px 44px;max-width:520px}
+  .wave{display:flex;align-items:center;gap:7px;height:80px}
+  .wave i{width:8px;border-radius:5px;background:rgba(246,240,228,.55);display:block;animation:wob 1.6s ease-in-out infinite}
+  .wave i:nth-child(6n+3){background:var(--gold-bright)}
+  @keyframes wob{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
+
+  /* orchestrator terminal (step 05) */
+  .term{width:100%;max-width:560px;background:#12100B;border-radius:18px;padding:26px 30px;
+    font-family:ui-monospace,monospace;font-size:14.5px;line-height:1.9;color:var(--teal-bright);
+    box-shadow:0 18px 50px rgba(5,4,2,.5);border:1px solid rgba(255,255,255,.08)}
+  .term b{color:var(--gold-bright);font-weight:400}
+  .term .dim{color:rgba(246,240,228,.4)}
+  .term .ok{color:#8FC2BA}
+  .cursor{display:inline-block;width:9px;height:16px;background:var(--gold-bright);vertical-align:middle;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="#" class="active">Episode 02</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 02 · For Chubletz</div>
+    <h1>One spreadsheet, one agent: <em>how Claude Code produced an animated podcast</em></h1>
+    <p class="standfirst">A Pixar-style Albert Einstein hosting a podcast about the story of numbers — every shot planned in a spreadsheet, every row generated by an AI agent. The production system built for the educational channel Chubletz Tales.</p>
+    <div class="meta">
+      <div><b>Client</b>Chubletz Tales</div>
+      <div><b>Host</b>Albert Einstein (3D character)</div>
+      <div><b>Format</b>Educational podcast, Pixar-style</div>
+      <div><b>Generative models</b>3 — orchestrated by Claude Code</div>
+    </div>
+
+    <a class="video-shell" href="https://youtu.be/LJEJ-19n9Cw" target="_blank" rel="noopener" style="display:block;text-decoration:none">
+      <div class="video-cover" style="cursor:pointer">
+        <img src="https://img.youtube.com/vi/LJEJ-19n9Cw/maxresdefault.jpg" alt="Why Zero is the Real Superhero — Chubletz Tales" onerror="this.src='ep02/studio.jpg'">
+        <div class="scrim"></div>
+        <div class="play"></div>
+        <p>Watch on YouTube ↗</p>
+      </div>
+    </a>
+    <div class="figcap"><b>Why Zero is the Real Superhero</b> · Chubletz Tales, hosted by Albert Einstein · opens on YouTube</div>
+  </div>
+
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>A production studio that fits in a spreadsheet</h2>
+    <p class="lede">The whole episode lives in one sheet: each row is a shot — dialogue, image prompt, camera direction, status, output. Claude Code reads the rows, drives the generators, and fills in the results.</p>
+    <div class="stats">
+      <div class="stat"><b><em>1</em></b><span>Spreadsheet = the studio</span></div>
+      <div class="stat"><b>3</b><span>Models · image, motion, voice</span></div>
+      <div class="stat"><b>5+</b><span>Camera setups per character</span></div>
+      <div class="stat"><b>1</b><span>Agent running the floor</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE CONCEPT ══════════ -->
+  <section>
+    <div class="kicker">The Concept</div>
+    <h2>Chubletz Tales: history, told by <em>its heroes</em></h2>
+    <p class="lede">Chubletz teaches kids through Pixar-style animated episodes in which historical figures tell their own stories. This episode: Albert Einstein, in his podcast studio, on the story of numbers — from Roman numerals to zero.</p>
+    <div class="gallery">
+      <div class="shot"><img src="ep02/studio.jpg" alt="Chubletz Tales studio with Einstein"><span class="lab">The set — Einstein's studio</span></div>
+      <div class="col">
+        <div class="shot"><img src="ep02/egypt-scribe.png" alt="Egyptian scribe writing numerals"><span class="lab">Story scene — Egypt</span></div>
+        <div class="shot"><img src="ep02/roman-sundial.png" alt="Roman scene with sundial"><span class="lab">Story scene — Rome</span></div>
+      </div>
+    </div>
+    <div class="gallery" style="margin-top:18px;grid-template-columns:1fr 1fr">
+      <div class="shot"><img src="ep02/counting-sheep.png" alt="Girl counting sheep"><span class="lab">Story scene — counting sheep</span></div>
+      <div class="shot"><img src="ep02/numbers-hero.png" alt="Number superhero"><span class="lab">Story scene — hero zero</span></div>
+    </div>
+    <div class="figcap"><b>All frames AI-generated</b> — one consistent world across sets, characters and eras: the studio, ancient Egypt, Rome, and a bedtime counting lesson.</div>
+  </section>
+
+  <!-- ══════════ PIPELINE ══════════ -->
+  <section>
+    <div class="kicker">The Pipeline</div>
+    <h2>Five steps, one loop</h2>
+
+    <div class="step" style="margin-top:34px">
+      <div>
+        <div class="num">01</div>
+        <h3>The World</h3>
+        <p>Nano Banana generated the cast and sets — Einstein in his studio, ancient Rome, the story scenes — with the same character held consistent across shots. Early takes used only a front camera and felt flat; the fix was treating it like real cinematography: front, side, three-quarter and full-view setups for every scene.</p>
+        <span class="chip"><i></i>Nano Banana · images</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="angles">
+            <div class="a"><img src="ep02/einstein-front.jpg" alt=""><span>Front · piece to camera</span></div>
+            <div class="a"><img src="ep02/einstein-side.jpg" alt=""><span>Side profile</span></div>
+            <div class="a" style="grid-column:1/-1"><img src="ep02/studio.jpg" alt=""><span>Full view · the set</span></div>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 1</b> — the same Einstein, held consistent across front, side and full-view takes. This variety is what makes the episode feel filmed.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">02</div>
+        <h3>The Shot List</h3>
+        <p>The heart of the system: a spreadsheet where every row is a shot. Dialogue, the image to animate, the video prompt, aspect ratio, camera direction — and a status column that doubles as the render queue.</p>
+        <span class="chip"><i></i>One row = one shot</span>
+      </div>
+      <div>
+        <div class="fig" style="padding:22px">
+          <div class="sheet">
+            <table>
+              <tr><th>id</th><th>dialogue</th><th>camera</th><th>status</th><th>output</th></tr>
+              <tr><td class="mono">01</td><td>"Ah, hello my curious friends! I'm Albert — today, the story of numbers!"</td><td class="mono">front, fixed</td><td><span class="done">DONE</span></td><td class="mono">shot_01.mp4</td></tr>
+              <tr><td class="mono">02</td><td>"Long before calculators, the Romans carved their numbers in stone…"</td><td class="mono">full view</td><td><span class="done">DONE</span></td><td class="mono">shot_02.mp4</td></tr>
+              <tr><td class="mono">03</td><td>"But something was missing. A hero called… zero!"</td><td class="mono">¾ push-in</td><td><span class="done">DONE</span></td><td class="mono">shot_03.mp4</td></tr>
+              <tr><td class="mono">04</td><td>"Zero traveled from India, through Arabia, into every equation…"</td><td class="mono">side profile</td><td><span class="done running">RUNNING</span></td><td class="mono">—</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 2</b> — the template (illustrative rows). Same columns as the real production file: id, image, video_prompt, aspect_ratio, camera, status, output.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">03</div>
+        <h3>The Motion</h3>
+        <p>Veo animated each still into a clip — Einstein speaking to camera, story scenes coming alive — following the camera direction written in its row.</p>
+        <span class="chip"><i></i>Veo · image-to-video</span>
+      </div>
+      <div>
+        <div class="fig" style="padding:22px">
+          <div class="clips">
+            <div class="clip"><video src="ep02/clip-1.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video><span>Generated clip</span></div>
+            <div class="clip"><video src="ep02/clip-2.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video><span>Generated clip</span></div>
+            <div class="clip"><video src="ep02/clip-3.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video><span>Generated clip</span></div>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 3</b> — real Veo outputs from the production. Hover to play.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">04</div>
+        <h3>The Voice</h3>
+        <p>ElevenLabs gave Einstein his voice, coordinated with the animation so speech and performance stay in step — each shot's dialogue generated from the same row that drives its visuals.</p>
+        <span class="chip"><i></i>ElevenLabs · voice</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark voicebox">
+            <div class="wave">
+              <i style="height:35%;animation-delay:0s"></i><i style="height:60%;animation-delay:.1s"></i><i style="height:85%;animation-delay:.2s"></i><i style="height:50%;animation-delay:.3s"></i><i style="height:95%;animation-delay:.4s"></i><i style="height:62%;animation-delay:.5s"></i><i style="height:40%;animation-delay:.6s"></i><i style="height:78%;animation-delay:.7s"></i><i style="height:55%;animation-delay:.8s"></i><i style="height:90%;animation-delay:.9s"></i><i style="height:45%;animation-delay:1s"></i><i style="height:70%;animation-delay:1.1s"></i><i style="height:88%;animation-delay:1.2s"></i><i style="height:38%;animation-delay:1.3s"></i>
+            </div>
+            <div style="margin-top:20px;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--text-fog)">
+              "But something was missing. A hero called… zero!"
+            </div>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 4</b> — dialogue and visuals share one source of truth: the row.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">05</div>
+        <h3>The Orchestrator</h3>
+        <p>Claude Code runs the floor: it reads the sheet, dispatches image, motion and voice generation for every pending row, tracks status, retries failures, and collects the outputs — turning a spreadsheet into a running production line.</p>
+        <span class="chip"><i></i>Claude Code · agent</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="term">
+            <span class="dim">$</span> <b>claude</b> "produce the pending shots"<br>
+            ▸ reading shot list… <span class="ok">24 rows, 3 pending</span><br>
+            ▸ row 04 · generating motion <span class="dim">(side profile)</span>… <span class="ok">done</span><br>
+            ▸ row 04 · voice line synced… <span class="ok">done</span><br>
+            ▸ status updated → <span class="ok">DONE</span> · output linked<br>
+            <span class="dim">▸ 2 rows remaining</span><span class="cursor"></span>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 5</b> — the loop: read row → generate → verify → write back.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ BEHIND THE SCENES ══════════ -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>What the process taught</h2>
+    <div class="notes">
+      <div class="note"><b>Flat is the enemy</b><p>The first pass used only front-facing shots — technically fine, visually lifeless. Re-planning every scene with front, side, ¾ and full-view setups is what made the episode feel <i>directed</i> rather than generated.</p></div>
+      <div class="note"><b>The spreadsheet is the studio</b><p>Keeping dialogue, prompts, camera notes and status in one sheet meant the agent always knew what to do next — and a failed generation was just a row whose status never flipped to done. Rerun, don't rebuild.</p></div>
+      <div class="note"><b>Consistency is a discipline</b><p>The same Einstein across dozens of shots doesn't happen by accident — it takes reference images and prompt discipline on every single row. Character drift is the tax on skipping that.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div><b>Nano Banana</b><br><span>Character &amp; scene image generation</span></div><span class="free">IMAGES</span></div>
+      <div class="tool"><div><b>Veo</b><br><span>Image-to-video animation per shot</span></div><span class="free">MOTION</span></div>
+      <div class="tool"><div><b>ElevenLabs</b><br><span>Einstein's voice, per-row dialogue</span></div><span class="free">VOICE</span></div>
+      <div class="tool"><div><b>Claude Code</b><br><span>The orchestrator — reads rows, runs the pipeline</span></div><span class="free">AGENT</span></div>
+      <div class="tool"><div><b>The Template</b><br><span>One spreadsheet: shot list, prompts &amp; render queue</span></div><span class="free">SYSTEM</span></div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 02 · FOR CHUBLETZ TALES</p>
+</footer>
+</body>
+</html>

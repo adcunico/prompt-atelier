@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1920px;height:1080px;overflow:hidden}
+  body{background:#101014;display:flex;flex-direction:column;font-family:'Inter',sans-serif;color:#EDEBE6}
+  .top{display:flex;align-items:center;gap:14px;padding:22px 36px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,#F7D14C,#E0A82E);display:flex;align-items:center;justify-content:center;font-size:22px}
+  .top b{font-size:19px;font-weight:600}
+  .top span{color:#8b8b93;font-size:14px}
+  .pill{margin-left:auto;padding:9px 20px;border-radius:999px;background:rgba(247,209,76,.12);color:#F7D14C;font-size:13px;font-weight:600;letter-spacing:.04em}
+  .main{flex:1;display:grid;grid-template-columns:520px 1fr;gap:0}
+  .left{border-right:1px solid rgba(255,255,255,.08);padding:36px;display:flex;flex-direction:column;gap:22px}
+  .lbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8b8b93;font-weight:700}
+  .prompt{background:#1A1A20;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px 24px;font-size:16.5px;line-height:1.65;color:#D8D6D0}
+  .prompt em{color:#F7D14C;font-style:normal}
+  .chips{display:flex;gap:10px;flex-wrap:wrap}
+  .chip{padding:9px 18px;border-radius:999px;background:#1A1A20;border:1px solid rgba(255,255,255,.12);font-size:13px;color:#C9C7C1}
+  .chip.on{background:rgba(247,209,76,.12);border-color:rgba(247,209,76,.4);color:#F7D14C}
+  .gen{margin-top:auto;padding:17px;border-radius:14px;text-align:center;background:linear-gradient(145deg,#F7D14C,#E0A82E);color:#1c1607;font-weight:700;font-size:16px}
+  .right{padding:36px;display:flex;flex-direction:column;gap:18px}
+  .grid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .out{border-radius:16px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.1)}
+  .out img{width:100%;height:100%;object-fit:cover;display:block}
+  .out span{position:absolute;left:12px;bottom:12px;padding:6px 14px;border-radius:999px;background:rgba(10,10,12,.65);
+    font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#EDEBE6;backdrop-filter:blur(8px)}
+  .out.sel{outline:3px solid #F7D14C;outline-offset:-3px}
+</style></head>
+<body>
+  <div class="top">
+    <div class="logo">🍌</div>
+    <div><b>Nano Banana</b><br><span>image studio · character-consistent generation</span></div>
+    <div class="pill">chubletz-tales · Einstein</div>
+  </div>
+  <div class="main">
+    <div class="left">
+      <div>
+        <div class="lbl" style="margin-bottom:12px">Prompt</div>
+        <div class="prompt">chibi <em>Albert Einstein</em> podcast host, pastel recording studio, glowing "Chubletz Tales" sign, yellow headphones — <em>side profile</em> at the microphone, Pixar-style 3D render, soft warm lighting</div>
+      </div>
+      <div>
+        <div class="lbl" style="margin-bottom:12px">Settings</div>
+        <div class="chips">
+          <div class="chip on">16 : 9</div>
+          <div class="chip on">Character reference</div>
+          <div class="chip on">Style lock</div>
+          <div class="chip">Seed 4211</div>
+        </div>
+      </div>
+      <div>
+        <div class="lbl" style="margin-bottom:12px">Camera setups</div>
+        <div class="chips">
+          <div class="chip">Front</div>
+          <div class="chip on">Side</div>
+          <div class="chip">Full view</div>
+          <div class="chip">Close-up</div>
+        </div>
+      </div>
+      <div class="gen">Generate</div>
+    </div>
+    <div class="right">
+      <div class="lbl">Results — one character, every angle</div>
+      <div class="grid">
+        <div class="out"><img src="../ep02/einstein-front.jpg"><span>Front</span></div>
+        <div class="out sel"><img src="../ep02/einstein-side.jpg"><span>Side · selected</span></div>
+        <div class="out"><img src="../ep02/studio.jpg"><span>Full view</span></div>
+        <div class="out"><img src="../ep02/egypt-scribe.png"><span>Scene · Egypt</span></div>
+      </div>
+    </div>
+  </div>
+</body></html>

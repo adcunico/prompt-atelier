@@ -1,0 +1,16 @@
+# raw episode archives (large source media stays local)
+Episode 1/
+Episode 2- Chubletz/
+
+# heavy renders (published to YouTube instead)
+prompt-atelier-casestudy02.mp4
+
+# remotion project artifacts
+prompt-atelier-video/node_modules/
+prompt-atelier-video/out/
+prompt-atelier-video/*.log
+prompt-atelier-video/public/ep02/episode.mp4
+
+# local misc
+Screenshot*.png
+*.log

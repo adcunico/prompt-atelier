@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Atelier — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ─── SURFACES ─── */
+    --porcelain:#FBF8F2;   /* light base */
+    --ivory:#F2ECE1;       /* light elevated */
+    --linen:#E9E1D2;       /* light border / hairline */
+    --ink:#1B1813;         /* dark base (warm graphite) */
+    --espresso:#26221A;    /* dark elevated */
+    --umber:#3A3428;       /* dark border / hairline */
+
+    /* ─── TEXT ─── */
+    --text-ink:#211D15;    /* on light  (≈13.9:1 on porcelain, AAA) */
+    --text-soft:#6B6355;   /* muted on light (≈5.3:1, AA) */
+    --text-cream:#F6F0E4;  /* on dark   (≈13.2:1 on ink, AAA) */
+    --text-fog:#B5AC9C;    /* muted on dark (≈6.4:1, AA) */
+
+    /* ─── HERO ACCENT · BURNISHED GOLD ─── */
+    --gold:#C19A3D;        /* core — decorative, large type */
+    --gold-deep:#8A6A24;   /* on light surfaces (≈4.8:1, AA) */
+    --gold-bright:#DCBC69; /* on dark surfaces (≈8.1:1, AAA) */
+
+    /* ─── SECONDARY · DEEP TEAL ─── */
+    --teal:#33625C;        /* on light (≈6.2:1, AA) */
+    --teal-bright:#8FC2BA; /* on dark  (≈7.4:1, AAA) */
+
+    /* ─── QUIET TONE · STONE ─── */
+    --stone:#A99D88;
+
+    /* ─── GLASS RECIPES ─── */
+    --glass-dark-fill:rgba(24,20,14,.46);
+    --glass-dark-border:rgba(255,255,255,.26);
+    --glass-light-fill:rgba(255,252,245,.58);
+    --glass-light-border:rgba(255,255,255,.72);
+    --glass-blur:18px;
+    --glass-radius:20px;
+    --glass-shadow:0 12px 40px rgba(15,12,6,.28);
+
+    --serif:'Fraunces',Georgia,serif;
+    --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.6}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+
+  /* ───────── header ───────── */
+  header{padding:88px 0 64px;text-align:center;background:
+    radial-gradient(60% 80% at 20% 10%,rgba(193,154,61,.10),transparent 60%),
+    radial-gradient(50% 70% at 85% 20%,rgba(51,98,92,.08),transparent 60%),var(--porcelain)}
+  .monogram{width:76px;height:76px;border-radius:24px;margin:0 auto 28px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(145deg,var(--ink),var(--espresso));box-shadow:0 10px 30px rgba(27,24,19,.35);
+    font-family:var(--serif);font-style:italic;font-weight:500;font-size:30px;color:var(--gold-bright);letter-spacing:-1px}
+  h1{font-family:var(--serif);font-weight:400;font-size:64px;letter-spacing:-.5px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .tagline{margin-top:14px;font-size:15px;letter-spacing:.32em;text-transform:uppercase;color:var(--text-soft);font-weight:500}
+
+  /* ───────── sections ───────── */
+  section{padding:72px 0;border-top:1px solid var(--linen)}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:400;font-size:38px;margin-bottom:10px}
+  .lede{color:var(--text-soft);max-width:640px;margin-bottom:40px;font-size:16px}
+
+  /* palette */
+  .pal-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:26px}
+  .sw{border-radius:16px;overflow:hidden;border:1px solid var(--linen);background:#fff}
+  .sw .chip{height:88px}
+  .sw .meta{padding:12px 14px;font-size:12px}
+  .sw .meta b{display:block;font-size:13px;margin-bottom:2px}
+  .sw .meta span{color:var(--text-soft);font-family:ui-monospace,monospace;font-size:11px}
+  .pal-note{font-size:13px;color:var(--text-soft);background:var(--ivory);border-radius:12px;padding:14px 18px;display:inline-block}
+
+  /* typography */
+  .type-card{background:#fff;border:1px solid var(--linen);border-radius:20px;padding:40px 44px;margin-bottom:18px}
+  .spec-serif{font-family:var(--serif);font-weight:400;font-size:52px;line-height:1.15}
+  .spec-serif em{font-style:italic;color:var(--gold-deep)}
+  .spec-sans{font-size:17px;color:var(--text-soft);margin-top:14px;max-width:560px}
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--linen);border-radius:16px;overflow:hidden}
+  th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-soft);text-align:left;padding:14px 18px;background:var(--ivory)}
+  td{padding:13px 18px;border-top:1px solid var(--linen);vertical-align:middle}
+  td.sample{white-space:nowrap}
+
+  /* scene demos */
+  .scenes{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:900px){.scenes{grid-template-columns:1fr}}
+  .scene{border-radius:24px;min-height:420px;position:relative;overflow:hidden;padding:34px;display:flex;flex-direction:column;gap:18px;align-items:flex-start;justify-content:flex-end}
+  .scene.light{background:
+    radial-gradient(45% 60% at 75% 20%,#f7d9a8 0%,transparent 60%),
+    radial-gradient(55% 70% at 15% 80%,#cfdedb 0%,transparent 65%),
+    radial-gradient(40% 50% at 40% 30%,#fff 0%,transparent 70%),
+    linear-gradient(160deg,#F6F0E4,#E4DAC8)}
+  .scene.dark{background:
+    radial-gradient(45% 60% at 80% 15%,rgba(193,154,61,.35) 0%,transparent 60%),
+    radial-gradient(55% 70% at 10% 85%,rgba(51,98,92,.5) 0%,transparent 60%),
+    linear-gradient(160deg,#171410,#2A241A)}
+  .scene-label{position:absolute;top:18px;left:22px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;opacity:.55}
+  .scene.dark .scene-label{color:var(--text-cream)}
+
+  /* glass components */
+  .glass{backdrop-filter:blur(var(--glass-blur)) saturate(140%);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(140%);
+    border-radius:var(--glass-radius);box-shadow:var(--glass-shadow)}
+  .glass.g-dark{background:var(--glass-dark-fill);border:1px solid var(--glass-dark-border);color:var(--text-cream)}
+  .glass.g-light{background:var(--glass-light-fill);border:1px solid var(--glass-light-border);color:var(--text-ink)}
+
+  .lower3{display:flex;align-items:center;gap:14px;padding:14px 22px 14px 14px}
+  .lower3 .dot{width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,var(--gold),var(--gold-deep));
+    display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:19px;color:#fff}
+  .lower3 b{font-family:var(--serif);font-weight:500;font-size:20px;display:block;line-height:1.2}
+  .lower3 span{font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.75;font-weight:500}
+
+  .stepcard{padding:26px 30px;max-width:420px}
+  .stepcard .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:44px;line-height:1;color:var(--gold-bright)}
+  .g-light .num{color:var(--gold-deep)}
+  .stepcard h3{font-family:var(--serif);font-weight:500;font-size:26px;margin:10px 0 6px}
+  .stepcard p{font-size:14px;opacity:.85;line-height:1.5}
+  .stepcard .tool{margin-top:14px;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+  .stepcard .tool i{width:7px;height:7px;border-radius:50%;background:var(--teal-bright);display:inline-block}
+  .g-light .tool i{background:var(--teal)}
+
+  .chips{display:flex;gap:10px;flex-wrap:wrap}
+  .chip-tool{padding:9px 18px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.04em}
+
+  .caption-demo{padding:12px 26px;border-radius:14px;font-size:19px;font-weight:500;letter-spacing:.01em;
+    text-shadow:0 1px 10px rgba(0,0,0,.35)}
+  .caption-demo em{font-style:normal;color:var(--gold-bright)}
+
+  /* video layout mockups */
+  .frame169{aspect-ratio:16/9;border-radius:26px;position:relative;overflow:hidden;box-shadow:0 24px 70px rgba(20,16,8,.25)}
+  .safe{position:absolute;inset:5%;border:1px dashed rgba(128,120,100,.35);border-radius:14px;pointer-events:none}
+  .sofia-pip{position:absolute;right:4.5%;bottom:7.5%;width:24%;aspect-ratio:1/1;border-radius:26%;overflow:hidden;
+    border:1.5px solid rgba(255,255,255,.55);outline:1px solid rgba(193,154,61,.55);outline-offset:3px;
+    box-shadow:0 14px 40px rgba(10,8,4,.4)}
+  .sofia-pip img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+  .pip-name{position:absolute;right:4.5%;bottom:2.6%;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
+  .stage-title{position:absolute;left:6%;top:9%;}
+  .stage-title .k{font-size:11px;letter-spacing:.3em;text-transform:uppercase;font-weight:600;color:var(--gold-bright)}
+  .frame169.on-light .stage-title .k{color:var(--gold-deep)}
+  .stage-title h4{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.15;margin-top:8px;max-width:420px}
+  .frame169 .stepcard{position:absolute;left:6%;top:34%}
+  .frame169 .caption-demo{position:absolute;left:50%;transform:translateX(-50%);bottom:6.5%;white-space:nowrap}
+  .frame169.on-dark{color:var(--text-cream);background:
+    radial-gradient(50% 65% at 82% 18%,rgba(193,154,61,.28) 0%,transparent 60%),
+    radial-gradient(60% 75% at 8% 90%,rgba(51,98,92,.45) 0%,transparent 60%),
+    linear-gradient(155deg,#16130E,#2B2418)}
+  .frame169.on-light{color:var(--text-ink);background:
+    radial-gradient(50% 60% at 80% 15%,#F3D9A6 0%,transparent 60%),
+    radial-gradient(60% 70% at 10% 90%,#CBDCD8 0%,transparent 62%),
+    linear-gradient(155deg,#FBF7EE,#E7DDC9)}
+  .layout-note{font-size:13px;color:var(--text-soft);margin:14px 4px 34px}
+
+  /* motion */
+  .motion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .m-card{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:22px 24px}
+  .m-card b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:6px}
+  .m-card p{font-size:13.5px;color:var(--text-soft)}
+  .m-card code{font-size:12px;background:var(--ivory);padding:2px 8px;border-radius:6px}
+
+  /* endcard demo */
+  .endcard{aspect-ratio:16/9;border-radius:26px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),
+    linear-gradient(165deg,#17140F,#292216)}
+  .endcard .wm{font-family:var(--serif);font-size:44px;font-weight:400}
+  .endcard .wm em{font-style:italic;color:var(--gold-bright)}
+  .endcard p{font-size:14px;color:var(--text-fog);letter-spacing:.06em}
+  .btn{padding:13px 34px;border-radius:999px;background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;font-weight:600;font-size:15px;letter-spacing:.04em}
+
+  footer{padding:56px 0;text-align:center;font-size:13px;color:var(--text-soft);border-top:1px solid var(--linen)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="monogram">P<span style="font-style:normal;font-size:20px;margin-left:1px">a</span></div>
+  <h1>Prompt <em>Atelier</em></h1>
+  <div class="tagline">Design System · v1.0</div>
+</header>
+
+<div class="wrap">
+
+<!-- ═══════════ 01 PALETTE ═══════════ -->
+<section id="palette">
+  <div class="kicker">01 — Color</div>
+  <h2>A warm, editorial palette</h2>
+  <p class="lede">Warm neutrals as canvas, burnished gold as the single precious accent, deep teal as the quiet counterpoint. Every text/surface pair below carries its approximate contrast ratio.</p>
+
+  <div class="pal-row">
+    <div class="sw"><div class="chip" style="background:#FBF8F2"></div><div class="meta"><b>Porcelain</b><span>#FBF8F2 · light base</span></div></div>
+    <div class="sw"><div class="chip" style="background:#F2ECE1"></div><div class="meta"><b>Ivory</b><span>#F2ECE1 · light elevated</span></div></div>
+    <div class="sw"><div class="chip" style="background:#1B1813"></div><div class="meta"><b>Ink</b><span>#1B1813 · dark base</span></div></div>
+    <div class="sw"><div class="chip" style="background:#26221A"></div><div class="meta"><b>Espresso</b><span>#26221A · dark elevated</span></div></div>
+  </div>
+  <div class="pal-row">
+    <div class="sw"><div class="chip" style="background:linear-gradient(145deg,#C19A3D,#8A6A24)"></div><div class="meta"><b>Burnished Gold</b><span>#C19A3D · deep #8A6A24 (AA on light) · bright #DCBC69 (AAA on dark)</span></div></div>
+    <div class="sw"><div class="chip" style="background:#33625C"></div><div class="meta"><b>Deep Teal</b><span>#33625C (AA on light) · bright #8FC2BA (AAA on dark)</span></div></div>
+    <div class="sw"><div class="chip" style="background:#A99D88"></div><div class="meta"><b>Stone</b><span>#A99D88 · quiet tone, hairlines &amp; ornament</span></div></div>
+    <div class="sw"><div class="chip" style="background:linear-gradient(90deg,#211D15 50%,#F6F0E4 50%)"></div><div class="meta"><b>Text pair</b><span>ink #211D15 (13.9:1) · cream #F6F0E4 (13.2:1)</span></div></div>
+  </div>
+  <div class="pal-note">Rule of gold — the accent appears <b>once per composition</b>: a number, a word in italic, a ring around the avatar. Never as a fill for large areas.</div>
+</section>
+
+<!-- ═══════════ 02 TYPOGRAPHY ═══════════ -->
+<section id="type">
+  <div class="kicker">02 — Typography</div>
+  <h2>Fraunces &times; Inter</h2>
+  <p class="lede">Fraunces brings the editorial, atelier voice — especially its italics. Inter does the quiet work: captions, labels, UI. Both free on Google Fonts, licensed for commercial use.</p>
+
+  <div class="type-card">
+    <div class="spec-serif">Crafted with prompts, <em>finished with taste.</em></div>
+    <div class="spec-sans">Inter Regular 17/1.6 — Fraunces headlines set at weight 400–500, italics for emphasis words only. Tight leading (1.1–1.2) at display sizes.</div>
+  </div>
+
+  <table>
+    <tr><th>Role</th><th>Font</th><th>Size / weight (1080p)</th><th>Sample</th></tr>
+    <tr><td>Main title</td><td>Fraunces 400</td><td>72–84px · ls −0.5px · lh 1.1</td><td class="sample" style="font-family:var(--serif);font-size:26px">The AI Video Pipeline</td></tr>
+    <tr><td>Section title</td><td>Fraunces 500</td><td>48px · lh 1.15</td><td class="sample" style="font-family:var(--serif);font-weight:500;font-size:21px">The Voice</td></tr>
+    <tr><td>Lower-third name</td><td>Fraunces 500</td><td>34px</td><td class="sample" style="font-family:var(--serif);font-weight:500;font-size:18px">Sofia</td></tr>
+    <tr><td>Kicker / label</td><td>Inter 600</td><td>20px · caps · ls .3em</td><td class="sample" style="font-weight:600;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep)">Step 02</td></tr>
+    <tr><td>Caption / subtitle</td><td>Inter 500</td><td>38px · lh 1.35</td><td class="sample" style="font-weight:500;font-size:16px">created with ElevenLabs</td></tr>
+    <tr><td>Small label</td><td>Inter 600</td><td>22px · caps · ls .2em</td><td class="sample" style="font-weight:600;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft)">Free Tool</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ 03 GLASS ═══════════ -->
+<section id="glass">
+  <div class="kicker">03 — Glass</div>
+  <h2>The signature surface</h2>
+  <p class="lede">One glass recipe, two tints. <b>Dark glass is the universal default</b> — it reads on any footage. Light glass is reserved for compositions you control (title cards, end cards on light scenes). Recipe: blur 18px + saturate 140%, radius 20px, 1px light border, soft long shadow.</p>
+
+  <div class="scenes">
+    <div class="scene light">
+      <div class="scene-label" style="color:var(--text-ink)">Light footage · both tints work</div>
+      <div class="glass g-dark lower3"><div class="dot">S</div><div><b>Sofia</b><span>Prompt Atelier</span></div></div>
+      <div class="glass g-light lower3"><div class="dot">S</div><div><b>Sofia</b><span>Prompt Atelier</span></div></div>
+      <div class="chips">
+        <div class="glass g-light chip-tool">ElevenLabs</div>
+        <div class="glass g-light chip-tool">Google Colab</div>
+        <div class="glass g-dark chip-tool">Claude Code</div>
+      </div>
+    </div>
+    <div class="scene dark">
+      <div class="scene-label">Dark footage · dark glass default</div>
+      <div class="glass g-dark stepcard">
+        <div class="num">02</div>
+        <h3>The Voice</h3>
+        <p>A written script becomes speech — any voice, any language, in seconds.</p>
+        <div class="tool"><i></i>ElevenLabs · Free tier</div>
+      </div>
+      <div class="caption-demo">everything here — <em>including me</em> — was made with AI</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 04 VIDEO LAYOUT ═══════════ -->
+<section id="layout">
+  <div class="kicker">04 — Video Layout</div>
+  <h2>Graphics-first, host in the corner</h2>
+  <p class="lede">The stage belongs to the content. Sofia lives in a rounded “squircle” frame, bottom-right, 24% of frame width — gold hairline ring, white glass edge. Captions sit center-bottom; her frame never collides with the safe margins (dashed line = 5% title-safe).</p>
+
+  <div class="frame169 on-dark">
+    <div class="safe"></div>
+    <div class="stage-title"><div class="k">Step 02 — The Voice</div><h4>Turn any script into <em style="font-style:italic;color:var(--gold-bright)">speech</em></h4></div>
+    <div class="glass g-dark stepcard" style="max-width:360px">
+      <div class="num">02</div>
+      <h3>ElevenLabs</h3>
+      <p>Paste the script, pick a voice, download the MP3. Free tier: ~10 minutes per month.</p>
+      <div class="tool"><i></i>Free Tool</div>
+    </div>
+    <div class="sofia-pip"><img src="ep01/sofia_frame.jpg" alt="Sofia"></div>
+    <div class="pip-name" style="color:var(--gold-bright)">Sofia</div>
+    <div class="glass g-dark caption-demo">what you're hearing right now was <em>created with AI</em></div>
+  </div>
+  <div class="layout-note">Dark scene — dark glass, gold accents brighten. Sofia’s frame: border-radius 26% (squircle), 1.5px white glass edge + 1px gold outline offset 3px.</div>
+
+  <div class="frame169 on-light">
+    <div class="safe"></div>
+    <div class="stage-title"><div class="k">Step 01 — The Image</div><h4>One prompt, <em style="font-style:italic;color:var(--gold-deep)">one person</em></h4></div>
+    <div class="glass g-light stepcard" style="max-width:360px">
+      <div class="num">01</div>
+      <h3>The Avatar</h3>
+      <p>A single text prompt describing hair, glasses, wardrobe — generated in seconds.</p>
+      <div class="tool"><i></i>Image Model</div>
+    </div>
+    <div class="sofia-pip"><img src="ep01/sofia_frame.jpg" alt="Sofia"></div>
+    <div class="pip-name" style="color:var(--gold-deep)">Sofia</div>
+    <div class="glass g-dark caption-demo">this image was generated <em>from text</em></div>
+  </div>
+  <div class="layout-note">Light scene — light glass for cards, but captions stay on dark glass for guaranteed legibility.</div>
+</section>
+
+<!-- ═══════════ 05 MOTION ═══════════ -->
+<section id="motion">
+  <div class="kicker">05 — Motion</div>
+  <h2>Calm, precise, editorial</h2>
+  <p class="lede">Nothing bounces. Glass arrives like it condenses out of the air; type settles rather than lands.</p>
+  <div class="motion-grid">
+    <div class="m-card"><b>Glass panels</b><p>Fade + blur-in (blur 30→18px) + rise 16px · <code>420ms ease-out</code>. Exit: fade + sink 10px · <code>300ms ease-in</code>.</p></div>
+    <div class="m-card"><b>Titles</b><p>Opacity 0→1 with letter-tracking settle (+.04em→0) · <code>500ms ease-out</code>. Italic accent word arrives 120ms late.</p></div>
+    <div class="m-card"><b>Step numbers</b><p>Count-up flip or simple fade · <code>350ms</code>. Gold shimmer sweep allowed <b>once per video</b>, on the final card.</p></div>
+    <div class="m-card"><b>Sofia frame</b><p>Scales 0.94→1 with fade on entry · <code>400ms ease-out</code>. Never moves during a scene; may swap corners between scenes with a cut, not a slide.</p></div>
+    <div class="m-card"><b>Captions</b><p>Per-line fade · <code>220ms</code>, no slide. Highlight words tinted gold-bright, no animation.</p></div>
+    <div class="m-card"><b>Tool chips</b><p>Stagger in 80ms apart, rise 10px · <code>320ms ease-out</code> each.</p></div>
+  </div>
+</section>
+
+<!-- ═══════════ 06 END CARD ═══════════ -->
+<section id="endcard">
+  <div class="kicker">06 — End Card</div>
+  <h2>The sign-off</h2>
+  <p class="lede">Dark, quiet, one gold action. Full step-by-step guide always lives in the description.</p>
+  <div class="endcard">
+    <div class="wm">Prompt <em>Atelier</em></div>
+    <p>NEW VIDEOS EVERY WEEK · FULL GUIDE IN THE DESCRIPTION</p>
+    <div class="btn">Subscribe</div>
+  </div>
+</section>
+
+</div>
+<footer>Prompt Atelier · Design System v1.0 · Fraunces + Inter · Free for commercial use</footer>
+</body>
+</html>
