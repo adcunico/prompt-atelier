@@ -490,6 +490,8 @@ const SceneCTA: React.FC = () => {
             color: T.goldBright,
           }}
         >
+          {/* Matches this episode's recorded VO — do not change without re-recording.
+              From Ep 03 onward the sign-off is: “Crafted with prompts, finished with taste.” */}
           “The tools are free. The taste is the craft.”
         </div>
       </div>
