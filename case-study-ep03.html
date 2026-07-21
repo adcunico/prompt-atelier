@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 03 — Paper, Scissors, Prompts · Prompt Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --stone:#A99D88;
+    /* episode palette — Frida moodboard */
+    --paper:#F6F0E6; --marigold:#F4A300; --cobalt:#1557A5; --magenta:#D12C6A;
+    --jungle:#2D7A50; --terracotta:#C65A32;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--paper);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+
+  /* halftone texture corners */
+  .halftone{position:relative}
+  .halftone::before{content:'';position:absolute;top:0;left:0;width:340px;height:340px;pointer-events:none;opacity:.16;
+    background-image:radial-gradient(circle,var(--magenta) 1.6px,transparent 1.8px);background-size:13px 13px;
+    -webkit-mask-image:radial-gradient(circle at 0 0,#000 0%,transparent 70%);mask-image:radial-gradient(circle at 0 0,#000 0%,transparent 70%)}
+  .halftone::after{content:'';position:absolute;bottom:0;right:0;width:340px;height:340px;pointer-events:none;opacity:.14;
+    background-image:radial-gradient(circle,var(--cobalt) 1.6px,transparent 1.8px);background-size:13px 13px;
+    -webkit-mask-image:radial-gradient(circle at 100% 100%,#000 0%,transparent 70%);mask-image:radial-gradient(circle at 100% 100%,#000 0%,transparent 70%)}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0;position:relative;z-index:3}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:56px;line-height:1.1;margin:18px 0 20px;max-width:920px}
+  h1 em{font-style:italic;color:var(--magenta)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  .hero{padding:56px 0 20px;position:relative}
+
+  /* tape */
+  .tape{position:absolute;width:120px;height:34px;background:rgba(244,163,0,.45);transform:rotate(-4deg);
+    top:-16px;left:50%;margin-left:-60px;box-shadow:0 2px 8px rgba(30,20,5,.12)}
+
+  /* video card — torn paper frame */
+  .video-shell{margin:48px 0 0;position:relative;background:#fff;padding:16px 16px 60px;
+    box-shadow:0 26px 70px rgba(60,35,10,.22);transform:rotate(-.7deg)}
+  .video-shell video{width:100%;display:block}
+  .video-shell .cap{position:absolute;bottom:18px;left:0;right:0;text-align:center;
+    font-family:var(--serif);font-style:italic;font-size:20px;color:var(--text-soft)}
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:16px;letter-spacing:.04em}
+  .figcap b{color:var(--gold-deep)}
+
+  section{padding:76px 0 10px;position:relative}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  h2 em{font-style:italic;color:var(--magenta)}
+  .lede{color:var(--text-soft);max-width:680px;margin-bottom:8px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border-radius:4px;padding:26px 24px 22px;box-shadow:0 10px 30px rgba(60,35,10,.12);transform:rotate(-.5deg)}
+  .stat:nth-child(2n){transform:rotate(.6deg)}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block}
+  .stat b em{font-style:italic;color:var(--marigold);-webkit-text-stroke:.5px var(--terracotta)}
+  .stat span{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* papel picado divider */
+  .picado{display:flex;justify-content:center;gap:14px;margin:60px 0 0}
+  .picado i{width:44px;height:34px;clip-path:polygon(0 0,100% 0,100% 72%,90% 72%,80% 100%,70% 72%,60% 72%,50% 100%,40% 72%,30% 72%,20% 100%,10% 72%,0 72%);opacity:.85}
+  .picado i:nth-child(4n+1){background:var(--magenta)}
+  .picado i:nth-child(4n+2){background:var(--cobalt)}
+  .picado i:nth-child(4n+3){background:var(--marigold)}
+  .picado i:nth-child(4n+4){background:var(--jungle)}
+
+  /* keyframe slider */
+  .slider-card{background:#fff;padding:18px 18px 26px;box-shadow:0 22px 60px rgba(60,35,10,.2);transform:rotate(.5deg);margin-top:40px;position:relative}
+  .cmp{position:relative;overflow:hidden;user-select:none}
+  .cmp img{width:100%;display:block;pointer-events:none}
+  .cmp .top{position:absolute;inset:0;clip-path:inset(0 50% 0 0)}
+  .cmp .top img{width:100%;height:100%;object-fit:cover}
+  .cmp .handle{position:absolute;top:0;bottom:0;width:3px;background:var(--marigold);left:50%;pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+  .cmp .handle::after{content:'⟷';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;
+    background:var(--marigold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 20px rgba(60,35,10,.35)}
+  .cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize}
+  .cmp .tag{position:absolute;bottom:14px;padding:7px 16px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:rgba(27,24,19,.75)}
+  .cmp .tag.l{left:14px}
+  .cmp .tag.r{right:14px}
+
+  /* method cards */
+  .method{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:40px}
+  .m-card{background:#fff;padding:26px 26px 24px;box-shadow:0 14px 40px rgba(60,35,10,.14);position:relative}
+  .m-card:nth-child(1){transform:rotate(-1deg)}
+  .m-card:nth-child(2){transform:rotate(.8deg)}
+  .m-card:nth-child(3){transform:rotate(-.6deg)}
+  .m-card:nth-child(4){transform:rotate(1deg)}
+  .m-card .n{font-family:var(--serif);font-style:italic;font-weight:300;font-size:46px;line-height:1;color:var(--magenta)}
+  .m-card b{font-family:var(--serif);font-size:20px;font-weight:500;display:block;margin:12px 0 8px}
+  .m-card p{font-size:14px;color:var(--text-soft)}
+  .m-card .mini-tape{position:absolute;top:-12px;left:50%;width:74px;height:24px;margin-left:-37px;background:rgba(45,183,163,.4);transform:rotate(3deg)}
+
+  /* scene timeline */
+  .scene-row{display:grid;grid-template-columns:340px 1fr;gap:38px;padding:40px 0;border-top:2px dashed var(--linen);align-items:center}
+  @media(max-width:840px){.scene-row{grid-template-columns:1fr}}
+  .scene-row .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:56px;line-height:1;color:var(--gold-deep)}
+  .scene-row h3{font-family:var(--serif);font-weight:500;font-size:25px;margin:10px 0 8px}
+  .scene-row blockquote{font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--text-soft);border-left:3px solid var(--marigold);padding-left:16px;margin-top:12px}
+  .scene-row .shot{background:#fff;padding:12px 12px 16px;box-shadow:0 16px 44px rgba(60,35,10,.18)}
+  .scene-row:nth-child(odd) .shot{transform:rotate(.8deg)}
+  .scene-row:nth-child(even) .shot{transform:rotate(-.8deg)}
+  .scene-row .shot img{width:100%;display:block}
+
+  /* lessons */
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border-radius:4px;padding:24px 26px;box-shadow:0 12px 34px rgba(60,35,10,.12)}
+  .note b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note .stamp{display:inline-block;margin-bottom:10px;padding:5px 14px;font-size:10px;font-weight:700;letter-spacing:.18em;
+    color:var(--magenta);border:2px solid var(--magenta);border-radius:4px;transform:rotate(-2deg)}
+
+  /* skill / terminal */
+  .term{background:#12100B;border-radius:16px;padding:26px 30px;font-family:ui-monospace,Consolas,monospace;font-size:15px;
+    line-height:1.9;color:#8FC2BA;box-shadow:0 18px 50px rgba(5,4,2,.4);margin-top:36px;overflow-x:auto}
+  .term b{color:var(--gold-bright);font-weight:400}
+  .term .dim{color:rgba(246,240,228,.4)}
+
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 10px 28px rgba(60,35,10,.1)}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--cobalt);border:1px solid var(--cobalt);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool.repo{border:1.5px solid rgba(138,106,36,.4);text-decoration:none;color:inherit}
+  .tool.repo .free{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+</head>
+<body class="halftone">
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="#" class="active">Episode 03</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 03 · Editorial Animation</div>
+    <h1>Paper, scissors, prompts: <em>a Vox-style Frida Kahlo explainer</em></h1>
+    <p class="standfirst">Thirty seconds of hand-torn paper collage — an editorial mini-documentary in the style of Vox, generated scene by scene with locked keyframes, a safety-filter playbook, and one gold crack that blooms into marigolds. The whole workflow ships as a Claude Code skill.</p>
+    <div class="meta">
+      <div><b>Subject</b>Frida Kahlo, 1925 →</div>
+      <div><b>Format</b>30s · three 10s scenes</div>
+      <div><b>Models</b>GPT Image 2 + Gemini Omni (Kie.ai)</div>
+      <div><b>Method</b>Keyframe pairs, never free generation</div>
+    </div>
+
+    <div class="video-shell">
+      <div class="tape"></div>
+      <video controls poster="ep03/s03-end.jpg" src="ep03/frida-30s.mp4"></video>
+      <div class="cap">“I paint my own reality.”</div>
+    </div>
+    <div class="figcap"><b>The finished film</b> · watch for the gold crack — it appears at 0:04 and blooms at 0:27</div>
+  </div>
+
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>An explainer with an <em>editorial eye</em></h2>
+    <p class="lede">Vox-style videos live and die on art direction: torn paper, halftone archival photos, restrained motion. The challenge wasn't generating video — it was making a video model behave like a paper animator.</p>
+    <div class="stats">
+      <div class="stat"><b>3</b><span>Scenes · 10s each</span></div>
+      <div class="stat"><b><em>2</em></b><span>Keyframes locked per scene</span></div>
+      <div class="stat"><b>6</b><span>Palette colors from one moodboard</span></div>
+      <div class="stat"><b>1</b><span>Motif: the gold crack</span></div>
+    </div>
+    <div class="picado"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </section>
+
+  <!-- ══════════ THE METHOD ══════════ -->
+  <section>
+    <div class="kicker">The Method</div>
+    <h2>Keyframe pairs, <em>never</em> free generation</h2>
+    <p class="lede">The core discovery: never let the video model invent a composition. Lock a START image and an END image first — images are cheap, videos are expensive — then ask the model only to travel between them. Drag the slider: this is scene one's journey, exactly as the model received it.</p>
+
+    <div class="slider-card">
+      <div class="cmp" id="cmp">
+        <img src="ep03/s01-end.jpg" alt="Scene 1 end keyframe">
+        <div class="top" id="cmpTop"><img src="ep03/s01-start.jpg" alt="Scene 1 start keyframe"></div>
+        <div class="handle" id="cmpHandle"></div>
+        <input type="range" min="0" max="100" value="50" id="cmpRange" aria-label="Compare keyframes">
+        <div class="tag l">START · frame 0</div>
+        <div class="tag r">END · frame 300</div>
+      </div>
+    </div>
+    <div class="figcap"><b>Interactive</b> — the bus crash becomes the painting-in-bed. Ten seconds of motion, two locked frames, zero model improvisation.</div>
+
+    <div class="method">
+      <div class="m-card"><div class="mini-tape"></div><div class="n">1</div><b>Lock the keyframes</b><p>GPT Image 2 generates a START and END image per scene — reviewed and approved before any video is rendered.</p></div>
+      <div class="m-card"><div class="mini-tape"></div><div class="n">2</div><b>Travel between them</b><p>Gemini Omni receives both frames — first is exactly frame 0, second is exactly the final frame — plus four timed beats describing the motion.</p></div>
+      <div class="m-card"><div class="mini-tape"></div><div class="n">3</div><b>Chain the scenes</b><p>Scene N's end frame is generated image-to-image from scene N−1's actual last frame, so the paper world stays pixel-consistent.</p></div>
+      <div class="m-card"><div class="mini-tape"></div><div class="n">4</div><b>Stitch &amp; narrate</b><p>ffmpeg joins the scenes with 0.35s crossfades; ElevenLabs narration is laid over the silent master in post.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE SCENES ══════════ -->
+  <section>
+    <div class="kicker">The Film</div>
+    <h2>Three scenes, one <em>through-line</em></h2>
+    <p class="lede">Hook, twist, payoff — each scene exactly ten seconds, each narration chunk sentence-safe, and the gold crack drawn in scene one returns blooming with marigolds in scene three.</p>
+
+    <div style="margin-top:36px">
+      <div class="scene-row">
+        <div>
+          <div class="num">01</div>
+          <h3>The crash</h3>
+          <blockquote>“A bus crash shattered her spine at 18… So Frida Kahlo picked up a paintbrush — in bed.”</blockquote>
+        </div>
+        <div class="shot"><img src="ep03/s01-end.jpg" alt="Scene 1 — Frida painting in bed"></div>
+      </div>
+      <div class="scene-row">
+        <div>
+          <div class="num">02</div>
+          <h3>The mirror</h3>
+          <blockquote>“While the art world chased abstraction, Frida painted herself — 55 times. Not vanity… she put her pain on canvas when no one else would dare.”</blockquote>
+        </div>
+        <div class="shot"><img src="ep03/s02-end.jpg" alt="Scene 2 — 55 self-portraits"></div>
+      </div>
+      <div class="scene-row">
+        <div>
+          <div class="num">03</div>
+          <h3>The payoff</h3>
+          <blockquote>“Critics called her a surrealist. She shot back: I paint my own reality.”</blockquote>
+        </div>
+        <div class="shot"><img src="ep03/s03-end.jpg" alt="Scene 3 — I paint my own reality"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ LESSONS ══════════ -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>Learned the <em>expensive</em> way</h2>
+    <p class="lede">The rules below are written in credits spent on blocked and broken generations — the parts a tutorial would skip.</p>
+    <div class="notes">
+      <div class="note"><span class="stamp">BLOCKED</span><b>Never name a famous person in a video prompt</b><p>Gemini's safety filter rejects "Frida Kahlo" in any video prompt ("prominent public figure"). Names may only exist as text <i>baked into keyframe images</i> — GPT Image 2 renders text reliably and allows names.</p></div>
+      <div class="note"><span class="stamp">BLOCKED</span><b>Paint her, don't photograph her</b><p>Photographic likenesses of real people block generation too. Every depiction of Frida is hand-painted folk-art style — which passes the filter <i>and</i> looks better in collage.</p></div>
+      <div class="note"><span class="stamp">RULE</span><b>People are static artwork</b><p>Faces never move, blink or breathe. Cutouts move only as rigid paper pieces — slide, stamp, tilt, fade, rack focus. That restraint is what makes it feel editorial instead of uncanny.</p></div>
+      <div class="note"><span class="stamp">RULE</span><b>Two keyframes, never three</b><p>Give the model three images and it treats them as loose references — redrawing faces and text. A scene needing a mid-point splits into two clips (4s + 6s) sharing that frame, joined with a 0.25s crossfade.</p></div>
+      <div class="note"><span class="stamp">CRAFT</span><b>Composition budget</b><p>Max three elements at full contrast at once; a third of the frame stays empty paper; when something new enters, something old exits. Collage discipline is what keeps thirty seconds readable.</p></div>
+      <div class="note"><span class="stamp">CRAFT</span><b>Hold still, end settled</b><p>Every clip holds frame 0 for half a second and ends still — the final scene holds a full second. Editorial motion breathes; it doesn't churn.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE SKILL ══════════ -->
+  <section>
+    <div class="kicker">The System</div>
+    <h2>The workflow is a <em>skill</em></h2>
+    <p class="lede">Everything above — the method, the safety playbook, the ffmpeg recipes — ships as a Claude Code skill in the repo. Ask for a Vox-style video on any topic, and the agent runs the whole pipeline: script, keyframes, approval gates, scenes, stitch.</p>
+    <div class="term">
+      <span class="dim">$</span> <b>claude</b> "make a vox-style video about Ada Lovelace"<br>
+      ▸ skill: <b>vox-style-video</b> loaded<br>
+      ▸ script → 3 sections · 10s each <span class="dim">(hook → twist → payoff)</span><br>
+      ▸ scene 01 keyframes → <span class="dim">awaiting your approval…</span><br>
+      ▸ generating motion between locked frames · stitching · narration<br>
+      <span class="dim">▸ one topic in — one editorial film out</span>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div><b>GPT Image 2</b><br><span>Keyframes — renders text &amp; names reliably</span></div><span class="free">VIA KIE.AI</span></div>
+      <div class="tool"><div><b>Gemini Omni Video</b><br><span>Motion between locked keyframe pairs</span></div><span class="free">VIA KIE.AI</span></div>
+      <div class="tool"><div><b>ElevenLabs</b><br><span>The 30-second narration, three 10s chunks</span></div><span class="free">VOICE</span></div>
+      <div class="tool"><div><b>ffmpeg</b><br><span>Crossfade stitching, frame extraction, audio lay</span></div><span class="free">OPEN SOURCE</span></div>
+      <div class="tool"><div><b>Claude Code</b><br><span>Runs the pipeline end to end via the skill</span></div><span class="free">AGENT</span></div>
+      <a class="tool repo" href="https://github.com/adcunico/vox-style-animation" target="_blank" rel="noopener"><div><b>The Repo ↗</b><br><span>Workflow, prompts, skill — open source</span></div><span class="free">GITHUB</span></a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 03 · CRAFTED WITH PROMPTS, FINISHED WITH TASTE</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+
+<script>
+  const range = document.getElementById('cmpRange');
+  const top = document.getElementById('cmpTop');
+  const handle = document.getElementById('cmpHandle');
+  range.addEventListener('input', () => {
+    top.style.clipPath = `inset(0 ${100 - range.value}% 0 0)`;
+    handle.style.left = range.value + '%';
+  });
+</script>
+</body>
+</html>
