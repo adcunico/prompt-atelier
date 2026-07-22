@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 05 — Every Pixel Earned · Prompt Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --stone:#A99D88;
+    /* episode palette — Lumen */
+    --lm-bg:#0D0B12; --lm-surface:#161320; --lm-dim:#9d97ab;
+    --lm-a:#F4A259; --lm-b:#E27BB1; --lm-c:#8B7BFF; --lm-d:#5AA9E6;
+    --prism:linear-gradient(90deg,#F4A259,#E27BB1,#8B7BFF,#5AA9E6);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:56px;line-height:1.1;margin:18px 0 20px;max-width:920px}
+  h1 em{font-style:italic;background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:710px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+  .hero{padding:56px 0 20px}
+
+  /* ── the interactive band ── */
+  .stage-band{margin-top:50px;background:
+    radial-gradient(55% 65% at 85% 0%,rgba(139,123,255,.14),transparent 60%),
+    radial-gradient(50% 60% at 8% 100%,rgba(244,162,89,.10),transparent 60%),
+    var(--lm-bg);padding:64px 0 56px;color:var(--text-cream)}
+  .stage-band .kicker{background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stage-band h2{color:var(--text-cream)}
+  .stage-band .lede{color:var(--lm-dim)}
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+  .tab{padding:11px 24px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.08em;cursor:pointer;
+    color:var(--lm-dim);border:1px solid rgba(157,151,171,.3);background:transparent;transition:all .25s;font-family:var(--sans)}
+  .tab:hover{color:var(--text-cream);border-color:rgba(255,255,255,.5)}
+  .tab.on{color:var(--lm-bg);background:var(--text-cream);border-color:var(--text-cream)}
+  .frame{margin-top:22px;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.14);
+    box-shadow:0 40px 110px rgba(0,0,0,.6);position:relative}
+  .frame iframe{width:100%;height:640px;border:0;display:block;background:var(--lm-bg)}
+  .hint-row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;align-items:center}
+  .hint{padding:9px 20px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;
+    color:var(--lm-dim);border:1px solid rgba(157,151,171,.28)}
+  .hint b{background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+  .open-link{margin-left:auto;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none}
+
+  section{padding:76px 0 10px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  h2 em{font-style:italic;color:var(--gold-deep)}
+  .lede{color:var(--text-soft);max-width:680px;margin-bottom:8px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 24px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* all twelve grid */
+  .pieces{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:36px}
+  .piece{background:var(--lm-surface);border:1px solid rgba(157,151,171,.16);border-radius:18px;padding:22px 24px;
+    color:var(--text-cream);text-decoration:none;transition:transform .25s,border-color .25s;display:block}
+  .piece:hover{transform:translateY(-4px);border-color:rgba(226,123,177,.5)}
+  .piece b{font-family:var(--serif);font-size:21px;font-weight:500;display:block}
+  .piece .tech{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin:8px 0 8px;
+    background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .piece p{font-size:13px;color:var(--lm-dim)}
+  .piece .go{margin-top:12px;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--text-cream);opacity:.7}
+
+  /* toolkit + lineage */
+  .kit{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:18.5px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 7px;border-radius:6px;font-family:ui-monospace,monospace}
+
+  .lineage{background:var(--ivory);border-radius:22px;padding:36px 40px;margin-top:36px}
+  .lineage p{font-size:15px;color:var(--text-soft);max-width:820px}
+  .lineage b{color:var(--text-ink)}
+  .lineage a{color:var(--gold-deep);font-weight:600}
+
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool.repo{border:1.5px solid rgba(138,106,36,.4);text-decoration:none;color:inherit}
+  .tool.repo .free{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="#" class="active">Episode 05</a>
+      <span class="nav-soc">
+        <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+        <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+      </span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 05 · Creative Coding</div>
+    <h1>Every pixel earned: <em>twelve studies in light, motion &amp; sound</em></h1>
+    <p class="standfirst">Lumen is a collection of twelve generative-art pieces written in vanilla JavaScript with the raw Canvas 2D API — no frameworks, no libraries, no shortcuts. Flocking birds, combable lattices, audio-reactive rings, a hand-rolled 3D sphere. Built with Claude Code, and playable right here on this page.</p>
+    <div class="meta">
+      <div><b>Collection</b>Lumen · Generative Studies</div>
+      <div><b>Stack</b>Vanilla JS + Canvas 2D · zero frameworks</div>
+      <div><b>Pieces</b>12, sharing one hand-built toolkit</div>
+      <div><b>Interaction</b>Every piece responds to you</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ THE INTERACTIVE ══════════ -->
+<div class="stage-band">
+  <div class="wrap">
+    <div class="kicker">The Interactive</div>
+    <h2>Pick a piece — it's <em style="background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent">alive</em></h2>
+    <p class="lede">These are the actual pieces running live, not recordings. Each responds to your pointer — and most carry a control panel (top-left) for palettes, sliders, reseeding and PNG export.</p>
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-piece="murmuration">Murmuration</button>
+      <button class="tab" data-piece="silk">Silk</button>
+      <button class="tab" data-piece="halo">Halo</button>
+      <button class="tab" data-piece="bloom">Bloom</button>
+      <button class="tab" data-piece="glyph">Glyph</button>
+      <button class="tab" data-piece="meridian">Meridian</button>
+    </div>
+    <div class="frame">
+      <iframe id="pieceFrame" src="ep05/lumen/murmuration.html" title="Lumen — live generative piece" loading="lazy"></iframe>
+    </div>
+    <div class="hint-row">
+      <span class="hint" id="pieceHint"><b>click</b> — toggle the pointer between predator and lure</span>
+      <a class="open-link" id="pieceOpen" href="ep05/lumen/murmuration.html" target="_blank" rel="noopener">Open fullscreen ↗</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>No frameworks. <em>On purpose.</em></h2>
+    <p class="lede">Every flock, ripple and glow is computed by hand — position by position, frame by frame. That constraint is the point: when nothing is abstracted away, the agent has to actually understand the math, and you end up owning every line.</p>
+    <div class="stats">
+      <div class="stat"><b><em>12</em></b><span>Pieces, one toolkit</span></div>
+      <div class="stat"><b>0</b><span>Frameworks or canvas libraries</span></div>
+      <div class="stat"><b>2D</b><span>Raw Canvas API — even the 3D</span></div>
+      <div class="stat"><b>100%</b><span>Interactive — nothing is a loop</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ ALL TWELVE ══════════ -->
+  <section>
+    <div class="kicker">The Collection</div>
+    <h2>All twelve, <em>at a glance</em></h2>
+    <p class="lede">Three families of four: reimagined course techniques, flow-and-flock systems designed from scratch, and rebuilds sparked by a fellow student's work. Every card opens the real piece.</p>
+    <div class="pieces">
+      <a class="piece" href="ep05/lumen/tessellate.html" target="_blank" rel="noopener"><b>Tessellate</b><div class="tech">Seeded geometry</div><p>Curated palettes, simplex drift, glow lighting — with sliders and PNG export.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/silk.html" target="_blank" rel="noopener"><b>Silk</b><div class="tech">Curve terrain</div><p>Lines carved from a photograph's luminance; the pointer sends springy ripples through the cloth.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/ember.html" target="_blank" rel="noopener"><b>Ember</b><div class="tech">Particle physics</div><p>Photos dissolved into full-color particles — brush through them, shatter and reform.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/resonance.html" target="_blank" rel="noopener"><b>Resonance</b><div class="tech">Audio analysis</div><p>Radial frequency arcs and a waveform ring — feed it your microphone or drop in a song.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/murmuration.html" target="_blank" rel="noopener"><b>Murmuration</b><div class="tech">Flocking</div><p>Hundreds of boids with a spatial hash; click to switch your pointer from predator to lure.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/undertow.html" target="_blank" rel="noopener"><b>Undertow</b><div class="tech">Flow field</div><p>Ink particles etching permanent trails — leave it minutes and it develops a photograph.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/bloom.html" target="_blank" rel="noopener"><b>Bloom</b><div class="tech">Recursive growth</div><p>Click to plant; branches grow with noise curvature; a seeded Regrow replays your garden.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/meridian.html" target="_blank" rel="noopener"><b>Meridian</b><div class="tech">Hand-rolled 3D</div><p>A fibonacci sphere with rotation and perspective projection — no libraries. Drag to spin.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/halo.html" target="_blank" rel="noopener"><b>Halo</b><div class="tech">Radial symmetry</div><p>A seeded mandala with a symmetry dial — 1.0 is a kaleidoscope, 0 lets every slice go feral.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/tether.html" target="_blank" rel="noopener"><b>Tether</b><div class="tech">Agent constellation</div><p>Bouncing stars with proximity threads; your pointer's gravity gathers or scatters on click.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/weave.html" target="_blank" rel="noopener"><b>Weave</b><div class="tech">Noise lattice</div><p>A grid of strokes turned by simplex noise — and combable: the pointer parts it like fur.</p><div class="go">PLAY ↗</div></a>
+      <a class="piece" href="ep05/lumen/glyph.html" target="_blank" rel="noopener"><b>Glyph</b><div class="tech">Typographic portrait</div><p>Your photos retyped in katakana, latin, digits or density — quietly shimmering as it retypes.</p><div class="go">PLAY ↗</div></a>
+    </div>
+  </section>
+
+  <!-- ══════════ THE TOOLKIT ══════════ -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>One small toolkit carries <em>all twelve</em></h2>
+    <p class="lede">The real engineering isn't in any single piece — it's in the shared library underneath, built once and reused everywhere.</p>
+    <div class="kit">
+      <div class="note"><b>Seeded randomness</b><p>Every composition is reproducible: the same seed always paints the same picture. That's what makes "Reseed" and Bloom's "Regrow" possible — art you can replay.</p></div>
+      <div class="note"><b>Simplex noise, hand-carried</b><p>One noise implementation drives Silk's wind, Undertow's currents, Weave's turns, Meridian's storms and Halo's drift — five different feelings from one function.</p></div>
+      <div class="note"><b>A DPR-aware sketch runner</b><p>One tiny <code>sketch.js</code> handles retina scaling, resize and the animation loop for every piece — so each study is only its idea, not its plumbing.</p></div>
+      <div class="note"><b>Spatial hashing</b><p>Murmuration's flock stays at 60fps because each boid only looks at neighbors in its grid cell — a classic optimization the agent had to implement, not import.</p></div>
+      <div class="note"><b>Trails that never clear</b><p>Undertow skips the canvas clear entirely — the piece accumulates, etching itself over minutes like a photographic plate developing.</p></div>
+      <div class="note"><b>3D with no library</b><p>Meridian projects a fibonacci sphere through hand-written rotation matrices and perspective division — 3D as math, not as a dependency.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ LINEAGE ══════════ -->
+  <section>
+    <div class="kicker">The Lineage</div>
+    <h2>Credit where it's <em>due</em></h2>
+    <div class="lineage">
+      <p>These pieces didn't appear from nothing, and pretending otherwise would be against the house rules. The techniques were first explored in <b>Bruno Imbrizi's</b> Domestika course <a href="https://www.domestika.org/en/courses/2729-creative-coding-2-0-in-js-animation-sound-color" target="_blank" rel="noopener">Creative Coding 2.0 in JS</a>, with a second wave sparked by experiments across <a href="https://www.brunoimbrizi.com/" target="_blank" rel="noopener">brunoimbrizi.com</a> and a fellow student's <a href="https://github.com/GMBermeo/Visuals-with-Javascript_Canvas-Sketch" target="_blank" rel="noopener">course repo</a>. Everything here was then <b>redesigned and rewritten from scratch</b> — new compositions, new interactions, new code — which is exactly how creative coding has always worked: you learn a technique, then you make it yours.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div><b>Vanilla JavaScript</b><br><span>Every system hand-written — flocking, physics, projection</span></div><span class="free">NO FRAMEWORKS</span></div>
+      <div class="tool"><div><b>Canvas 2D API</b><br><span>The only drawing surface — glow, trails, composites</span></div><span class="free">BUILT-IN</span></div>
+      <div class="tool"><div><b>Claude Code</b><br><span>Wrote the toolkit and all twelve pieces, iterating live</span></div><span class="free">AGENT</span></div>
+      <div class="tool"><div><b>Web Audio API</b><br><span>Resonance's analyser — mic, drag-and-drop, or a track</span></div><span class="free">BUILT-IN</span></div>
+      <div class="tool"><div><b>Vite</b><br><span>Dev server during the build — the pieces ship as plain static files</span></div><span class="free">DEV ONLY</span></div>
+      <a class="tool repo" href="https://github.com/adcunico/prompt-atelier/tree/main/ep05/lumen" target="_blank" rel="noopener"><div><b>The Source ↗</b><br><span>All twelve pieces + the shared toolkit, readable</span></div><span class="free">GITHUB</span></a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 05 · CRAFTED WITH PROMPTS, FINISHED WITH TASTE</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+
+<script>
+  const HINTS = {
+    murmuration: '<b>click</b> — toggle the pointer between predator and lure',
+    silk: '<b>move</b> — send springy ripples through the cloth',
+    halo: '<b>panel</b> — slide the symmetry dial from kaleidoscope to feral',
+    bloom: '<b>click</b> — plant a garden; Regrow replays it from its seed',
+    glyph: '<b>panel</b> — switch charsets and colour voices; it quietly retypes itself',
+    meridian: '<b>drag</b> — spin the sphere; it carries inertia like a globe',
+  };
+  const frame = document.getElementById('pieceFrame');
+  const hint = document.getElementById('pieceHint');
+  const open = document.getElementById('pieceOpen');
+  document.getElementById('tabs').addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab');
+    if (!btn) return;
+    document.querySelectorAll('.tab').forEach((t) => t.classList.remove('on'));
+    btn.classList.add('on');
+    const piece = btn.dataset.piece;
+    frame.src = `ep05/lumen/${piece}.html`;
+    open.href = `ep05/lumen/${piece}.html`;
+    hint.innerHTML = HINTS[piece];
+  });
+</script>
+</body>
+</html>
