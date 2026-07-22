@@ -8,6 +8,12 @@
       "port": 3123
     },
     {
+      "name": "space-between",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "studio", "--prefix", "animation"],
+      "port": 3124
+    },
+    {
       "name": "pages",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["--yes", "http-server", ".", "-p", "8790", "-c-1"],

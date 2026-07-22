@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 04 — A Star on Your Desk · Prompt Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --stone:#A99D88;
+    /* episode palette — HELIOS */
+    --hx-bg:#070a12; --hx-surface:#0d1119; --hx-surface2:#141a26;
+    --hx-text:#f4f1ea; --hx-dim:#98a1b3; --hx-faint:#5d6675;
+    --amber:#ffa64d; --amber-hot:#ff7a1a; --cool:#6ea8ff;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  nav .links{align-items:center}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:56px;line-height:1.1;margin:18px 0 20px;max-width:920px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:710px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+  .hero{padding:56px 0 20px}
+
+  /* ── the interactive — full-bleed dark band ── */
+  .stage-band{margin-top:50px;background:
+    radial-gradient(60% 70% at 80% 0%,rgba(255,122,26,.12),transparent 60%),
+    radial-gradient(50% 60% at 10% 100%,rgba(110,168,255,.10),transparent 60%),
+    var(--hx-bg);padding:64px 0 56px;color:var(--hx-text)}
+  .stage-band .kicker{color:var(--amber)}
+  .stage-band h2{color:var(--hx-text)}
+  .stage-band .lede{color:var(--hx-dim)}
+  .frame{margin-top:36px;border-radius:22px;overflow:hidden;border:1px solid rgba(255,166,77,.25);
+    box-shadow:0 40px 110px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.05);position:relative}
+  .frame iframe{width:100%;height:680px;border:0;display:block;background:var(--hx-bg)}
+  .controls{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;align-items:center}
+  .ctl{padding:9px 20px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--hx-dim);border:1px solid rgba(152,161,179,.3)}
+  .ctl b{color:var(--amber);font-weight:700}
+  .open-link{margin-left:auto;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);text-decoration:none}
+  .open-link:hover{color:var(--amber-hot)}
+
+  section{padding:76px 0 10px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  h2 em{font-style:italic;color:var(--gold-deep)}
+  .lede{color:var(--text-soft);max-width:680px;margin-bottom:8px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 24px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* anatomy */
+  .anatomy{display:grid;grid-template-columns:1.5fr 1fr;gap:36px;margin-top:40px;align-items:center}
+  @media(max-width:840px){.anatomy{grid-template-columns:1fr}}
+  .anatomy .shot{border-radius:20px;overflow:hidden;box-shadow:0 24px 70px rgba(20,16,8,.25)}
+  .anatomy .shot img{width:100%;display:block}
+  .ing{display:flex;flex-direction:column;gap:14px}
+  .ing div{display:flex;gap:14px;align-items:flex-start;font-size:14.5px;color:var(--text-soft)}
+  .ing i{flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-style:normal;font-size:12px;font-weight:700;color:#fff;background:var(--gold-deep);margin-top:1px}
+  .ing b{color:var(--text-ink)}
+
+  /* interactivity cards */
+  .acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:36px}
+  .act{background:var(--hx-surface);border:1px solid rgba(152,161,179,.18);border-radius:18px;padding:24px 26px;color:var(--hx-text)}
+  .act .g{font-size:26px;margin-bottom:12px}
+  .act b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .act p{font-size:13.5px;color:var(--hx-dim)}
+  .act code{font-size:11.5px;color:var(--cool);background:rgba(110,168,255,.1);padding:2px 8px;border-radius:6px}
+
+  /* lessons */
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:18.5px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 7px;border-radius:6px;font-family:ui-monospace,monospace}
+  .note .stamp{display:inline-block;margin-bottom:10px;padding:5px 14px;font-size:10px;font-weight:700;letter-spacing:.18em;
+    color:var(--gold-deep);border:2px solid var(--gold-deep);border-radius:4px;transform:rotate(-2deg)}
+
+  .term{background:#0A0D14;border-radius:16px;padding:26px 30px;font-family:ui-monospace,Consolas,monospace;font-size:15px;
+    line-height:1.9;color:var(--cool);box-shadow:0 18px 50px rgba(5,8,15,.5);margin-top:36px;overflow-x:auto}
+  .term b{color:var(--amber);font-weight:400}
+  .term .dim{color:rgba(244,241,234,.35)}
+  .term .ok{color:#7FB88F}
+
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool.repo{border:1.5px solid rgba(138,106,36,.4);text-decoration:none;color:inherit}
+  .tool.repo .free{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="#" class="active">Episode 04</a>
+        <span class="nav-soc"><a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 04 · Real-Time 3D</div>
+    <h1>A star on your desk: <em>3D scenes with Claude Code &amp; Three.js</em></h1>
+    <p class="standfirst">A premium product landing page for HELIOS — a fictional consumer fusion-energy company — with a real-time 3D hero: a glowing fusion core suspended in physical glass, orbitable, zoomable, tappable. No 3D artist, no build step, no editor. One agent, one design system, and 633 lines of Three.js.</p>
+    <div class="meta">
+      <div><b>Brand</b>HELIOS · fictional, built for the demo</div>
+      <div><b>Stack</b>Three.js via CDN — zero build step</div>
+      <div><b>Scene code</b>633 lines, hand-readable</div>
+      <div><b>Runs on</b>Integrated GPUs, 60fps</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ THE INTERACTIVE ══════════ -->
+<div class="stage-band">
+  <div class="wrap">
+    <div class="kicker">The Interactive</div>
+    <h2>Don't watch it — <em style="color:var(--amber)">touch it</em></h2>
+    <p class="lede">This is the actual site, embedded live. Drag the device to orbit it, scroll inside the scene to zoom, and tap the core for an ignition flare.</p>
+    <div class="frame">
+      <iframe src="https://adcunico.github.io/helios-landing/" title="HELIOS — live Three.js landing page" loading="lazy" allow="fullscreen"></iframe>
+    </div>
+    <div class="controls">
+      <span class="ctl"><b>drag</b> · orbit</span>
+      <span class="ctl"><b>scroll</b> · zoom</span>
+      <span class="ctl"><b>hover</b> · glass glow</span>
+      <span class="ctl"><b>tap the core</b> · ignition flare</span>
+      <a class="open-link" href="https://adcunico.github.io/helios-landing/" target="_blank" rel="noopener">Open full site ↗</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>No 3D artist. No build step. <em>No editor.</em></h2>
+    <p class="lede">The whole thing is three files — HTML overlay, CSS tokens, one scene script — with Three.js loaded from a CDN import map. It deploys as static files and runs at 60fps on an integrated laptop GPU.</p>
+    <div class="stats">
+      <div class="stat"><b><em>633</em></b><span>Lines of scene code</span></div>
+      <div class="stat"><b>3</b><span>Files · html, css, js</span></div>
+      <div class="stat"><b>0</b><span>Build step — CDN import map</span></div>
+      <div class="stat"><b>60fps</b><span>On an integrated GPU</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ ANATOMY ══════════ -->
+  <section>
+    <div class="kicker">The Scene</div>
+    <h2>Anatomy of a <em>product hero</em></h2>
+    <p class="lede">The scene language: matte near-black metal, physical glass, and one emissive "alive" element pushed into HDR so the bloom pass makes it glow like a small sun.</p>
+    <div class="anatomy">
+      <div class="shot"><img src="ep04/hero-card.jpg" alt="HELIOS hero — fusion core in glass on a brushed-metal device"></div>
+      <div class="ing">
+        <div><i>1</i><span><b>The fusion core</b> — an emissive sphere with RGB pushed above 1.0 (HDR), so the UnrealBloom pass blooms it into a glow</span></div>
+        <div><i>2</i><span><b>Physical glass</b> — real transmission material: refraction, roughness, edge highlights</span></div>
+        <div><i>3</i><span><b>The containment ring</b> — pulsing emissive, animated in HDR rather than raising bloom strength</span></div>
+        <div><i>4</i><span><b>Brushed-metal device</b> — matte near-black, warm key light + cool blue rim ("amber is the star, blue is the sky")</span></div>
+        <div><i>5</i><span><b>Reflector floor + fog</b> — grounds the device in deep-space navy, fading with FogExp2</span></div>
+      </div>
+    </div>
+    <div class="figcap" style="font-size:12.5px;color:var(--text-soft);margin-top:16px"><b style="color:var(--gold-deep)">Fig. 1</b> — every material rule and light in the scene derives from the same CSS design tokens the page UI uses.</div>
+  </section>
+
+  <!-- ══════════ INTERACTIVITY ══════════ -->
+  <section>
+    <div class="kicker">The Feel</div>
+    <h2>Interaction with <em>inertia</em></h2>
+    <p class="lede">What separates "a spinning cube" from a product you want to touch: every input has weight, decay and clamps. Try each one in the embed above.</p>
+    <div class="acts">
+      <div class="act"><div class="g">🖐</div><b>Drag → orbit</b><p>Rotation carries momentum after release, decaying at <code>velocity × 0.94</code> per frame — the device feels like it has mass.</p></div>
+      <div class="act"><div class="g">🖱</div><b>Scroll → zoom</b><p>Zoom factor clamped to <code>[0.72 – 1.4]</code> and eased at 6% per frame — you can never lose the device or clip through it.</p></div>
+      <div class="act"><div class="g">✨</div><b>Hover → glow</b><p>A raycaster (aimed from the frame's own rect, not the window) lights the glass edges when your cursor crosses the cube.</p></div>
+      <div class="act"><div class="g">💥</div><b>Tap → ignition</b><p>A click under 6px of drag fires <code>uFlare = 1</code>, decaying ×0.955 — driving a shader boost, a shockwave ring, and a bloom surge at once.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ LESSONS ══════════ -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>Learned the <em>hard</em> way</h2>
+    <p class="lede">Real-time 3D fails in spectacular, non-obvious ways. These six rules are written in hours of debugging — each one now lives in the project's skill so no future session repeats them.</p>
+    <div class="notes">
+      <div class="note"><span class="stamp">BUG</span><b>One NaN pixel turns the whole frame black</b><p>A shader's <code>pow(x, 0.5)</code> on a negative base produces NaN; the bloom pass smears that single pixel across the entire frame. Every fractional <code>pow</code> now clamps its base. It looked like random flicker — it was math.</p></div>
+      <div class="note"><span class="stamp">BUG</span><b>Glass that flickers</b><p>Transmission glass rendered <code>DoubleSide</code> re-sorts its own faces every frame → shimmer. The fix: <code>FrontSide</code>, <code>depthWrite: false</code>, high render order.</p></div>
+      <div class="note"><span class="stamp">BUG</span><b>Keep glass away from mirrors</b><p>The floor Reflector re-rendering the glass from a second camera thrashed the transmission buffer. Glass now lives on its own layer the reflector can't see.</p></div>
+      <div class="note"><span class="stamp">RULE</span><b>No hot lights behind glass</b><p>The transmission pass samples the backbuffer — a bright point light behind the cube smears into blobs on its edges. The halo light sits low, offset, far.</p></div>
+      <div class="note"><span class="stamp">RULE</span><b>Z-fighting is a 0.4% problem</b><p>Edge overlay lines fought the glass surface. Scaling the line segments to 1.004 — four tenths of a percent — ended it.</p></div>
+      <div class="note"><span class="stamp">RULE</span><b>Glow in HDR, not in the bloom slider</b><p>Wanting more glow? Don't raise bloom strength (it hazes everything). Push the emissive color above RGB 1.0 and let the threshold do the work.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ VERIFICATION ══════════ -->
+  <section>
+    <div class="kicker">The Loop</div>
+    <h2>The agent checks its <em>own pixels</em></h2>
+    <p class="lede">Screenshots of WebGL canvases are unreliable from the outside — so the workflow makes the page photograph itself: the canvas posts a JPEG of its own framebuffer to a tiny local receiver, and the agent reads the file back. Every visual change is verified in actual pixels before it's called done. A ~6KB file means a black frame — and that means go hunt the NaN.</p>
+    <div class="term">
+      <span class="dim">$</span> <b>claude</b> "make the core pulse brighter"<br>
+      ▸ edit main.js <span class="dim">— ring emissive → RGB 2.2 (HDR)</span><br>
+      ▸ reload · canvas → <b>toDataURL</b> → POST <span class="dim">localhost:4599</span><br>
+      ▸ read shot.jpg… <span class="ok">41 KB — frame renders, glow verified</span><br>
+      <span class="dim">▸ done — seen, not assumed</span>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div><b>Three.js</b><br><span>Scene, materials, bloom — loaded from jsDelivr, no bundler</span></div><span class="free">OPEN SOURCE</span></div>
+      <div class="tool"><div><b>Claude Code</b><br><span>Wrote the scene, the brand, the tokens — and debugged its own pixels</span></div><span class="free">AGENT</span></div>
+      <div class="tool"><div><b>The three-hero skill</b><br><span>Scene language, pitfalls &amp; perf budget, packaged for reuse</span></div><span class="free">SKILL</span></div>
+      <div class="tool"><div><b>GitHub Pages</b><br><span>Static deploy — the embed above is the production site</span></div><span class="free">FREE</span></div>
+      <a class="tool repo" href="https://github.com/adcunico/helios-landing" target="_blank" rel="noopener"><div><b>The Repo ↗</b><br><span>index.html + main.js + tokens — read the 633 lines</span></div><span class="free">GITHUB</span></a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 04 · CRAFTED WITH PROMPTS, FINISHED WITH TASTE</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+</body>
+</html>

@@ -61,6 +61,19 @@
   @keyframes rise{from{opacity:0;transform:translateY(24px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
   .hero .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.3em;color:var(--text-fog);text-transform:uppercase}
 
+  /* ═══════ TOOL MARQUEE ═══════ */
+  .toolstrip{background:linear-gradient(180deg,#241F16,#1B1813);padding:34px 0 40px;border-top:1px solid rgba(255,255,255,.05)}
+  .toolstrip .lbl{text-align:center;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--stone);font-weight:600;margin-bottom:26px}
+  .marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+  .mq-track{display:flex;width:max-content;animation:mq 36s linear infinite}
+  .mq-set{display:flex;align-items:center;gap:78px;padding-right:78px}
+  .mq-item{display:flex;align-items:center;gap:14px;white-space:nowrap}
+  .mq-item img{height:26px;width:auto;opacity:.85;display:block}
+  .mq-item .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:.65}
+  .mq-item span{font-size:15px;font-weight:600;letter-spacing:.06em;color:var(--text-fog)}
+  @keyframes mq{to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion: reduce){.mq-track{animation:none}}
+
   /* ═══════ SECTION SHARED ═══════ */
   section{padding:110px 0}
   .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
@@ -194,6 +207,39 @@
   <div class="scroll-hint">Scroll</div>
 </div>
 
+<!-- ═══════════ TOOL MARQUEE ═══════════ -->
+<div class="toolstrip">
+  <div class="lbl">Crafted with</div>
+  <div class="marquee">
+    <div class="mq-track">
+      <div class="mq-set">
+        <div class="mq-item"><img src="assets/icons/tech/claude.svg" alt=""><span>Claude Code</span></div>
+        <div class="mq-item"><span class="dot"></span><span>ChatGPT</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/googlegemini.svg" alt=""><span>Gemini</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/google.svg" alt=""><span>Veo</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/elevenlabs.svg" alt=""><span>ElevenLabs</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/threedotjs.svg" alt=""><span>Three.js</span></div>
+        <div class="mq-item"><span class="dot"></span><span>Remotion</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/googlecolab.svg" alt=""><span>Google Colab</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/ffmpeg.svg" alt=""><span>FFmpeg</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/github.svg" alt=""><span>GitHub</span></div>
+      </div>
+      <div class="mq-set" aria-hidden="true">
+        <div class="mq-item"><img src="assets/icons/tech/claude.svg" alt=""><span>Claude Code</span></div>
+        <div class="mq-item"><span class="dot"></span><span>ChatGPT</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/googlegemini.svg" alt=""><span>Gemini</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/google.svg" alt=""><span>Veo</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/elevenlabs.svg" alt=""><span>ElevenLabs</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/threedotjs.svg" alt=""><span>Three.js</span></div>
+        <div class="mq-item"><span class="dot"></span><span>Remotion</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/googlecolab.svg" alt=""><span>Google Colab</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/ffmpeg.svg" alt=""><span>FFmpeg</span></div>
+        <div class="mq-item"><img src="assets/icons/tech/github.svg" alt=""><span>GitHub</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════ THE CRAFT ═══════════ -->
 <section id="craft">
   <div class="wrap">
@@ -299,12 +345,22 @@
         </div>
       </a>
 
+      <a class="case" href="case-study-ep04.html">
+        <div class="thumb"><img src="ep04/thumb-ep04.png" alt="Episode 04 — A star on your desk"></div>
+        <div class="body">
+          <div class="ep">Episode 04 · Real-Time 3D</div>
+          <h3>A star on your desk: 3D scenes with Claude Code &amp; Three.js</h3>
+          <p>A product landing page with a live WebGL fusion core — orbitable, zoomable, tappable. 633 lines, no build step, no 3D artist. Embedded live in the case study.</p>
+          <div class="read">Read the case study →</div>
+        </div>
+      </a>
+
       <div class="case soon">
         <div class="thumb"><span>Coming soon</span></div>
         <div class="body">
-          <div class="ep">Episode 04 · 3D Web</div>
-          <h3>A 3D website, no 3D artist</h3>
-          <p>Building an immersive product page with generative 3D and WebGL — placeholder for the next build.</p>
+          <div class="ep">Episode 05 · Automation</div>
+          <h3>The channel that publishes itself</h3>
+          <p>Turning the case-study pipeline into a fully automated, templated content machine — placeholder.</p>
           <div class="read" style="color:var(--text-fog)">In research</div>
         </div>
       </div>

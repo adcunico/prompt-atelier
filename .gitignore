@@ -14,3 +14,6 @@ prompt-atelier-video/public/ep02/episode.mp4
 # local misc
 Screenshot*.png
 *.log
+
+# separate experiment — not part of the published site
+animation/

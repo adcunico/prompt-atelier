@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1280px;height:720px;overflow:hidden}
+  .stage{width:1280px;height:720px;position:relative;overflow:hidden;
+    background:
+      radial-gradient(55% 70% at 88% 12%,rgba(193,154,61,.30) 0%,transparent 58%),
+      radial-gradient(60% 80% at 4% 95%,rgba(51,98,92,.28) 0%,transparent 60%),
+      linear-gradient(152deg,#0A0D14,#1A1510)}
+  .wm{position:absolute;top:44px;left:64px;font-family:'Fraunces',serif;font-size:30px;color:#F6F0E4}
+  .wm em{font-style:italic;color:#DCBC69}
+  .kicker{position:absolute;top:132px;left:64px;font-family:'Inter',sans-serif;font-size:20px;font-weight:700;
+    letter-spacing:.32em;color:#DCBC69}
+  .title{position:absolute;top:190px;left:60px;width:640px;font-family:'Fraunces',serif;font-weight:500;
+    font-size:100px;line-height:1.05;color:#F6F0E4;letter-spacing:-1px}
+  .title em{font-style:italic;font-weight:400;color:#DCBC69}
+  .chip{position:absolute;left:64px;bottom:74px;display:flex;align-items:center;gap:16px;
+    background:rgba(10,13,20,.6);border:1px solid rgba(255,255,255,.3);border-radius:999px;
+    padding:18px 34px;backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .chip span{font-family:'Inter',sans-serif;font-size:24px;font-weight:700;letter-spacing:.08em;color:#F6F0E4}
+  .chip b{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:28px;color:#DCBC69}
+  .still{position:absolute;right:50px;top:110px;width:600px;border-radius:24px;overflow:hidden;
+    border:1.5px solid rgba(220,188,105,.55);outline:2px solid rgba(220,188,105,.4);outline-offset:6px;
+    box-shadow:0 40px 100px rgba(0,0,0,.75), 0 0 80px rgba(193,154,61,.25);transform:rotate(2deg)}
+  .still img{width:100%;display:block}
+  .grain{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 10%,transparent 60%,rgba(0,0,0,.4) 100%)}
+</style></head>
+<body>
+<div class="stage">
+  <div class="grain"></div>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <div class="kicker">EPISODE 04</div>
+  <div class="title">A star on your <em>desk</em></div>
+  <div class="still"><img src="ep04/hero-card.jpg" alt=""></div>
+  <div class="chip"><span>real-time 3D</span><b>no 3D artist →</b></div>
+</div>
+</body>
+</html>
