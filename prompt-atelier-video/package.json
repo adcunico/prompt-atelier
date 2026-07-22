@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "studio": "remotion studio --port 3123",
-    "render": "remotion render Main out/prompt-atelier-ep01.mp4"
+    "render": "remotion render Main out/prompt-atelier-ep01.mp4",
+    "render:ep05": "remotion render Lumen out/prompt-atelier-ep05-lumen.mp4"
   },
   "dependencies": {
     "@react-three/fiber": "^8.18.0",

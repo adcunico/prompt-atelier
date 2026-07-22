@@ -1,6 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, Composition, Sequence} from 'remotion';
 import {CaseStudy02, TOTAL_FRAMES as CS02_FRAMES} from './ep02/CaseStudy02';
+import {Lumen, LUMEN_TOTAL} from './ep05/Lumen';
 import {stageBackground} from './theme';
 import {SofiaLayer} from './SofiaLayer';
 import {Captions} from './components';
@@ -67,6 +68,14 @@ export const Root: React.FC = () => (
       id="CaseStudy02"
       component={CaseStudy02}
       durationInFrames={CS02_FRAMES}
+      fps={FPS}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="Lumen"
+      component={Lumen}
+      durationInFrames={LUMEN_TOTAL}
       fps={FPS}
       width={1920}
       height={1080}

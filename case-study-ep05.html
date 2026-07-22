@@ -67,6 +67,23 @@
   .open-link{margin-left:auto;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
     background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none}
 
+  /* ── the film reel ── */
+  .film{padding-top:64px}
+  .film-shell{margin-top:26px;aspect-ratio:16/9;border-radius:22px;overflow:hidden;position:relative;
+    border:1px solid rgba(157,151,171,.22);background:var(--lm-bg);
+    box-shadow:0 44px 120px rgba(13,11,18,.5)}
+  .film-cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-decoration:none;cursor:pointer}
+  .film-cover .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .film-cover .scrim{position:absolute;inset:0;background:radial-gradient(60% 60% at 50% 50%,rgba(13,11,18,.32),rgba(13,11,18,.7))}
+  .film-play{position:relative;width:94px;height:94px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:var(--prism);box-shadow:0 16px 48px rgba(226,123,177,.42);transition:transform .25s}
+  .film-cover:hover .film-play{transform:scale(1.06)}
+  .film-play::after{content:'';border-left:28px solid var(--lm-bg);border-top:17px solid transparent;border-bottom:17px solid transparent;margin-left:8px}
+  .film-watch{position:relative;font-size:13px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--text-cream);text-shadow:0 1px 12px rgba(0,0,0,.55)}
+  .film-cap{font-size:12.5px;color:var(--text-soft);margin-top:14px;letter-spacing:.04em}
+  .film-cap b{color:var(--gold-deep)}
+  .film-cap a{color:var(--gold-deep);font-weight:600;text-decoration:none}
+
   section{padding:76px 0 10px}
   h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
   h2 em{font-style:italic;color:var(--gold-deep)}
@@ -118,6 +135,7 @@
   .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
   .socials-x a:hover svg{fill:var(--gold-bright)}
 </style>
+<link rel="stylesheet" href="assets/responsive.css">
 </head>
 <body>
 
@@ -147,6 +165,23 @@
       <div><b>Interaction</b>Every piece responds to you</div>
     </div>
   </div>
+
+  <!-- ══════════ THE FILM ══════════ -->
+  <section class="film">
+    <div class="kicker">The Film</div>
+    <h2>Twelve pieces, <em>one minute</em></h2>
+    <p class="lede">A sixty-second reel of the collection in motion — every study captured live, then cut to the Prompt Atelier house style.</p>
+    <div class="film-shell">
+      <a class="film-cover" href="https://youtu.be/xF6oNXXEoOg" target="_blank" rel="noopener" aria-label="Watch the Lumen reel on YouTube">
+        <img class="poster" src="https://img.youtube.com/vi/xF6oNXXEoOg/maxresdefault.jpg" alt="Lumen — the reel · Prompt Atelier"
+          onerror="if(this.dataset.fb){this.src='ep05/thumb-ep05.png'}else{this.dataset.fb=1;this.src='https://img.youtube.com/vi/xF6oNXXEoOg/hqdefault.jpg'}">
+        <div class="scrim"></div>
+        <div class="film-play"></div>
+        <div class="film-watch">Watch on YouTube ↗</div>
+      </a>
+    </div>
+    <div class="film-cap"><b>Lumen — the reel</b> · eight of the twelve pieces, hand-captured and edited in Remotion · watch on <a href="https://youtu.be/xF6oNXXEoOg" target="_blank" rel="noopener">YouTube ↗</a></div>
+  </section>
 </div>
 
 <!-- ══════════ THE INTERACTIVE ══════════ -->

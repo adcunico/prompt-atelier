@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poppet — Lagoon</title>
+<style>
+  :root{
+    --mint:#BFE9D2; --mint-dark:#9BD4B4;
+    --pink:#FFC7DD; --pink-dark:#FF9EC3;
+    --peach:#FFD3A8; --peach-dark:#FFB27A; --peach-deep:#F4A870;
+    --yellow:#FFEDA8;
+    --blue:#BFE9F5; --blue-dark:#9AD4E6; --blue-belly:#EAFBFF;
+    --lav:#E3D6F7; --cream:#FFF6EA; --ink:#4A4458;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{
+    height:100%; overflow:hidden;
+    background:radial-gradient(120% 100% at 50% 0%, #FDF6F0 0%, #E6F6FB 42%, #C7ECF6 100%);
+    font-family:'Segoe UI', system-ui, sans-serif;
+  }
+  .stage{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+  .scene{ position:relative; width:min(100%,980px); height:min(100%,620px); margin:auto; }
+
+  /* water */
+  .water{ position:absolute; left:-8%; right:-8%; bottom:-40px; height:230px;
+    background:linear-gradient(180deg, rgba(154,212,230,.55), rgba(120,196,222,.85));
+    border-radius:50% 50% 0 0 / 40px 40px 0 0; }
+  .wave{ position:absolute; left:-8%; right:-8%; height:14px; background:rgba(255,255,255,.4);
+    border-radius:50%; animation:wave-bob 4s ease-in-out infinite; }
+
+  @keyframes wave-bob{ 0%,100%{ transform:translateX(0);} 50%{ transform:translateX(14px);} }
+
+  .float-dot{ position:absolute; border-radius:50%; opacity:.6; animation:drift 6s ease-in-out infinite; }
+  @keyframes drift{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-18px);} }
+
+  .char-wrap{ position:absolute; cursor:pointer; user-select:none; }
+  .sparkle-layer{ position:absolute; inset:-30px; pointer-events:none; }
+  .sparkle{ position:absolute; opacity:0; }
+  .sparkle.show{ animation:sparkle-fly .9s ease-out forwards; }
+  @keyframes sparkle-fly{ 0%{ transform:translate(0,0) scale(.3) rotate(0); opacity:1; } 100%{ transform:translate(var(--dx),var(--dy)) scale(1) rotate(160deg); opacity:0; } }
+
+  @keyframes blink{ 0%,92%,100%{ transform:scaleY(1);} 95%{ transform:scaleY(.1);} }
+  .cheek{ animation:cheek-pulse 2.8s ease-in-out infinite; }
+  @keyframes cheek-pulse{ 0%,100%{ opacity:.55;} 50%{ opacity:.85;} }
+
+  .bubble{ position:absolute; border-radius:50%; background:rgba(255,255,255,.7); animation:bubble-rise 4s ease-in infinite; }
+  @keyframes bubble-rise{ 0%{ transform:translateY(0) scale(.6); opacity:0;} 15%{ opacity:.85;} 100%{ transform:translateY(-150px) scale(1); opacity:0;} }
+
+  /* ---------- MARINA (whale) ---------- */
+  .marina-wrap{ animation:float-swim 3.6s ease-in-out infinite; }
+  @keyframes float-swim{ 0%,100%{ transform:translateY(0) rotate(-2deg);} 50%{ transform:translateY(-16px) rotate(2deg);} }
+  .marina-wrap.cheer{ animation:spout-jump .9s ease-in-out 1; }
+  @keyframes spout-jump{ 0%{transform:translateY(0) rotate(0);} 40%{transform:translateY(-34px) rotate(-6deg);} 100%{transform:translateY(0) rotate(0);} }
+  .marina-eye{ animation:blink 5.4s ease-in-out infinite; transform-origin:center; }
+  .fin{ transform-origin:190px 175px; animation:fin-flap 2.6s ease-in-out infinite; }
+  @keyframes fin-flap{ 0%,100%{ transform:rotate(0);} 50%{ transform:rotate(8deg);} }
+  .spout-drop{ animation:spout 2.6s ease-in-out infinite; transform-origin:center; }
+  @keyframes spout{ 0%,100%{ opacity:.5; transform:translateY(2px) scale(.9);} 50%{ opacity:1; transform:translateY(-4px) scale(1);} }
+
+  /* ---------- SPLASH (fish) ---------- */
+  .splash-wrap{ animation:splash-swim 2.6s ease-in-out infinite; }
+  @keyframes splash-swim{ 0%,100%{ transform:translateX(0) rotate(-3deg);} 50%{ transform:translateX(10px) rotate(3deg);} }
+  .splash-wrap.cheer{ animation:splash-flip .8s ease-in-out 1; }
+  @keyframes splash-flip{ 0%{transform:translateX(0) rotate(0);} 50%{transform:translateX(20px) rotate(360deg);} 100%{transform:translateX(0) rotate(360deg);} }
+  .splash-tail{ transform-origin:40px 100px; animation:tail-flick .7s ease-in-out infinite; }
+  @keyframes tail-flick{ 0%,100%{ transform:rotate(-10deg);} 50%{ transform:rotate(10deg);} }
+  .splash-eye{ animation:blink 5s ease-in-out infinite; transform-origin:center; }
+
+  /* ---------- CLOUDY (cloud) ---------- */
+  .cloudy-wrap{ animation:cloud-drift 3.8s ease-in-out infinite; }
+  @keyframes cloud-drift{ 0%,100%{ transform:translateY(0) translateX(0);} 50%{ transform:translateY(-10px) translateX(8px);} }
+  .cloudy-wrap.cheer{ animation:cloud-shake .8s ease-in-out 1; }
+  @keyframes cloud-shake{ 0%,100%{ transform:translateX(0) rotate(0);} 20%{ transform:translateX(-8px) rotate(-4deg);} 40%{ transform:translateX(8px) rotate(4deg);} 60%{ transform:translateX(-6px) rotate(-3deg);} 80%{ transform:translateX(6px) rotate(3deg);} }
+  .cloudy-eye{ animation:blink 4.4s ease-in-out infinite; transform-origin:center; }
+  .raindrop{ animation:rain-fall 1.5s ease-in infinite; transform-origin:center; }
+  @keyframes rain-fall{ 0%{ transform:translateY(0); opacity:1;} 80%{ opacity:1;} 100%{ transform:translateY(16px); opacity:0;} }
+
+  .caption{ position:absolute; bottom:12px; left:50%; transform:translateX(-50%); font-size:13px;
+    color:var(--ink); opacity:.5; letter-spacing:.03em; white-space:nowrap; }
+</style>
+</head>
+<body>
+
+<div class="stage">
+<div class="scene">
+
+  <div class="float-dot" style="width:12px;height:12px;background:var(--blue);left:180px;top:120px;animation-duration:5.4s;"></div>
+  <div class="float-dot" style="width:9px;height:9px;background:var(--pink);left:840px;top:150px;animation-duration:6.2s;animation-delay:.6s;"></div>
+  <div class="float-dot" style="width:8px;height:8px;background:var(--yellow);left:470px;top:90px;animation-duration:4.8s;animation-delay:1.1s;"></div>
+
+  <div class="water"></div>
+  <div class="wave" style="bottom:150px;animation-delay:0s;"></div>
+  <div class="wave" style="bottom:96px;animation-delay:-2s;opacity:.6;"></div>
+
+  <!-- ══ CLOUDY (cloud) ══ -->
+  <div class="char-wrap cloudy-wrap" id="cloudy" style="left:600px;top:36px;width:200px;">
+    <svg viewBox="0 0 220 180" width="200" height="164">
+      <path d="M55 95 C30 95 20 65 45 55 C48 30 90 25 100 48 C120 30 155 42 150 68 C175 68 178 100 150 102 L60 102 Z"
+            fill="#FFFFFF"/>
+      <path d="M55 95 C30 95 20 65 45 55 C48 30 90 25 100 48 C120 30 155 42 150 68 C175 68 178 100 150 102 L60 102 Z"
+            fill="none" stroke="var(--blue-dark)" stroke-width="2.5" opacity=".5"/>
+      <ellipse class="cheek" cx="72" cy="80" rx="10" ry="7" fill="var(--pink-dark)"/>
+      <ellipse class="cheek" cx="132" cy="80" rx="10" ry="7" fill="var(--pink-dark)"/>
+      <g class="cloudy-eye"><path d="M78 68 Q84 62 90 68" stroke="var(--ink)" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+      <g class="cloudy-eye"><path d="M112 68 Q118 62 124 68" stroke="var(--ink)" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+      <path d="M92 82 Q101 88 110 82" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <g stroke="var(--blue-dark)" stroke-width="4" stroke-linecap="round">
+        <line class="raindrop" style="animation-delay:0s" x1="60" y1="112" x2="60" y2="122"/>
+        <line class="raindrop" style="animation-delay:.3s" x1="80" y1="112" x2="80" y2="122"/>
+        <line class="raindrop" style="animation-delay:.6s" x1="100" y1="112" x2="100" y2="122"/>
+        <line class="raindrop" style="animation-delay:.9s" x1="120" y1="112" x2="120" y2="122"/>
+        <line class="raindrop" style="animation-delay:1.2s" x1="140" y1="112" x2="140" y2="122"/>
+      </g>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-cloudy"></div>
+  </div>
+
+  <!-- ══ MARINA (whale) ══ -->
+  <div class="char-wrap marina-wrap" id="marina" style="left:120px;bottom:120px;width:270px;">
+    <div class="bubble" style="width:8px;height:8px;left:70px;bottom:150px;animation-delay:0s;"></div>
+    <div class="bubble" style="width:6px;height:6px;left:140px;bottom:140px;animation-delay:1.3s;"></div>
+    <div class="bubble" style="width:10px;height:10px;left:110px;bottom:160px;animation-delay:2.4s;"></div>
+    <svg viewBox="0 0 260 300" width="270" height="311">
+      <path class="fin" d="M190 165 C220 155 225 185 195 190 Z" fill="var(--mint-dark)"/>
+      <path d="M60 175 C30 160 25 195 60 205 C50 190 55 182 60 175 Z" fill="var(--mint-dark)"/>
+      <ellipse cx="130" cy="175" rx="85" ry="65" fill="var(--blue)"/>
+      <ellipse cx="130" cy="205" rx="55" ry="30" fill="var(--blue-belly)"/>
+      <ellipse class="cheek" cx="90" cy="170" rx="11" ry="7" fill="var(--pink-dark)"/>
+      <ellipse class="cheek" cx="172" cy="170" rx="11" ry="7" fill="var(--pink-dark)"/>
+      <g class="marina-eye"><ellipse cx="108" cy="155" rx="12" ry="14" fill="white"/><circle cx="111" cy="158" r="6.5" fill="var(--ink)"/><circle cx="114" cy="154" r="2.2" fill="#fff"/></g>
+      <g class="marina-eye"><ellipse cx="154" cy="155" rx="12" ry="14" fill="white"/><circle cx="157" cy="158" r="6.5" fill="var(--ink)"/><circle cx="160" cy="154" r="2.2" fill="#fff"/></g>
+      <path d="M114 190 Q130 200 146 190" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <g class="spout-drop"><path d="M130 108 L130 85 M122 95 L130 78 L138 95" stroke="var(--blue-dark)" stroke-width="6" fill="none" stroke-linecap="round"/></g>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-marina"></div>
+  </div>
+
+  <!-- ══ SPLASH (fish) ══ -->
+  <div class="char-wrap splash-wrap" id="splash" style="left:560px;bottom:130px;width:210px;">
+    <div class="bubble" style="width:6px;height:6px;left:170px;bottom:120px;animation-delay:.5s;"></div>
+    <div class="bubble" style="width:8px;height:8px;left:185px;bottom:140px;animation-delay:1.8s;"></div>
+    <svg viewBox="0 0 200 180" width="210" height="189">
+      <path class="splash-tail" d="M55 90 C30 75 15 75 10 90 C15 105 30 105 55 90 Z" fill="var(--peach-deep)"/>
+      <ellipse cx="115" cy="90" rx="65" ry="45" fill="var(--peach)"/>
+      <ellipse cx="115" cy="104" rx="46" ry="24" fill="var(--cream)" opacity=".6"/>
+      <path d="M105 70 Q130 90 105 110" stroke="var(--peach-deep)" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse class="cheek" cx="150" cy="105" rx="7" ry="5" fill="var(--pink-dark)"/>
+      <g class="splash-eye"><circle cx="150" cy="80" r="8" fill="#fff"/><circle cx="151" cy="81" r="4" fill="var(--ink)"/><circle cx="153" cy="78" r="1.4" fill="#fff"/></g>
+      <path d="M150 60 L140 45 L162 50 Z" fill="var(--peach-deep)" stroke-linejoin="round"/>
+      <path d="M140 112 Q150 118 160 112" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-splash"></div>
+  </div>
+
+  <div class="caption">Lagoon — tap anyone to cheer</div>
+
+</div>
+</div>
+
+<script>
+  const colorSets = {
+    marina: ['#BFE9F5','#9BD4B4','#FFEDA8'],
+    splash: ['#FFD3A8','#FFB27A','#FFC7DD'],
+    cloudy: ['#FFFFFF','#9AD4E6','#FFC7DD']
+  };
+  Object.keys(colorSets).forEach(id => {
+    const el = document.getElementById(id);
+    const layer = document.getElementById('sparkle-' + id);
+    if (!el) return;
+    el.addEventListener('click', () => {
+      el.classList.remove('cheer'); void el.offsetWidth; el.classList.add('cheer');
+      burst(layer, colorSets[id]);
+    });
+  });
+  function burst(layer, colors){
+    const w = layer.offsetWidth, h = layer.offsetHeight;
+    for(let i=0;i<10;i++){
+      const s = document.createElement('div');
+      s.className = 'sparkle show';
+      const size = 6 + Math.random()*6;
+      s.style.width = size+'px'; s.style.height = size+'px';
+      s.style.left = (w*0.5 + (Math.random()-0.5)*60)+'px';
+      s.style.top  = (h*0.45 + (Math.random()-0.5)*60)+'px';
+      s.style.background = colors[Math.floor(Math.random()*colors.length)];
+      s.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+      s.style.setProperty('--dx', ((Math.random()-0.5)*170)+'px');
+      s.style.setProperty('--dy', (-60 - Math.random()*100)+'px');
+      layer.appendChild(s);
+      s.addEventListener('animationend', () => s.remove());
+    }
+  }
+</script>
+</body>
+</html>

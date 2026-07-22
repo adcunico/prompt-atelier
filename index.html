@@ -140,9 +140,23 @@
   .dark-sec .kicker{color:var(--gold-bright)}
   .dark-sec h2 em{color:var(--gold-bright)}
   .dark-sec .lede{color:var(--text-fog)}
-  .cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:24px;margin-top:56px}
-  .case{border-radius:24px;overflow:hidden;text-decoration:none;color:var(--text-cream);position:relative;
+  .cases{display:flex;gap:24px;margin-top:44px;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:8px 0 18px;scrollbar-width:none;scroll-behavior:smooth}
+  .cases::-webkit-scrollbar{display:none}
+  /* rail controls: hint left, arrow buttons right */
+  .case-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:8px}
+  .case-hint{display:flex;align-items:center;gap:12px;font-size:11px;font-weight:600;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--text-fog)}
+  .case-hint .bar{width:40px;height:1px;background:rgba(255,255,255,.14)}
+  .rail-nav{display:flex;gap:10px}
+  .rail-btn{width:48px;height:48px;border-radius:50%;background:transparent;cursor:pointer;
+    border:1px solid rgba(220,188,105,.4);color:var(--gold-bright);font-size:22px;line-height:1;
+    display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s,opacity .2s,transform .2s;font-family:var(--sans)}
+  .rail-btn:hover:not(:disabled){background:rgba(220,188,105,.12);border-color:var(--gold-bright);transform:translateY(-1px)}
+  .rail-btn:disabled{opacity:.28;cursor:default}
+  .case{flex:0 0 366px;scroll-snap-align:start;border-radius:24px;overflow:hidden;text-decoration:none;color:var(--text-cream);position:relative;
     border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);transition:transform .3s,border-color .3s}
+  @media(max-width:520px){.case{flex-basis:82vw}}
   .case:hover{transform:translateY(-6px);border-color:rgba(220,188,105,.5)}
   .case .thumb{aspect-ratio:16/9;overflow:hidden;position:relative}
   .case .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
@@ -174,6 +188,7 @@
   footer .links a{color:var(--text-fog);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
   footer .links a:hover{color:var(--gold-bright)}
 </style>
+<link rel="stylesheet" href="assets/responsive.css">
 </head>
 <body>
 
@@ -365,14 +380,31 @@
         </div>
       </a>
 
+      <a class="case" href="case-study-ep06.html">
+        <div class="thumb"><img src="ep06/thumb-ep06.png" alt="Episode 06 — Drawn to move"></div>
+        <div class="body">
+          <div class="ep">Episode 06 · Animated SVG</div>
+          <h3>Drawn to move: a pastel menagerie, hand-animated in SVG</h3>
+          <p>Poppet — fourteen mascots, each a single inline SVG brought to life with nothing but CSS keyframes. Three scenes, zero libraries, all playable live inside the case study.</p>
+          <div class="read">Read the case study →</div>
+        </div>
+      </a>
+
       <div class="case soon">
         <div class="thumb"><span>Coming soon</span></div>
         <div class="body">
-          <div class="ep">Episode 06 · Automation</div>
+          <div class="ep">Episode 07 · Automation</div>
           <h3>The channel that publishes itself</h3>
           <p>Turning the case-study pipeline into a fully automated, templated content machine — placeholder.</p>
           <div class="read" style="color:var(--text-fog)">In research</div>
         </div>
+      </div>
+    </div>
+    <div class="case-controls">
+      <span class="case-hint"><span class="bar"></span> Swipe, or use the arrows</span>
+      <div class="rail-nav">
+        <button class="rail-btn" id="railPrev" aria-label="Previous case studies">‹</button>
+        <button class="rail-btn" id="railNext" aria-label="Next case studies">›</button>
       </div>
     </div>
   </div>
@@ -394,7 +426,7 @@
   <div class="links">
     <a href="#craft">The Craft</a>
     <a href="#cases">Case Studies</a>
-    <a href="case-study-ep01.html">Episode 01</a>
+    <a href="about.html">About</a>
   </div>
   <div class="socials">
     <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
@@ -407,6 +439,28 @@
   if (location.search.includes('flat')) {
     document.querySelector('.hero').style.minHeight = 'auto';
   }
+
+  // case-study rail: arrow buttons step one card; native swipe/trackpad still works.
+  // (no mouse-drag-to-scroll — that caused accidental card clicks.)
+  (function () {
+    const rail = document.querySelector('.cases');
+    const prev = document.getElementById('railPrev');
+    const next = document.getElementById('railNext');
+    if (!rail || !prev || !next) return;
+    const step = () => {
+      const card = rail.querySelector('.case');
+      return card ? card.getBoundingClientRect().width + 24 : rail.clientWidth * 0.8;
+    };
+    prev.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
+    const update = () => {
+      prev.disabled = rail.scrollLeft <= 2;
+      next.disabled = rail.scrollLeft >= rail.scrollWidth - rail.clientWidth - 2;
+    };
+    rail.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
 </script>
 </body>
 </html>

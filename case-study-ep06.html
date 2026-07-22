@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 06 — Drawn to Move · Prompt Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --stone:#A99D88;
+    /* episode palette — Poppet (pastel) */
+    --pp-pink:#FF9EC3; --pp-peach:#FFB27A; --pp-mint:#9BD4B4; --pp-blue:#9AD4E6; --pp-lav:#C9B8E8;
+    --pp-ink:#4A4458; --pp-soft:#8B8398;
+    --prism:linear-gradient(90deg,#FF9EC3,#FFB27A,#9BD4B4,#9AD4E6);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:56px;line-height:1.1;margin:18px 0 20px;max-width:920px}
+  h1 em{font-style:italic;background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:710px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+  .hero{padding:56px 0 20px}
+
+  /* ── the interactive band (light, pastel) ── */
+  .stage-band{margin-top:56px;background:
+    radial-gradient(55% 65% at 85% 0%,rgba(201,184,232,.35),transparent 60%),
+    radial-gradient(50% 60% at 8% 100%,rgba(255,178,122,.22),transparent 60%),
+    radial-gradient(60% 70% at 50% 40%,rgba(155,212,180,.12),transparent 70%),
+    #FBF6FB;padding:64px 0 56px;color:var(--pp-ink);
+    border-top:1px solid rgba(201,184,232,.4);border-bottom:1px solid rgba(201,184,232,.4)}
+  .stage-band .kicker{background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stage-band h2{color:var(--pp-ink)}
+  .stage-band .lede{color:var(--pp-soft)}
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+  .tab{padding:11px 24px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.08em;cursor:pointer;
+    color:var(--pp-soft);border:1px solid rgba(139,131,152,.3);background:rgba(255,255,255,.5);transition:all .25s;font-family:var(--sans)}
+  .tab:hover{color:var(--pp-ink);border-color:var(--pp-lav)}
+  .tab.on{color:#fff;background:var(--pp-ink);border-color:var(--pp-ink)}
+  .frame{margin-top:22px;border-radius:22px;overflow:hidden;border:1px solid rgba(201,184,232,.5);
+    box-shadow:0 30px 80px rgba(140,120,170,.28);position:relative;background:#fff}
+  .frame iframe{width:100%;height:640px;border:0;display:block;background:#FDF6F0}
+  .hint-row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;align-items:center}
+  .hint{padding:9px 20px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;
+    color:var(--pp-soft);border:1px solid rgba(139,131,152,.28);background:rgba(255,255,255,.5)}
+  .hint b{background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+  .open-link{margin-left:auto;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none}
+
+  section{padding:76px 0 10px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  h2 em{font-style:italic;color:var(--gold-deep)}
+  .lede{color:var(--text-soft);max-width:680px;margin-bottom:8px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 24px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* the cast grid */
+  .pieces{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:16px;margin-top:36px}
+  .piece{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:22px 24px;
+    color:var(--text-ink);text-decoration:none;transition:transform .25s,border-color .25s,box-shadow .25s;display:block}
+  .piece:hover{transform:translateY(-4px);border-color:var(--pp-lav);box-shadow:0 18px 40px rgba(140,120,170,.16)}
+  .piece b{font-family:var(--serif);font-size:21px;font-weight:500;display:block}
+  .piece .kind{font-size:12px;color:var(--text-soft);margin-top:1px}
+  .piece .tech{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin:12px 0 8px;
+    background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .piece p{font-size:13px;color:var(--text-soft)}
+  .piece .go{margin-top:12px;font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--pp-soft)}
+
+  /* toolkit + lineage */
+  .kit{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note .n{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--gold-deep);display:block;margin-bottom:6px}
+  .note b{font-family:var(--serif);font-size:18.5px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 7px;border-radius:6px;font-family:ui-monospace,monospace;color:var(--pp-ink)}
+
+  .lineage{background:var(--ivory);border-radius:22px;padding:36px 40px;margin-top:36px}
+  .lineage p{font-size:15px;color:var(--text-soft);max-width:840px}
+  .lineage b{color:var(--text-ink)}
+  .lineage .swatches{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+  .lineage .sw{width:44px;height:44px;border-radius:12px;border:1px solid rgba(0,0,0,.06)}
+
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool.repo{border:1.5px solid rgba(138,106,36,.4);text-decoration:none;color:inherit}
+  .tool.repo .free{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+<link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+      <span class="nav-soc">
+        <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+        <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+      </span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 06 · Animated SVG</div>
+    <h1>Drawn to move: <em>a pastel menagerie, hand-animated in SVG</em></h1>
+    <p class="standfirst">Poppet is a cast of fourteen mascots — a sprout, a fox, a whale, a snail, a moon — each one a single inline SVG brought to life with nothing but CSS keyframes. No Lottie, no After Effects, no framework. This case study is the field guide: the handful of habits that make an SVG character feel alive, built and recoloured live with Claude Code, and playable right here on the page.</p>
+    <div class="meta">
+      <div><b>Collection</b>Poppet · a pastel menagerie</div>
+      <div><b>Stack</b>Inline SVG + CSS keyframes · zero libraries</div>
+      <div><b>Cast</b>14 characters across 3 scenes</div>
+      <div><b>Interaction</b>Every mascot cheers when tapped</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ THE INTERACTIVE ══════════ -->
+<div class="stage-band">
+  <div class="wrap">
+    <div class="kicker">The Interactive</div>
+    <h2>Pick a scene — it's <em style="background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent">alive</em></h2>
+    <p class="lede">These are the real SVGs running live, not recordings. Every character idles on its own — bobbing, blinking, swaying — and springs into a cheer the moment you tap it, complete with a little burst of confetti.</p>
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-scene="meadow">The Meadow</button>
+      <button class="tab" data-scene="nightfall">Nightfall</button>
+      <button class="tab" data-scene="lagoon">Lagoon</button>
+    </div>
+    <div class="frame">
+      <iframe id="sceneFrame" src="ep06/poppet/meadow.html" title="Poppet — live animated SVG scene" loading="lazy"></iframe>
+    </div>
+    <div class="hint-row">
+      <span class="hint" id="sceneHint"><b>tap</b> — the sun, the sprout, the fox, the bunny, the flower, the bee or the snail</span>
+      <a class="open-link" id="sceneOpen" href="ep06/poppet/meadow.html" target="_blank" rel="noopener">Open fullscreen ↗</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>Not one line of animation library. <em>On purpose.</em></h2>
+    <p class="lede">Every wiggle, blink and bounce is a CSS <code style="font-size:13px;background:var(--ivory);padding:1px 6px;border-radius:5px">@keyframes</code> rule acting on a plain SVG shape. That constraint is the lesson: when the whole toolkit is "shapes plus keyframes," the technique is transferable to any character you'll ever draw — and the file stays tiny, portable and future-proof.</p>
+    <div class="stats">
+      <div class="stat"><b><em>14</em></b><span>Mascots, one visual language</span></div>
+      <div class="stat"><b>0</b><span>Animation libraries or plugins</span></div>
+      <div class="stat"><b>CSS</b><span>Keyframes do all the motion</span></div>
+      <div class="stat"><b>100%</b><span>Interactive — every mascot reacts</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE CAST ══════════ -->
+  <section>
+    <div class="kicker">The Cast</div>
+    <h2>Fourteen mascots, <em>fourteen little lessons</em></h2>
+    <p class="lede">Each character was chosen to show off one animation habit. Together they cover the whole vocabulary — squash and stretch, secondary motion, staggered timing, anticipation, easing. Every card opens the scene it lives in.</p>
+    <div class="pieces">
+      <a class="piece" href="ep06/poppet/meadow.html" target="_blank" rel="noopener"><b>Sprout</b><div class="kind">the little sprite · Meadow</div><div class="tech">Squash &amp; stretch</div><p>Bobs on a soft <code>scaleY</code> so it feels weighted; leaps on a bouncy overshoot easing when tapped.</p><div class="go">MEET SPROUT ↗</div></a>
+      <a class="piece" href="ep06/poppet/meadow.html" target="_blank" rel="noopener"><b>Ziggy</b><div class="kind">the energetic fox · Meadow</div><div class="tech">Secondary motion</div><p>The body bounces, but the tail wags on its own faster loop — motion that follows the main motion.</p><div class="go">MEET ZIGGY ↗</div></a>
+      <a class="piece" href="ep06/poppet/meadow.html" target="_blank" rel="noopener"><b>Buzz</b><div class="kind">the busy bee · Meadow</div><div class="tech">Fast flutter</div><p>Wings beat on a 0.18s loop while the body drifts slowly — two clocks running at once sells "hovering."</p><div class="go">MEET BUZZ ↗</div></a>
+      <a class="piece" href="ep06/poppet/meadow.html" target="_blank" rel="noopener"><b>Hopper</b><div class="kind">the bunny · Meadow</div><div class="tech">Anticipation</div><p>Before the jump it dips and squashes down — the tiny wind-up that makes the leap read as effort.</p><div class="go">MEET HOPPER ↗</div></a>
+      <a class="piece" href="ep06/poppet/meadow.html" target="_blank" rel="noopener"><b>Bloom</b><div class="kind">the flower · Meadow</div><div class="tech">Pivot &amp; origin</div><p>Sways from the base of its stem, not its centre — a lesson in getting <code>transform-origin</code> right.</p><div class="go">MEET BLOOM ↗</div></a>
+      <a class="piece" href="ep06/poppet/meadow.html" target="_blank" rel="noopener"><b>Shelly</b><div class="kind">the snail · Meadow</div><div class="tech">Easing</div><p>Glides on a gentle ease-in-out; the shell spiral breathes on a slower beat. Slow is a choice, too.</p><div class="go">MEET SHELLY ↗</div></a>
+      <a class="piece" href="ep06/poppet/meadow.html" target="_blank" rel="noopener"><b>Sunny</b><div class="kind">the sun · Meadow</div><div class="tech">Radial rotation</div><p>Rays spin on a slow linear loop while the face pulses — steady rotation layered over a soft breath.</p><div class="go">MEET SUNNY ↗</div></a>
+      <a class="piece" href="ep06/poppet/nightfall.html" target="_blank" rel="noopener"><b>Luna</b><div class="kind">the moon · Nightfall</div><div class="tech">Glow pulse</div><p>A halo behind the crescent scales and fades in sync with the drift — light as an animated layer.</p><div class="go">MEET LUNA ↗</div></a>
+      <a class="piece" href="ep06/poppet/nightfall.html" target="_blank" rel="noopener"><b>Twinkle</b><div class="kind">the star · Nightfall</div><div class="tech">Scale twinkle</div><p>Rocks and swells on a single loop; three mini-stars twinkle on offset delays around it.</p><div class="go">MEET TWINKLE ↗</div></a>
+      <a class="piece" href="ep06/poppet/nightfall.html" target="_blank" rel="noopener"><b>Blush</b><div class="kind">the shy cat · Nightfall</div><div class="tech">Staggered blink</div><p>Ears twitch and eyes blink on different, rarely-firing loops so the face never feels robotic.</p><div class="go">MEET BLUSH ↗</div></a>
+      <a class="piece" href="ep06/poppet/nightfall.html" target="_blank" rel="noopener"><b>Kitty</b><div class="kind">the curious cat · Nightfall</div><div class="tech">Squash hop</div><p>Hops with a compress-then-stretch; the tail sways on its own hinge the whole time.</p><div class="go">MEET KITTY ↗</div></a>
+      <a class="piece" href="ep06/poppet/lagoon.html" target="_blank" rel="noopener"><b>Marina</b><div class="kind">the gentle whale · Lagoon</div><div class="tech">Buoyant float</div><p>Rocks with a paired translate-and-rotate; the spout shimmers and the fin flaps off-beat.</p><div class="go">MEET MARINA ↗</div></a>
+      <a class="piece" href="ep06/poppet/lagoon.html" target="_blank" rel="noopener"><b>Splash</b><div class="kind">the fish · Lagoon</div><div class="tech">Tail follow-through</div><p>Tail flicks fast against a slow swim; a tap sends it into a full barrel-roll cheer.</p><div class="go">MEET SPLASH ↗</div></a>
+      <a class="piece" href="ep06/poppet/lagoon.html" target="_blank" rel="noopener"><b>Cloudy</b><div class="kind">the rain cloud · Lagoon</div><div class="tech">Looping detail</div><p>Five raindrops fall forever on staggered delays — a self-contained loop that never needs a trigger.</p><div class="go">MEET CLOUDY ↗</div></a>
+    </div>
+  </section>
+
+  <!-- ══════════ THE TOOLKIT ══════════ -->
+  <section>
+    <div class="kicker">The Craft</div>
+    <h2>Eight habits that make an SVG <em>feel alive</em></h2>
+    <p class="lede">None of this is hard — it's a small set of disciplines, applied consistently. Give these to Claude Code as house rules and every new character comes out of the oven already breathing.</p>
+    <div class="kit">
+      <div class="note"><span class="n">01</span><b>Tokens before shapes</b><p>Define the palette as <code>:root</code> variables first, then draw against <code>--mint</code>, <code>--pink</code>, <code>--ink</code>. Restyling the whole cast becomes a token swap, not a redraw — which is exactly how a second, boldly-outlined set got folded into this one.</p></div>
+      <div class="note"><span class="n">02</span><b>SVG draws, CSS moves</b><p>Keep every shape in the SVG and every motion in a CSS <code>@keyframes</code>. They never fight, and you can retune the timing of a wave or a blink without touching a single path point.</p></div>
+      <div class="note"><span class="n">03</span><b>Mind the transform-origin</b><p>A wagging tail or flapping ear has to pivot where it joins the body. Set <code>transform-origin</code> in the SVG's own coordinate space — get it wrong and the part swings from the corner of the canvas.</p></div>
+      <div class="note"><span class="n">04</span><b>Layer idle over reaction</b><p>A slow infinite loop (bob, blink, sway) gives life at rest; a one-shot <code>.cheer</code> class gives a reward on tap. Re-trigger the one-shot with the <code>void el.offsetWidth</code> reflow so it can fire again and again.</p></div>
+      <div class="note"><span class="n">05</span><b>Stagger anything paired</b><p>Offset the <code>animation-delay</code> on the second eye, ear or wing by a fraction of a second. Perfect unison reads as mechanical; a few milliseconds of drift reads as alive.</p></div>
+      <div class="note"><span class="n">06</span><b>Blink like you mean it</b><p>Keep eyes open for 92–95% of the loop, then shut them in one fast keyframe. A blink you could set a metronome to is worse than no blink at all.</p></div>
+      <div class="note"><span class="n">07</span><b>Cheeks, glints &amp; a shadow</b><p>Three cheap tricks sell warmth: a pink cheek that pulses, a white highlight parked in each eye, and a ground-shadow that shrinks as the character rises. Together they cost a dozen lines and do half the work.</p></div>
+      <div class="note"><span class="n">08</span><b>One file, honour reduced-motion</b><p>Inline SVG in a single HTML file — no build, drops straight into an <code>&lt;iframe&gt;</code>. Then wrap the loops so one <code>prefers-reduced-motion</code> query can still them. Motion is a garnish, not the meal.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE RECOLOUR ══════════ -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>Two styles, <em>one palette</em></h2>
+    <div class="lineage">
+      <p>Poppet started as two unrelated sets: a soft pastel squad, and a <b>bold, black-outlined "block crew"</b> in loud saturated colours. Rather than redraw the second group, we treated colour as data — pulling the pastel set's swatches into <code style="font-size:12px;background:#fff;padding:1px 6px;border-radius:5px">:root</code> tokens, then asking Claude Code to remap the block crew's fills onto them and drop the heavy outlines for the pastel style's soft belly-shading and thin <b>#4A4458</b> ink features. Same shapes, same animations — a completely different, unified cast. That's the whole argument for tokens: <b>a coat of paint should never mean a rebuild.</b></p>
+      <div class="swatches">
+        <div class="sw" style="background:#BFE9D2" title="mint"></div>
+        <div class="sw" style="background:#FFC7DD" title="pink"></div>
+        <div class="sw" style="background:#FFB27A" title="peach"></div>
+        <div class="sw" style="background:#FFEDA8" title="yellow"></div>
+        <div class="sw" style="background:#9AD4E6" title="blue"></div>
+        <div class="sw" style="background:#E3D6F7" title="lavender"></div>
+        <div class="sw" style="background:#FFF6EA" title="cream"></div>
+        <div class="sw" style="background:#4A4458" title="ink"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div><b>Inline SVG</b><br><span>Every mascot hand-drawn as paths, ellipses and strokes</span></div><span class="free">NO ASSETS</span></div>
+      <div class="tool"><div><b>CSS Keyframes</b><br><span>All motion — idle loops, cheers, blinks, sparkle bursts</span></div><span class="free">BUILT-IN</span></div>
+      <div class="tool"><div><b>Claude Code</b><br><span>Drew the cast, recoloured the crew, composed the scenes</span></div><span class="free">AGENT</span></div>
+      <div class="tool"><div><b>A dash of JS</b><br><span>Ten lines: add the cheer class, spawn the confetti</span></div><span class="free">VANILLA</span></div>
+      <div class="tool"><div><b>Headless Edge</b><br><span>Rendered the scenes to PNG stills for the thumbnail</span></div><span class="free">NO EDITOR</span></div>
+      <a class="tool repo" href="https://github.com/adcunico/prompt-atelier/tree/main/ep06/poppet" target="_blank" rel="noopener"><div><b>The Source ↗</b><br><span>All three scenes + the fourteen mascots, readable</span></div><span class="free">GITHUB</span></a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 06 · CRAFTED WITH PROMPTS, FINISHED WITH TASTE</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+
+<script>
+  const HINTS = {
+    meadow:    '<b>tap</b> — the sun, the sprout, the fox, the bunny, the flower, the bee or the snail',
+    nightfall: '<b>tap</b> — the moon, the star, or either cat, and watch them cheer under the stars',
+    lagoon:    '<b>tap</b> — the whale breaches, the fish barrel-rolls, the cloud gives a shiver',
+  };
+  const frame = document.getElementById('sceneFrame');
+  const hint = document.getElementById('sceneHint');
+  const open = document.getElementById('sceneOpen');
+  document.getElementById('tabs').addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab');
+    if (!btn) return;
+    document.querySelectorAll('.tab').forEach((t) => t.classList.remove('on'));
+    btn.classList.add('on');
+    const scene = btn.dataset.scene;
+    frame.src = `ep06/poppet/${scene}.html`;
+    open.href = `ep06/poppet/${scene}.html`;
+    hint.innerHTML = HINTS[scene];
+  });
+</script>
+</body>
+</html>

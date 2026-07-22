@@ -1,0 +1,97 @@
+/* ============================================================
+   Prompt Atelier — shared responsive + accessibility layer
+   Loaded after each page's inline <style>, so equal-specificity
+   rules here win. Selectors are intentionally broad because the
+   pages share a class vocabulary (nav, .wm, .links, .hero, .meta…).
+   ============================================================ */
+
+/* ---- Never allow horizontal page scroll ---- */
+html, body { max-width: 100%; overflow-x: hidden; }
+
+/* ---- Keyboard focus visibility (all viewports) ---- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #C19A3D;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+/* don't show the ring for mouse clicks, only keyboard */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) { outline: none; }
+
+/* ---- Respect reduced-motion everywhere ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   TABLET  (≤ 900px)
+   ============================================================ */
+@media (max-width: 900px) {
+  h1 { font-size: clamp(38px, 6.4vw, 56px) !important; }
+  .hero h1 { font-size: clamp(40px, 7vw, 88px) !important; }
+}
+
+/* ============================================================
+   PHONE  (≤ 640px)
+   ============================================================ */
+@media (max-width: 640px) {
+  .wrap { padding-left: 22px !important; padding-right: 22px !important; }
+
+  /* ---- NAV: wordmark on row 1, links wrap to row 2 ---- */
+  nav { flex-wrap: wrap; row-gap: 12px; align-items: center; }
+  nav .wm { font-size: 21px; white-space: nowrap; }
+  nav .links { gap: 14px 18px; flex-wrap: wrap; row-gap: 10px; }
+  nav .links a { font-size: 11px; letter-spacing: 0.1em; padding: 3px 0; }
+  nav a { font-size: 11px; letter-spacing: 0.1em; }
+  nav .socials, nav .nav-soc { gap: 15px; margin-left: 2px; }
+  nav .socials svg, nav .nav-soc svg { height: 18px; }
+
+  /* ---- Headlines & lead copy ---- */
+  h1, .hero h1 { font-size: clamp(31px, 8.6vw, 46px) !important; line-height: 1.1 !important; }
+  .hero p.sub, .standfirst, .intro, .lede { font-size: 16px !important; }
+  h2 { font-size: clamp(27px, 7vw, 34px) !important; }
+
+  /* ---- Meta / name rows wrap without clipping ---- */
+  .meta { gap: 16px 24px !important; }
+  .name-row { flex-wrap: wrap; }
+  .name-row .rule { display: none; }
+
+  /* ---- Section rhythm tightens on phones ---- */
+  section { padding-top: 60px !important; padding-bottom: 56px !important; }
+
+  /* ---- Index manifesto scales down ---- */
+  .manifesto .line { font-size: 26px !important; }
+
+  /* ---- Decorative giant ghost glyphs off (they overflow) ---- */
+  .ghost, .pa-ghost { display: none !important; }
+
+  /* ---- Interactive embeds: shorter on phones ---- */
+  .frame iframe { height: 460px !important; }
+
+  /* ---- Case-study rail: one card ~full width ---- */
+  .cases .case { flex-basis: 84vw !important; }
+
+  /* ---- CTA rows stack full-width ---- */
+  .cta-row .btn, .contact-links .clink { flex: 1 1 auto; text-align: center; }
+
+  /* ---- About portrait: trim the frame padding ---- */
+  .portrait-wrap { padding: 8px; }
+  .mono-badge { width: 60px; height: 60px; font-size: 24px; }
+}
+
+/* ============================================================
+   SMALL PHONE  (≤ 380px) — squeeze the nav further
+   ============================================================ */
+@media (max-width: 380px) {
+  nav .links { gap: 12px 14px; }
+  nav .links a, nav a { font-size: 10.5px; letter-spacing: 0.06em; }
+  h1, .hero h1 { font-size: clamp(28px, 8.4vw, 40px) !important; }
+}

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poppet — The Meadow</title>
+<style>
+  :root{
+    --mint:#BFE9D2; --mint-dark:#9BD4B4; --grass:#A9E0C4; --grass-deep:#8FD3B1;
+    --pink:#FFC7DD; --pink-dark:#FF9EC3;
+    --peach:#FFD3A8; --peach-dark:#FFB27A;
+    --yellow:#FFEDA8; --yellow-dark:#F4D785;
+    --blue:#BFE9F5; --blue-dark:#9AD4E6;
+    --lav:#E3D6F7; --lav-dark:#C9B8E8;
+    --cream:#FFF6EA; --ink:#4A4458;
+    --bg-top:#FDF6F0; --bg-bottom:#F3E9FB;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{
+    height:100%; overflow:hidden;
+    background:radial-gradient(circle at 50% 12%, var(--bg-top), var(--bg-bottom));
+    font-family:'Segoe UI', system-ui, sans-serif;
+  }
+  .stage{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .scene{
+    position:relative;
+    width:min(100%, 980px);
+    height:min(100%, 620px);
+    margin:auto;
+  }
+
+  /* ---- ground hill ---- */
+  .hill{
+    position:absolute; left:-8%; right:-8%; bottom:-70px; height:280px;
+    background:radial-gradient(120% 90% at 50% 0%, var(--grass), var(--grass-deep));
+    border-radius:50% 50% 0 0 / 70px 70px 0 0;
+  }
+  .hill::after{
+    content:''; position:absolute; left:0; right:0; top:0; height:8px;
+    background:rgba(255,255,255,.35); border-radius:50%;
+  }
+
+  /* ---- floating decor ---- */
+  .float-dot{ position:absolute; border-radius:50%; opacity:.55; animation:drift 6s ease-in-out infinite; }
+  @keyframes drift{ 0%,100%{ transform:translateY(0) translateX(0);} 50%{ transform:translateY(-20px) translateX(8px);} }
+  .cloud{ position:absolute; background:#fff; border-radius:60px; opacity:.85; filter:blur(.3px); animation:cloud-pan 22s linear infinite; }
+  .cloud::before,.cloud::after{ content:''; position:absolute; background:#fff; border-radius:50%; }
+  @keyframes cloud-pan{ 0%{ transform:translateX(0);} 50%{ transform:translateX(30px);} 100%{ transform:translateX(0);} }
+
+  /* ---- character shell ---- */
+  .char-wrap{ position:absolute; cursor:pointer; user-select:none; }
+  .ground-shadow{ position:absolute; left:50%; transform:translateX(-50%); border-radius:50%;
+    background:rgba(120,110,140,.16); filter:blur(2px); animation:shadow-pulse 2.8s ease-in-out infinite; }
+  @keyframes shadow-pulse{ 0%,100%{ transform:translateX(-50%) scale(1); opacity:.85;} 50%{ transform:translateX(-50%) scale(.82); opacity:.5;} }
+
+  .sparkle-layer{ position:absolute; inset:-30px; pointer-events:none; }
+  .sparkle{ position:absolute; opacity:0; }
+  .sparkle.show{ animation:sparkle-fly .9s ease-out forwards; }
+  @keyframes sparkle-fly{
+    0%{ transform:translate(0,0) scale(.3) rotate(0deg); opacity:1; }
+    100%{ transform:translate(var(--dx), var(--dy)) scale(1) rotate(160deg); opacity:0; }
+  }
+
+  /* shared face motions */
+  @keyframes blink{ 0%,92%,100%{ transform:scaleY(1);} 95%{ transform:scaleY(.1);} }
+  .cheek{ animation:cheek-pulse 2.8s ease-in-out infinite; }
+  @keyframes cheek-pulse{ 0%,100%{ opacity:.55;} 50%{ opacity:.85;} }
+
+  /* ---------- SUNNY (sun) ---------- */
+  .sunny-rays{ transform-origin:100px 100px; animation:spin 16s linear infinite; }
+  @keyframes spin{ from{ transform:rotate(0);} to{ transform:rotate(360deg);} }
+  .sunny-face{ transform-origin:100px 100px; animation:sunny-pulse 2.6s ease-in-out infinite; }
+  @keyframes sunny-pulse{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.05);} }
+  .sunny-eye{ animation:blink 4.4s ease-in-out infinite; transform-origin:center; }
+  .sunny-wrap.cheer .sunny-face{ animation:sunny-cheer .8s ease-in-out 1; }
+  @keyframes sunny-cheer{ 0%{transform:scale(1) rotate(0);} 40%{transform:scale(1.22) rotate(14deg);} 70%{transform:scale(.96) rotate(-8deg);} 100%{transform:scale(1) rotate(0);} }
+
+  /* ---------- SPROUT ---------- */
+  .sprout-wrap{ animation:bob 2.8s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0) scaleY(1);} 45%{ transform:translateY(-13px) scaleY(1.02);} 58%{ transform:translateY(-2px) scaleY(.98);} }
+  .sprout-wrap.cheer{ animation:cheer-jump .75s cubic-bezier(.36,1.7,.4,1) 1; }
+  @keyframes cheer-jump{ 0%{transform:translateY(0) scaleY(1);} 25%{transform:translateY(4px) scaleY(.85) scaleX(1.08);} 55%{transform:translateY(-64px) scaleY(1.12) scaleX(.95);} 80%{transform:translateY(0) scaleY(.9) scaleX(1.06);} 100%{transform:translateY(0) scaleY(1) scaleX(1);} }
+  .leaf{ transform-origin:70px 40px; animation:leaf-wiggle 3.2s ease-in-out infinite; }
+  @keyframes leaf-wiggle{ 0%,100%{ transform:rotate(-6deg);} 50%{ transform:rotate(8deg);} }
+  .sprout-eye{ animation:blink 4.6s ease-in-out infinite; transform-origin:center; }
+  .arm-right{ transform-origin:170px 215px; animation:wave 1.9s ease-in-out infinite; }
+  @keyframes wave{ 0%,100%{transform:rotate(0);} 20%{transform:rotate(-18deg);} 35%{transform:rotate(6deg);} 50%{transform:rotate(-14deg);} 65%{transform:rotate(4deg);} 80%{transform:rotate(0);} }
+  .arm-left{ transform-origin:90px 215px; animation:sway-left 2.8s ease-in-out infinite; }
+  @keyframes sway-left{ 0%,100%{transform:rotate(0);} 50%{transform:rotate(-6deg);} }
+
+  /* ---------- ZIGGY (fox) ---------- */
+  .ziggy-wrap{ animation:ziggy-bounce 1.9s ease-in-out infinite; }
+  @keyframes ziggy-bounce{ 0%,100%{transform:translateY(0) scaleY(1);} 30%{transform:translateY(-18px) scaleY(1.03);} 50%{transform:translateY(0) scaleY(.95);} 70%{transform:translateY(-5px) scaleY(1.01);} }
+  .ziggy-wrap.cheer{ animation:ziggy-dash .7s ease-in-out 1; }
+  @keyframes ziggy-dash{ 0%{transform:translateX(0) rotate(0);} 25%{transform:translateX(-14px) rotate(-8deg);} 55%{transform:translateX(16px) rotate(10deg);} 80%{transform:translateX(-5px) rotate(-4deg);} 100%{transform:translateX(0) rotate(0);} }
+  .fox-tail{ transform-origin:172px 210px; animation:tail-wag .9s ease-in-out infinite; }
+  @keyframes tail-wag{ 0%,100%{transform:rotate(-8deg);} 50%{transform:rotate(10deg);} }
+  .fox-ear-l{ transform-origin:95px 55px; animation:perk 2.4s ease-in-out infinite; }
+  .fox-ear-r{ transform-origin:150px 55px; animation:perk 2.4s ease-in-out infinite .3s; }
+  @keyframes perk{ 0%,100%{transform:rotate(0);} 50%{transform:rotate(4deg);} }
+  .ziggy-eye{ animation:blink 4.4s ease-in-out infinite; transform-origin:center; }
+
+  /* ---------- HOPPER (bunny) ---------- */
+  .hopper-wrap{ animation:hopper-idle 2.2s ease-in-out infinite; }
+  @keyframes hopper-idle{ 0%,100%{transform:translateY(0) scaleY(1);} 50%{transform:translateY(-6px) scaleY(1.02);} }
+  .hopper-wrap.cheer{ animation:hopper-jump .8s ease-in-out 1; }
+  @keyframes hopper-jump{ 0%{transform:translateY(0) scaleY(1);} 30%{transform:translateY(6px) scaleY(.82);} 60%{transform:translateY(-40px) scaleY(1.1);} 100%{transform:translateY(0) scaleY(1);} }
+  .hopper-ear-l{ transform-origin:85px 60px; animation:ear-flop 2.8s ease-in-out infinite; }
+  .hopper-ear-r{ transform-origin:120px 58px; animation:ear-flop 2.8s ease-in-out infinite .3s; }
+  @keyframes ear-flop{ 0%,100%{transform:rotate(0);} 50%{transform:rotate(6deg);} }
+  .hopper-eye{ animation:blink 4.4s ease-in-out infinite; transform-origin:center; }
+  .hopper-nose{ animation:nose-twitch 1.6s ease-in-out infinite; transform-origin:center; }
+  @keyframes nose-twitch{ 0%,80%,100%{transform:scale(1);} 90%{transform:scale(1.3);} }
+
+  /* ---------- BLOOM (flower) ---------- */
+  .bloom-wrap{ animation:bloom-sway 3.2s ease-in-out infinite; transform-origin:bottom center; }
+  @keyframes bloom-sway{ 0%,100%{transform:rotate(-4deg);} 50%{transform:rotate(4deg);} }
+  .bloom-wrap.cheer{ animation:bloom-cheer .9s ease-in-out 1; }
+  @keyframes bloom-cheer{ 0%{transform:rotate(0) scale(1);} 40%{transform:rotate(-12deg) scale(1.1);} 70%{transform:rotate(10deg) scale(1.05);} 100%{transform:rotate(0) scale(1);} }
+  .petal-ring{ transform-origin:110px 95px; animation:petal-breathe 2.6s ease-in-out infinite; }
+  @keyframes petal-breathe{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.04);} }
+  .bloom-eye{ animation:blink 4.8s ease-in-out infinite; transform-origin:center; }
+
+  /* ---------- SHELLY (snail) ---------- */
+  .shelly-wrap{ animation:shelly-glide 3s ease-in-out infinite; }
+  @keyframes shelly-glide{ 0%,100%{transform:translateX(0);} 50%{transform:translateX(7px);} }
+  .shelly-wrap.cheer{ animation:shelly-dash .9s ease-in-out 1; }
+  @keyframes shelly-dash{ 0%{transform:translateX(0) rotate(0);} 30%{transform:translateX(-12px) rotate(-4deg);} 60%{transform:translateX(18px) rotate(4deg);} 100%{transform:translateX(0) rotate(0);} }
+  .shell-spiral{ transform-origin:105px 95px; animation:shell-breathe 3s ease-in-out infinite; }
+  @keyframes shell-breathe{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.04);} }
+  .antenna-l{ transform-origin:150px 90px; animation:antenna-wiggle 2s ease-in-out infinite; }
+  .antenna-r{ transform-origin:163px 88px; animation:antenna-wiggle 2s ease-in-out infinite .3s; }
+  @keyframes antenna-wiggle{ 0%,100%{transform:rotate(-6deg);} 50%{transform:rotate(6deg);} }
+  .shelly-eye{ animation:blink 4.8s ease-in-out infinite; transform-origin:center; }
+
+  /* ---------- BUZZ (bee) ---------- */
+  .buzz-wrap{ animation:hover-fly 2.4s ease-in-out infinite; }
+  @keyframes hover-fly{ 0%,100%{transform:translateY(0) translateX(0);} 25%{transform:translateY(-10px) translateX(4px);} 50%{transform:translateY(-16px) translateX(0);} 75%{transform:translateY(-8px) translateX(-4px);} }
+  .buzz-wrap.cheer{ animation:buzz-loop .9s ease-in-out 1; }
+  @keyframes buzz-loop{ 0%{transform:translate(0,0) rotate(0);} 25%{transform:translate(26px,-26px) rotate(90deg);} 50%{transform:translate(0,-48px) rotate(180deg);} 75%{transform:translate(-26px,-26px) rotate(270deg);} 100%{transform:translate(0,0) rotate(360deg);} }
+  .wing-l{ transform-origin:104px 130px; animation:wing-flutter .18s ease-in-out infinite; }
+  .wing-r{ transform-origin:156px 130px; animation:wing-flutter .18s ease-in-out infinite .05s; }
+  @keyframes wing-flutter{ 0%,100%{transform:rotate(-12deg) scaleY(1);} 50%{transform:rotate(8deg) scaleY(.9);} }
+  .antenna{ transform-origin:130px 65px; animation:antenna-sway 2.4s ease-in-out infinite; }
+  @keyframes antenna-sway{ 0%,100%{transform:rotate(-4deg);} 50%{transform:rotate(4deg);} }
+  .buzz-eye{ animation:blink 4.8s ease-in-out infinite; transform-origin:center; }
+
+  .caption{ position:absolute; bottom:12px; left:50%; transform:translateX(-50%); font-size:13px;
+    color:var(--ink); opacity:.5; letter-spacing:.03em; white-space:nowrap; }
+</style>
+</head>
+<body>
+
+<div class="stage">
+<div class="scene">
+
+  <!-- decor -->
+  <div class="cloud" style="width:70px;height:26px;top:60px;left:300px;"></div>
+  <div class="cloud" style="width:54px;height:20px;top:110px;left:560px;animation-delay:-6s;"></div>
+  <div class="float-dot" style="width:12px;height:12px;background:var(--yellow);left:220px;top:150px;animation-duration:5.4s;"></div>
+  <div class="float-dot" style="width:9px;height:9px;background:var(--pink);left:700px;top:90px;animation-duration:6.2s;animation-delay:.6s;"></div>
+  <div class="float-dot" style="width:8px;height:8px;background:var(--peach);left:470px;top:200px;animation-duration:4.8s;animation-delay:1.1s;"></div>
+
+  <div class="hill"></div>
+
+  <!-- ══ SUNNY ══ -->
+  <div class="char-wrap sunny-wrap" id="sunny" style="left:34px;top:20px;width:150px;">
+    <svg viewBox="0 0 200 200" width="150" height="150">
+      <g class="sunny-rays"><g stroke="var(--peach-dark)" stroke-width="6" stroke-linecap="round">
+        <line x1="100" y1="10" x2="100" y2="28"/><line x1="100" y1="172" x2="100" y2="190"/>
+        <line x1="10" y1="100" x2="28" y2="100"/><line x1="172" y1="100" x2="190" y2="100"/>
+        <line x1="34" y1="34" x2="47" y2="47"/><line x1="153" y1="153" x2="166" y2="166"/>
+        <line x1="34" y1="166" x2="47" y2="153"/><line x1="153" y1="47" x2="166" y2="34"/>
+        <line x1="66" y1="16" x2="73" y2="32"/><line x1="127" y1="168" x2="134" y2="184"/>
+        <line x1="16" y1="66" x2="32" y2="73"/><line x1="168" y1="127" x2="184" y2="134"/>
+        <line x1="134" y1="16" x2="127" y2="32"/><line x1="73" y1="168" x2="66" y2="184"/>
+        <line x1="16" y1="134" x2="32" y2="127"/><line x1="184" y1="66" x2="168" y2="73"/>
+      </g></g>
+      <g class="sunny-face">
+        <circle cx="100" cy="100" r="52" fill="var(--yellow)"/>
+        <circle cx="100" cy="100" r="52" fill="none" stroke="var(--yellow-dark)" stroke-width="3"/>
+        <ellipse class="cheek" cx="76" cy="106" rx="9" ry="6" fill="var(--pink-dark)"/>
+        <ellipse class="cheek" cx="124" cy="106" rx="9" ry="6" fill="var(--pink-dark)"/>
+        <g class="sunny-eye"><ellipse cx="82" cy="92" rx="4.5" ry="6.5" fill="var(--ink)"/></g>
+        <g class="sunny-eye"><ellipse cx="118" cy="92" rx="4.5" ry="6.5" fill="var(--ink)"/></g>
+        <path d="M84 112 Q100 126 116 112" stroke="var(--ink)" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-sunny"></div>
+  </div>
+
+  <!-- ══ BUZZ ══ -->
+  <div class="char-wrap buzz-wrap" id="buzz" style="left:800px;top:56px;width:120px;">
+    <svg viewBox="0 0 260 300" width="120" height="138">
+      <ellipse class="wing-l" cx="88" cy="120" rx="30" ry="18" fill="var(--lav)" opacity=".85"/>
+      <ellipse class="wing-r" cx="172" cy="120" rx="30" ry="18" fill="var(--lav)" opacity=".85"/>
+      <g class="antenna">
+        <line x1="115" y1="70" x2="105" y2="40" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="104" cy="36" r="5" fill="var(--yellow)"/>
+      </g>
+      <g class="antenna">
+        <line x1="145" y1="70" x2="155" y2="40" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="156" cy="36" r="5" fill="var(--yellow)"/>
+      </g>
+      <ellipse cx="130" cy="175" rx="70" ry="80" fill="var(--yellow)"/>
+      <path d="M62 150 Q130 165 198 150 Q130 178 62 150Z" fill="var(--peach-dark)" opacity=".7"/>
+      <path d="M65 205 Q130 220 195 205 Q130 232 65 205Z" fill="var(--peach-dark)" opacity=".7"/>
+      <ellipse class="cheek" cx="92" cy="168" rx="10" ry="7" fill="var(--pink-dark)"/>
+      <ellipse class="cheek" cx="168" cy="168" rx="10" ry="7" fill="var(--pink-dark)"/>
+      <g class="buzz-eye"><ellipse cx="110" cy="150" rx="11" ry="14" fill="white"/><circle cx="113" cy="153" r="6" fill="var(--ink)"/><circle cx="116" cy="149" r="2" fill="#fff"/></g>
+      <g class="buzz-eye"><ellipse cx="150" cy="150" rx="11" ry="14" fill="white"/><circle cx="153" cy="153" r="6" fill="var(--ink)"/><circle cx="156" cy="149" r="2" fill="#fff"/></g>
+      <path d="M116 185 Q130 195 144 185" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-buzz"></div>
+  </div>
+
+  <!-- ══ ZIGGY (fox) ══ -->
+  <div class="ground-shadow" style="left:150px;bottom:66px;width:120px;height:18px;"></div>
+  <div class="char-wrap ziggy-wrap" id="ziggy" style="left:64px;bottom:74px;width:172px;">
+    <svg viewBox="0 0 260 300" width="172" height="198">
+      <path class="fox-tail" d="M172 210 C215 200 230 155 205 130 C220 165 195 190 168 195 Z" fill="var(--peach)"/>
+      <path d="M205 130 C215 145 212 160 200 168 Z" fill="var(--cream)"/>
+      <path class="fox-ear-l" d="M95 60 L75 15 L112 48 Z" fill="var(--peach-dark)"/>
+      <path class="fox-ear-r" d="M150 48 L178 12 L165 60 Z" fill="var(--peach-dark)"/>
+      <path d="M97 55 L86 28 L106 47 Z" fill="var(--pink-dark)" opacity=".5"/>
+      <path d="M154 52 L170 26 L160 55 Z" fill="var(--pink-dark)" opacity=".5"/>
+      <path d="M130 55 C185 55 210 105 205 165 C200 225 170 260 130 260 C90 260 60 225 55 165 C50 105 75 55 130 55 Z" fill="var(--peach-dark)"/>
+      <ellipse cx="130" cy="180" rx="46" ry="55" fill="var(--cream)"/>
+      <ellipse class="cheek" cx="90" cy="160" rx="11" ry="7" fill="var(--pink-dark)"/>
+      <ellipse class="cheek" cx="170" cy="160" rx="11" ry="7" fill="var(--pink-dark)"/>
+      <g class="ziggy-eye"><ellipse cx="108" cy="135" rx="11" ry="14" fill="white"/><circle cx="111" cy="138" r="6" fill="var(--ink)"/><circle cx="114" cy="134" r="2" fill="#fff"/></g>
+      <g class="ziggy-eye"><ellipse cx="152" cy="135" rx="11" ry="14" fill="white"/><circle cx="155" cy="138" r="6" fill="var(--ink)"/><circle cx="158" cy="134" r="2" fill="#fff"/></g>
+      <ellipse cx="130" cy="168" rx="20" ry="14" fill="var(--cream)"/>
+      <ellipse cx="130" cy="163" rx="6" ry="4" fill="var(--ink)"/>
+      <path d="M130 167 Q122 177 112 172 M130 167 Q138 177 148 172" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <ellipse cx="105" cy="252" rx="17" ry="10" fill="var(--peach-dark)"/>
+      <ellipse cx="155" cy="252" rx="17" ry="10" fill="var(--peach-dark)"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-ziggy"></div>
+  </div>
+
+  <!-- ══ SPROUT ══ -->
+  <div class="ground-shadow" style="left:355px;bottom:58px;width:130px;height:20px;"></div>
+  <div class="char-wrap sprout-wrap" id="sprout" style="left:266px;bottom:64px;width:190px;">
+    <svg viewBox="0 0 260 320" width="190" height="234">
+      <g class="arm-left">
+        <ellipse cx="90" cy="215" rx="20" ry="34" fill="var(--mint-dark)"/>
+        <circle cx="86" cy="244" r="14" fill="var(--mint-dark)"/>
+      </g>
+      <path d="M130 60 C185 60 215 105 215 165 C215 225 185 268 130 268 C75 268 45 225 45 165 C45 105 75 60 130 60 Z" fill="var(--mint)"/>
+      <ellipse cx="130" cy="185" rx="52" ry="48" fill="#EAFBF1"/>
+      <ellipse class="cheek" cx="86" cy="175" rx="14" ry="9" fill="var(--pink-dark)"/>
+      <ellipse class="cheek" cx="174" cy="175" rx="14" ry="9" fill="var(--pink-dark)"/>
+      <g class="sprout-eye"><ellipse cx="106" cy="150" rx="15" ry="18" fill="white"/><circle cx="109" cy="153" r="8" fill="var(--ink)"/><circle cx="112" cy="149" r="2.6" fill="#fff"/></g>
+      <g class="sprout-eye"><ellipse cx="154" cy="150" rx="15" ry="18" fill="white"/><circle cx="157" cy="153" r="8" fill="var(--ink)"/><circle cx="160" cy="149" r="2.6" fill="#fff"/></g>
+      <path d="M114 190 Q130 205 146 190" stroke="var(--ink)" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g class="leaf">
+        <path d="M130 62 C110 40 78 42 66 20 C96 14 128 24 132 55 Z" fill="var(--pink)"/>
+        <path d="M130 62 C150 36 182 34 196 10 C164 6 132 20 126 52 Z" fill="var(--yellow)"/>
+        <rect x="126" y="52" width="8" height="16" rx="4" fill="var(--peach)"/>
+      </g>
+      <g class="arm-right">
+        <ellipse cx="170" cy="215" rx="20" ry="34" fill="var(--mint)"/>
+        <circle cx="176" cy="244" r="14" fill="var(--mint)"/>
+      </g>
+      <ellipse cx="105" cy="270" rx="18" ry="10" fill="var(--peach)"/>
+      <ellipse cx="155" cy="270" rx="18" ry="10" fill="var(--peach)"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-sprout"></div>
+  </div>
+
+  <!-- ══ HOPPER (bunny) ══ -->
+  <div class="ground-shadow" style="left:540px;bottom:62px;width:110px;height:17px;"></div>
+  <div class="char-wrap hopper-wrap" id="hopper" style="left:470px;bottom:70px;width:150px;">
+    <svg viewBox="0 0 200 220" width="150" height="165">
+      <path class="hopper-ear-l" d="M78 60 C70 20 78 5 88 8 C95 25 92 50 95 65 Z" fill="var(--cream)"/>
+      <path class="hopper-ear-r" d="M112 58 C108 18 116 3 126 8 C130 26 122 50 122 65 Z" fill="var(--cream)"/>
+      <path d="M83 55 C78 28 82 18 88 18 C92 30 90 46 90 58 Z" fill="var(--pink)" opacity=".8"/>
+      <path d="M116 54 C113 26 118 16 122 17 C125 30 121 46 120 56 Z" fill="var(--pink)" opacity=".8"/>
+      <ellipse cx="100" cy="165" rx="55" ry="45" fill="var(--cream)"/>
+      <circle cx="100" cy="105" r="48" fill="var(--cream)"/>
+      <ellipse class="cheek" cx="72" cy="115" rx="9" ry="6" fill="var(--pink-dark)"/>
+      <ellipse class="cheek" cx="128" cy="115" rx="9" ry="6" fill="var(--pink-dark)"/>
+      <g class="hopper-eye"><ellipse cx="80" cy="100" rx="6" ry="8" fill="var(--ink)"/><circle cx="82" cy="97" r="1.8" fill="#fff"/></g>
+      <g class="hopper-eye"><ellipse cx="120" cy="100" rx="6" ry="8" fill="var(--ink)"/><circle cx="122" cy="97" r="1.8" fill="#fff"/></g>
+      <ellipse class="hopper-nose" cx="100" cy="115" rx="5" ry="3.5" fill="var(--pink-dark)"/>
+      <path d="M100 118 Q92 126 82 120 M100 118 Q108 126 118 120" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-hopper"></div>
+  </div>
+
+  <!-- ══ BLOOM (flower) ══ -->
+  <div class="ground-shadow" style="left:715px;bottom:56px;width:100px;height:16px;"></div>
+  <div class="char-wrap bloom-wrap" id="bloom" style="left:648px;bottom:60px;width:150px;">
+    <svg viewBox="0 0 220 240" width="150" height="164">
+      <path d="M110 160 L110 225" stroke="var(--mint-dark)" stroke-width="8" stroke-linecap="round"/>
+      <path d="M110 195 C95 195 88 205 90 215" stroke="var(--mint-dark)" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <ellipse cx="88" cy="217" rx="12" ry="7" fill="var(--mint)" transform="rotate(-20 88 217)"/>
+      <g class="petal-ring">
+        <ellipse cx="110" cy="55" rx="20" ry="28" fill="var(--pink)"/>
+        <ellipse cx="110" cy="135" rx="20" ry="28" fill="var(--pink)"/>
+        <ellipse cx="70" cy="95" rx="28" ry="20" fill="var(--pink)"/>
+        <ellipse cx="150" cy="95" rx="28" ry="20" fill="var(--pink)"/>
+        <ellipse cx="78" cy="65" rx="22" ry="18" fill="var(--pink)" transform="rotate(-35 78 65)"/>
+        <ellipse cx="142" cy="65" rx="22" ry="18" fill="var(--pink)" transform="rotate(35 142 65)"/>
+        <ellipse cx="78" cy="125" rx="22" ry="18" fill="var(--pink)" transform="rotate(35 78 125)"/>
+        <ellipse cx="142" cy="125" rx="22" ry="18" fill="var(--pink)" transform="rotate(-35 142 125)"/>
+      </g>
+      <circle cx="110" cy="95" r="34" fill="var(--yellow)"/>
+      <ellipse class="cheek" cx="92" cy="100" rx="7" ry="5" fill="var(--pink-dark)"/>
+      <ellipse class="cheek" cx="128" cy="100" rx="7" ry="5" fill="var(--pink-dark)"/>
+      <g class="bloom-eye"><ellipse cx="98" cy="90" rx="4" ry="6" fill="var(--ink)"/></g>
+      <g class="bloom-eye"><ellipse cx="122" cy="90" rx="4" ry="6" fill="var(--ink)"/></g>
+      <path d="M98 106 Q110 116 122 106" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-bloom"></div>
+  </div>
+
+  <!-- ══ SHELLY (snail) ══ -->
+  <div class="ground-shadow" style="left:865px;bottom:50px;width:120px;height:15px;"></div>
+  <div class="char-wrap shelly-wrap" id="shelly" style="left:788px;bottom:56px;width:170px;">
+    <svg viewBox="0 0 220 200" width="170" height="155">
+      <path d="M15 150 C15 130 45 120 90 120 C140 120 165 130 175 145 C180 152 176 162 165 163 L25 163 C17 163 15 157 15 150 Z" fill="var(--cream)"/>
+      <line class="antenna-l" x1="150" y1="95" x2="158" y2="70" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+      <line class="antenna-r" x1="163" y1="93" x2="176" y2="70" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="158" cy="68" r="4" fill="var(--ink)"/>
+      <circle cx="176" cy="68" r="4" fill="var(--ink)"/>
+      <g class="shell-spiral">
+        <circle cx="105" cy="95" r="62" fill="var(--mint)"/>
+        <path d="M144 95 A39 39 0 1 0 105 134" fill="none" stroke="var(--mint-dark)" stroke-width="8" stroke-linecap="round"/>
+        <path d="M132 95 A27 27 0 1 0 105 122" fill="none" stroke="var(--mint-dark)" stroke-width="8" stroke-linecap="round"/>
+        <path d="M120 95 A15 15 0 1 0 105 110" fill="none" stroke="var(--mint-dark)" stroke-width="8" stroke-linecap="round"/>
+      </g>
+      <g class="shelly-eye"><path d="M158 118 Q163 112 168 118" stroke="var(--ink)" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+      <g class="shelly-eye"><path d="M172 118 Q177 112 182 118" stroke="var(--ink)" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+      <ellipse class="cheek" cx="163" cy="132" rx="5.5" ry="3.5" fill="var(--pink-dark)"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-shelly"></div>
+  </div>
+
+  <div class="caption">The Meadow — tap anyone to cheer</div>
+
+</div>
+</div>
+
+<script>
+  const colorSets = {
+    sunny:  ['#FFEDA8','#FFB27A','#FFC7DD'],
+    buzz:   ['#FFEDA8','#FFB27A','#FFC7DD'],
+    ziggy:  ['#FFD3A8','#FFEDA8','#FFC7DD'],
+    sprout: ['#BFE9D2','#FFC7DD','#FFEDA8'],
+    hopper: ['#FFF6EA','#FFC7DD','#E3D6F7'],
+    bloom:  ['#FFC7DD','#FFEDA8','#BFE9D2'],
+    shelly: ['#BFE9D2','#9BD4B4','#FFC7DD']
+  };
+  Object.keys(colorSets).forEach(id => {
+    const el = document.getElementById(id);
+    const layer = document.getElementById('sparkle-' + id);
+    if (!el) return;
+    el.addEventListener('click', () => {
+      el.classList.remove('cheer'); void el.offsetWidth; el.classList.add('cheer');
+      burst(layer, colorSets[id]);
+    });
+  });
+  function burst(layer, colors){
+    const w = layer.offsetWidth, h = layer.offsetHeight;
+    for(let i=0;i<10;i++){
+      const s = document.createElement('div');
+      s.className = 'sparkle show';
+      const size = 6 + Math.random()*6;
+      s.style.width = size+'px'; s.style.height = size+'px';
+      s.style.left = (w*0.5 + (Math.random()-0.5)*60)+'px';
+      s.style.top  = (h*0.45 + (Math.random()-0.5)*60)+'px';
+      s.style.background = colors[Math.floor(Math.random()*colors.length)];
+      s.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+      s.style.setProperty('--dx', ((Math.random()-0.5)*170)+'px');
+      s.style.setProperty('--dy', (-60 - Math.random()*100)+'px');
+      layer.appendChild(s);
+      s.addEventListener('animationend', () => s.remove());
+    }
+  }
+</script>
+</body>
+</html>

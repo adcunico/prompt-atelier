@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poppet — Nightfall</title>
+<style>
+  :root{
+    --mint:#BFE9D2; --mint-dark:#9BD4B4;
+    --pink:#FFC7DD; --pink-dark:#FF9EC3; --pink-soft:#FFF3F8;
+    --peach:#FFD3A8; --peach-dark:#FFB27A;
+    --yellow:#FFEDA8; --yellow-dark:#F4D785; --moon:#FBF1D0;
+    --lav:#E3D6F7; --lav-dark:#C9B8E8; --lav-deep:#B4A2DC;
+    --cream:#FFF6EA; --ink:#4A4458;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{
+    height:100%; overflow:hidden;
+    background:radial-gradient(120% 90% at 50% 8%, #F0E8FA 0%, #DCCFF0 45%, #C3B2E4 100%);
+    font-family:'Segoe UI', system-ui, sans-serif;
+  }
+  .stage{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+  .scene{ position:relative; width:min(100%,980px); height:min(100%,620px); margin:auto; }
+
+  .hill{ position:absolute; left:-8%; right:-8%; bottom:-80px; height:260px;
+    background:radial-gradient(120% 90% at 50% 0%, #B9A8DE, #A896D4);
+    border-radius:50% 50% 0 0 / 60px 60px 0 0; }
+  .hill::after{ content:''; position:absolute; left:0; right:0; top:0; height:7px; background:rgba(255,255,255,.28); border-radius:50%; }
+
+  /* twinkling background stars */
+  .star-dot{ position:absolute; border-radius:50%; background:#fff; animation:twinkle-op 2.4s ease-in-out infinite; }
+  @keyframes twinkle-op{ 0%,100%{ opacity:.3; transform:scale(.7);} 50%{ opacity:1; transform:scale(1);} }
+
+  .char-wrap{ position:absolute; cursor:pointer; user-select:none; }
+  .ground-shadow{ position:absolute; left:50%; transform:translateX(-50%); border-radius:50%;
+    background:rgba(70,60,90,.18); filter:blur(2px); animation:shadow-pulse 3s ease-in-out infinite; }
+  @keyframes shadow-pulse{ 0%,100%{ transform:translateX(-50%) scale(1); opacity:.8;} 50%{ transform:translateX(-50%) scale(.84); opacity:.5;} }
+
+  .sparkle-layer{ position:absolute; inset:-30px; pointer-events:none; }
+  .sparkle{ position:absolute; opacity:0; }
+  .sparkle.show{ animation:sparkle-fly .9s ease-out forwards; }
+  @keyframes sparkle-fly{ 0%{ transform:translate(0,0) scale(.3) rotate(0); opacity:1; } 100%{ transform:translate(var(--dx),var(--dy)) scale(1) rotate(160deg); opacity:0; } }
+
+  @keyframes blink{ 0%,92%,100%{ transform:scaleY(1);} 95%{ transform:scaleY(.1);} }
+  @keyframes sleepy-blink{ 0%,60%,100%{ transform:scaleY(1);} 80%{ transform:scaleY(.15);} }
+  .cheek{ animation:cheek-pulse 2.8s ease-in-out infinite; }
+  @keyframes cheek-pulse{ 0%,100%{ opacity:.55;} 50%{ opacity:.85;} }
+  .mini-star{ animation:mini-twinkle 2s ease-in-out infinite; transform-origin:center; }
+  @keyframes mini-twinkle{ 0%,100%{ opacity:.3; transform:scale(.7);} 50%{ opacity:1; transform:scale(1);} }
+
+  /* ---------- LUNA (moon) ---------- */
+  .luna-wrap{ animation:luna-drift 4s ease-in-out infinite; }
+  @keyframes luna-drift{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-12px);} }
+  .luna-wrap.cheer{ animation:luna-cheer .9s ease-in-out 1; }
+  @keyframes luna-cheer{ 0%{transform:translateY(0) rotate(0);} 30%{transform:translateY(-10px) rotate(-10deg);} 60%{transform:translateY(-30px) rotate(10deg);} 100%{transform:translateY(0) rotate(0);} }
+  .luna-glow{ animation:glow-pulse 3.4s ease-in-out infinite; transform-origin:center; }
+  @keyframes glow-pulse{ 0%,100%{ opacity:.5; transform:scale(1);} 50%{ opacity:.8; transform:scale(1.06);} }
+  .luna-eye{ animation:sleepy-blink 3.4s ease-in-out infinite; transform-origin:center; }
+
+  /* ---------- TWINKLE (star) ---------- */
+  .twinkle-wrap{ animation:twinkle-spin 6s ease-in-out infinite; }
+  @keyframes twinkle-spin{ 0%,100%{ transform:rotate(-6deg) scale(1);} 50%{ transform:rotate(6deg) scale(1.05);} }
+  .twinkle-wrap.cheer{ animation:twinkle-cheer .9s ease-in-out 1; }
+  @keyframes twinkle-cheer{ 0%{transform:rotate(0) scale(1);} 50%{transform:rotate(180deg) scale(1.3);} 100%{transform:rotate(360deg) scale(1);} }
+  .twinkle-eye{ animation:blink 4.6s ease-in-out infinite; transform-origin:center; }
+
+  /* ---------- BLUSH (cat) ---------- */
+  .blush-wrap{ animation:bob 2.8s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-9px);} }
+  .blush-wrap.cheer{ animation:cat-spin .8s ease-in-out 1; }
+  @keyframes cat-spin{ 0%{transform:translateY(0) rotate(0) scale(1);} 40%{transform:translateY(-28px) rotate(180deg) scale(1.08);} 100%{transform:translateY(0) rotate(360deg) scale(1);} }
+  .ear-l{ transform-origin:78px 60px; animation:ear-twitch 3.4s ease-in-out infinite; }
+  .ear-r{ transform-origin:150px 60px; animation:ear-twitch 3.4s ease-in-out infinite .4s; }
+  @keyframes ear-twitch{ 0%,85%,100%{ transform:rotate(0);} 90%{ transform:rotate(-10deg);} }
+  .blush-eye{ animation:blink 5s ease-in-out infinite; transform-origin:center; }
+  .cat-tail{ transform-origin:180px 230px; animation:tail-sway 3s ease-in-out infinite; }
+  @keyframes tail-sway{ 0%,100%{ transform:rotate(0);} 50%{ transform:rotate(10deg);} }
+
+  /* ---------- KITTY (cat) ---------- */
+  .kitty-wrap{ animation:kitty-bob 2.4s ease-in-out infinite; }
+  @keyframes kitty-bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-8px);} }
+  .kitty-wrap.cheer{ animation:kitty-hop .8s ease-in-out 1; }
+  @keyframes kitty-hop{ 0%{transform:translateY(0) scaleY(1);} 30%{transform:translateY(4px) scaleY(.88);} 60%{transform:translateY(-30px) scaleY(1.08);} 100%{transform:translateY(0) scaleY(1);} }
+  .kitty-tail{ transform-origin:158px 145px; animation:kitty-tail-sway 2.8s ease-in-out infinite; }
+  @keyframes kitty-tail-sway{ 0%,100%{ transform:rotate(0);} 50%{ transform:rotate(10deg);} }
+  .kitty-eye{ animation:blink 5s ease-in-out infinite; transform-origin:center; }
+  .kitty-ear-l{ transform-origin:78px 60px; animation:ear-twitch 3.6s ease-in-out infinite; }
+  .kitty-ear-r{ transform-origin:130px 55px; animation:ear-twitch 3.6s ease-in-out infinite .5s; }
+
+  .caption{ position:absolute; bottom:12px; left:50%; transform:translateX(-50%); font-size:13px;
+    color:#4A4458; opacity:.5; letter-spacing:.03em; white-space:nowrap; }
+</style>
+</head>
+<body>
+
+<div class="stage">
+<div class="scene">
+
+  <div class="star-dot" style="width:4px;height:4px;left:120px;top:60px;"></div>
+  <div class="star-dot" style="width:3px;height:3px;left:260px;top:110px;animation-delay:.6s;"></div>
+  <div class="star-dot" style="width:5px;height:5px;left:520px;top:70px;animation-delay:1.1s;"></div>
+  <div class="star-dot" style="width:3px;height:3px;left:640px;top:150px;animation-delay:.3s;"></div>
+  <div class="star-dot" style="width:4px;height:4px;left:760px;top:90px;animation-delay:1.4s;"></div>
+  <div class="star-dot" style="width:3px;height:3px;left:380px;top:200px;animation-delay:.9s;"></div>
+  <div class="star-dot" style="width:4px;height:4px;left:880px;top:180px;animation-delay:1.7s;"></div>
+
+  <div class="hill"></div>
+
+  <!-- ══ LUNA (moon) ══ -->
+  <div class="char-wrap luna-wrap" id="luna" style="left:120px;top:36px;width:180px;">
+    <svg viewBox="0 0 200 200" width="180" height="180">
+      <circle class="luna-glow" cx="105" cy="102" r="78" fill="#FBF1D0" opacity=".55"/>
+      <path d="M130 30 C90 30 60 62 60 102 C60 142 90 174 130 174 C144 174 157 170 168 163 C142 160 118 136 118 102 C118 68 142 44 168 41 C157 34 144 30 130 30 Z"
+            fill="var(--moon)"/>
+      <circle cx="150" cy="70" r="7" fill="#EEDFB4" opacity=".7"/>
+      <circle cx="142" cy="120" r="5" fill="#EEDFB4" opacity=".7"/>
+      <ellipse class="cheek" cx="92" cy="112" rx="8" ry="5.5" fill="var(--pink-dark)"/>
+      <g class="luna-eye"><path d="M84 96 Q90 90 96 96" stroke="var(--ink)" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+      <g class="luna-eye"><path d="M106 96 Q112 90 118 96" stroke="var(--ink)" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+      <path d="M92 116 Q100 122 108 116" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-luna"></div>
+  </div>
+
+  <!-- ══ TWINKLE (star) ══ -->
+  <div class="char-wrap twinkle-wrap" id="twinkle" style="left:560px;top:70px;width:150px;">
+    <svg viewBox="0 0 200 200" width="150" height="150">
+      <circle class="mini-star" cx="26" cy="40" r="3" fill="#fff"/>
+      <circle class="mini-star" cx="176" cy="150" r="3" fill="#fff" style="animation-delay:.6s"/>
+      <circle class="mini-star" cx="170" cy="30" r="2.5" fill="#fff" style="animation-delay:1.1s"/>
+      <path d="M100 20 L118 75 L176 75 L129 108 L147 163 L100 128 L53 163 L71 108 L24 75 L82 75 Z"
+            fill="var(--yellow)" stroke="var(--yellow-dark)" stroke-width="4" stroke-linejoin="round"/>
+      <ellipse class="cheek" cx="82" cy="98" rx="7" ry="5" fill="var(--pink-dark)"/>
+      <ellipse class="cheek" cx="120" cy="98" rx="7" ry="5" fill="var(--pink-dark)"/>
+      <g class="twinkle-eye"><ellipse cx="88" cy="88" rx="4" ry="6" fill="var(--ink)"/></g>
+      <g class="twinkle-eye"><ellipse cx="114" cy="88" rx="4" ry="6" fill="var(--ink)"/></g>
+      <path d="M89 106 Q101 116 113 106" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-twinkle"></div>
+  </div>
+
+  <!-- ══ BLUSH (cat) ══ -->
+  <div class="ground-shadow" style="left:400px;bottom:70px;width:120px;height:18px;"></div>
+  <div class="char-wrap blush-wrap" id="blush" style="left:320px;bottom:78px;width:180px;">
+    <svg viewBox="0 0 260 300" width="180" height="208">
+      <path class="cat-tail" d="M180 230 C215 235 225 200 210 180" stroke="var(--lav-dark)" stroke-width="16" fill="none" stroke-linecap="round"/>
+      <path class="ear-l" d="M78 70 L60 30 L100 55 Z" fill="var(--pink)"/>
+      <path class="ear-r" d="M150 55 L170 20 L182 62 Z" fill="var(--pink)"/>
+      <path d="M78 66 L68 42 L92 56 Z" fill="var(--pink-dark)"/>
+      <path d="M154 58 L166 34 L176 60 Z" fill="var(--pink-dark)"/>
+      <ellipse cx="130" cy="170" rx="78" ry="88" fill="#FFDCEB"/>
+      <ellipse cx="130" cy="185" rx="46" ry="42" fill="var(--pink-soft)"/>
+      <ellipse class="cheek" cx="88" cy="175" rx="13" ry="8" fill="var(--pink-dark)"/>
+      <ellipse class="cheek" cx="172" cy="175" rx="13" ry="8" fill="var(--pink-dark)"/>
+      <g class="blush-eye"><ellipse cx="106" cy="150" rx="12" ry="15" fill="white"/><circle cx="109" cy="153" r="6.5" fill="var(--ink)"/><circle cx="112" cy="149" r="2.2" fill="#fff"/></g>
+      <g class="blush-eye"><ellipse cx="154" cy="150" rx="12" ry="15" fill="white"/><circle cx="157" cy="153" r="6.5" fill="var(--ink)"/><circle cx="160" cy="149" r="2.2" fill="#fff"/></g>
+      <path d="M126 178 L134 178 L130 184 Z" fill="var(--pink-dark)"/>
+      <path d="M130 184 Q122 194 112 188 M130 184 Q138 194 148 188" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <line x1="60" y1="170" x2="90" y2="172" stroke="#c9b8d8" stroke-width="2"/>
+      <line x1="60" y1="182" x2="90" y2="180" stroke="#c9b8d8" stroke-width="2"/>
+      <line x1="200" y1="170" x2="170" y2="172" stroke="#c9b8d8" stroke-width="2"/>
+      <line x1="200" y1="182" x2="170" y2="180" stroke="#c9b8d8" stroke-width="2"/>
+      <ellipse cx="105" cy="248" rx="16" ry="10" fill="var(--pink)"/>
+      <ellipse cx="155" cy="248" rx="16" ry="10" fill="var(--pink)"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-blush"></div>
+  </div>
+
+  <!-- ══ KITTY (cat) ══ -->
+  <div class="ground-shadow" style="left:660px;bottom:66px;width:120px;height:18px;"></div>
+  <div class="char-wrap kitty-wrap" id="kitty" style="left:580px;bottom:74px;width:180px;">
+    <svg viewBox="0 0 220 220" width="180" height="180">
+      <path class="kitty-tail" d="M158 145 C195 140 205 95 190 65 C205 100 198 135 160 150 Z" fill="var(--lav-dark)"/>
+      <path d="M60 210 C55 150 60 120 110 120 C160 120 165 150 160 210 Z" fill="var(--lav)"/>
+      <ellipse cx="90" cy="165" rx="8" ry="10" fill="var(--lav-dark)"/>
+      <ellipse cx="130" cy="185" rx="9" ry="7" fill="var(--lav-dark)"/>
+      <ellipse cx="100" cy="200" rx="7" ry="6" fill="var(--lav-dark)"/>
+      <circle cx="110" cy="95" r="48" fill="var(--lav)"/>
+      <path class="kitty-ear-l" d="M72 65 L60 30 L95 55 Z" fill="var(--lav)"/>
+      <path class="kitty-ear-r" d="M125 55 L145 25 L152 62 Z" fill="var(--lav)"/>
+      <path d="M76 60 L68 40 L90 55 Z" fill="var(--pink)"/>
+      <path d="M128 55 L142 33 L148 60 Z" fill="var(--pink)"/>
+      <path d="M80 128 Q110 140 140 128" stroke="var(--pink-dark)" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <ellipse class="cheek" cx="82" cy="102" rx="9" ry="6" fill="var(--pink-dark)"/>
+      <ellipse class="cheek" cx="138" cy="102" rx="9" ry="6" fill="var(--pink-dark)"/>
+      <g class="kitty-eye"><ellipse cx="92" cy="92" rx="7" ry="9" fill="white"/><circle cx="94" cy="94" r="4.5" fill="var(--ink)"/></g>
+      <g class="kitty-eye"><ellipse cx="128" cy="92" rx="7" ry="9" fill="white"/><circle cx="130" cy="94" r="4.5" fill="var(--ink)"/></g>
+      <path d="M105 100 L115 100 L110 106 Z" fill="var(--pink-dark)"/>
+      <path d="M110 106 Q102 114 94 108 M110 106 Q118 114 126 108" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <line x1="55" y1="98" x2="80" y2="100" stroke="#b9a8d8" stroke-width="2"/>
+      <line x1="55" y1="108" x2="80" y2="106" stroke="#b9a8d8" stroke-width="2"/>
+      <line x1="165" y1="98" x2="140" y2="100" stroke="#b9a8d8" stroke-width="2"/>
+      <line x1="165" y1="108" x2="140" y2="106" stroke="#b9a8d8" stroke-width="2"/>
+    </svg>
+    <div class="sparkle-layer" id="sparkle-kitty"></div>
+  </div>
+
+  <div class="caption">Nightfall — tap anyone to cheer</div>
+
+</div>
+</div>
+
+<script>
+  const colorSets = {
+    luna:    ['#FBF1D0','#E3D6F7','#FFC7DD'],
+    twinkle: ['#FFEDA8','#F4D785','#FFC7DD'],
+    blush:   ['#FFC7DD','#FF9EC3','#E3D6F7'],
+    kitty:   ['#E3D6F7','#C9B8E8','#FFC7DD']
+  };
+  Object.keys(colorSets).forEach(id => {
+    const el = document.getElementById(id);
+    const layer = document.getElementById('sparkle-' + id);
+    if (!el) return;
+    el.addEventListener('click', () => {
+      el.classList.remove('cheer'); void el.offsetWidth; el.classList.add('cheer');
+      burst(layer, colorSets[id]);
+    });
+  });
+  function burst(layer, colors){
+    const w = layer.offsetWidth, h = layer.offsetHeight;
+    for(let i=0;i<10;i++){
+      const s = document.createElement('div');
+      s.className = 'sparkle show';
+      const size = 6 + Math.random()*6;
+      s.style.width = size+'px'; s.style.height = size+'px';
+      s.style.left = (w*0.5 + (Math.random()-0.5)*60)+'px';
+      s.style.top  = (h*0.45 + (Math.random()-0.5)*60)+'px';
+      s.style.background = colors[Math.floor(Math.random()*colors.length)];
+      s.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+      s.style.setProperty('--dx', ((Math.random()-0.5)*170)+'px');
+      s.style.setProperty('--dy', (-60 - Math.random()*100)+'px');
+      layer.appendChild(s);
+      s.addEventListener('animationend', () => s.remove());
+    }
+  }
+</script>
+</body>
+</html>

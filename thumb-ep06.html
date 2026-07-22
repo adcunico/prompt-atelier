@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1280px;height:720px;overflow:hidden}
+  .stage{width:1280px;height:720px;position:relative;overflow:hidden;
+    background:
+      radial-gradient(55% 70% at 88% 12%,rgba(255,158,195,.30) 0%,transparent 58%),
+      radial-gradient(60% 80% at 4% 95%,rgba(155,212,180,.32) 0%,transparent 60%),
+      linear-gradient(152deg,#FDF6F0,#EDE4F6)}
+  .wm{position:absolute;top:44px;left:64px;font-family:'Fraunces',serif;font-size:30px;color:#4A4458}
+  .wm em{font-style:italic;color:#C19A3D}
+  .kicker{position:absolute;top:132px;left:64px;font-family:'Inter',sans-serif;font-size:20px;font-weight:700;
+    letter-spacing:.30em;color:#8A6A24}
+  .title{position:absolute;top:190px;left:60px;width:600px;font-family:'Fraunces',serif;font-weight:500;
+    font-size:92px;line-height:1.05;color:#3A3348;letter-spacing:-1px}
+  .title em{font-style:italic;font-weight:400;
+    background:linear-gradient(90deg,#FF9EC3,#FFB27A,#9BD4B4,#9AD4E6);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .chip{position:absolute;left:64px;bottom:74px;display:flex;align-items:center;gap:16px;
+    background:rgba(255,255,255,.6);border:1px solid rgba(201,184,232,.7);border-radius:999px;
+    padding:18px 34px;backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(140,120,170,.25)}
+  .chip span{font-family:'Inter',sans-serif;font-size:24px;font-weight:700;letter-spacing:.06em;color:#4A4458}
+  .chip b{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:28px;color:#C19A3D}
+  .still{position:absolute;right:48px;top:96px;width:600px;border-radius:24px;overflow:hidden;
+    border:1.5px solid rgba(255,255,255,.9);outline:2px solid rgba(201,184,232,.6);outline-offset:6px;
+    box-shadow:0 40px 100px rgba(120,100,150,.4), 0 0 80px rgba(255,158,195,.2);transform:rotate(-2deg)}
+  .still img{width:100%;display:block}
+</style></head>
+<body>
+<div class="stage">
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <div class="kicker">EPISODE 06</div>
+  <div class="title">Drawn to <em>move</em></div>
+  <div class="still"><img src="ep06/gallery-shot.png" alt=""></div>
+  <div class="chip"><span>animated svg</span><b>14 live mascots →</b></div>
+</div>
+</body>
+</html>
