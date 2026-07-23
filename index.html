@@ -46,20 +46,49 @@
   footer .socials{justify-content:center;margin-top:30px}
   footer .socials svg{height:24px}
 
-  .hero-inner{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 0 90px}
-  .hero .kicker{font-size:14px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold-bright);font-weight:600;
+  .hero-inner{position:relative;z-index:2;flex:1;display:grid;grid-template-columns:1.18fr .82fr;gap:56px;align-items:center;padding:40px 0 96px}
+  .hero-copy{max-width:660px}
+  .hero .kicker{display:inline-flex;align-items:center;gap:14px;font-size:14px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold-bright);font-weight:600;
     opacity:0;animation:rise .8s .1s ease-out forwards}
-  .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(56px,7.4vw,104px);line-height:1.06;letter-spacing:-1px;
-    margin:26px 0 30px;max-width:1000px;opacity:0;animation:rise .8s .25s ease-out forwards}
+  .hero .kicker::after{content:'';width:44px;height:1px;background:linear-gradient(90deg,var(--gold-bright),transparent)}
+  .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,5.6vw,84px);line-height:1.06;letter-spacing:-1px;
+    margin:24px 0 28px;opacity:0;animation:rise .8s .25s ease-out forwards}
   .hero h1 em{font-style:italic;color:var(--gold-bright)}
-  .hero p.sub{font-size:20px;color:var(--text-fog);max-width:620px;opacity:0;animation:rise .8s .4s ease-out forwards}
-  .cta-row{display:flex;gap:18px;margin-top:46px;flex-wrap:wrap;opacity:0;animation:rise .8s .55s ease-out forwards}
+  .hero h1 .craft{position:relative;display:inline-block}
+  .hero h1 .craft::after{content:'';position:absolute;left:0;right:0;bottom:.02em;height:.085em;border-radius:3px;
+    background:linear-gradient(90deg,var(--gold),var(--gold-bright));transform:scaleX(0);transform-origin:left;
+    animation:draw .7s 1.05s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes draw{to{transform:scaleX(1)}}
+  .hero p.sub{font-size:20px;color:var(--text-fog);max-width:600px;opacity:0;animation:rise .8s .4s ease-out forwards}
+  .cta-row{display:flex;gap:18px;margin-top:40px;flex-wrap:wrap;opacity:0;animation:rise .8s .55s ease-out forwards}
   .btn{display:inline-block;padding:17px 40px;border-radius:999px;font-weight:600;font-size:15px;letter-spacing:.04em;text-decoration:none;transition:transform .25s,box-shadow .25s}
-  .btn.gold{background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 14px 40px rgba(193,154,61,.35)}
+  .btn.gold{display:inline-flex;align-items:center;gap:11px;background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 14px 40px rgba(193,154,61,.35)}
+  .hero .btn.gold::before{content:'';border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent}
   .btn.ghost{border:1px solid rgba(255,255,255,.3);color:var(--text-cream)}
   .btn:hover{transform:translateY(-2px)}
   @keyframes rise{from{opacity:0;transform:translateY(24px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
-  .hero .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.3em;color:var(--text-fog);text-transform:uppercase}
+  .proofbar{display:flex;gap:22px;flex-wrap:wrap;margin-top:30px;opacity:0;animation:rise .8s .7s ease-out forwards}
+  .proofbar span{font-size:12.5px;color:var(--text-fog);letter-spacing:.03em;display:flex;align-items:center;gap:9px}
+  .proofbar span::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold)}
+  .hero .sun{position:absolute;z-index:1;width:540px;height:540px;border-radius:50%;right:6%;top:50%;transform:translateY(-50%);
+    background:radial-gradient(circle at 50% 50%,rgba(220,188,105,.36),rgba(193,154,61,.15) 55%,transparent 72%);pointer-events:none}
+  .hero-feature{position:relative;display:block;text-decoration:none;color:var(--text-cream);border-radius:22px;overflow:hidden;
+    opacity:0;animation:rise .8s .7s ease-out forwards;transition:transform .3s,box-shadow .3s}
+  .hero-feature:hover{transform:translateY(-5px);box-shadow:0 30px 70px rgba(0,0,0,.5)}
+  .hf-media{position:relative;aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.14)}
+  .hf-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+  .hero-feature:hover .hf-media img{transform:scale(1.04)}
+  .hf-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;
+    background:linear-gradient(145deg,var(--gold),var(--gold-deep));box-shadow:0 12px 34px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+  .hf-play::after{content:'';border-left:18px solid #fff;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:5px}
+  .hf-body{padding:18px 22px 20px}
+  .hf-ep{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-bright);font-weight:700}
+  .hf-title{font-family:var(--serif);font-size:23px;margin:5px 0 4px}
+  .hf-desc{font-size:13.5px;color:var(--text-fog)}
+  .hero .scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.3em;color:var(--text-fog);text-transform:uppercase;text-align:center}
+  .hero .scroll-hint::after{content:'';display:block;width:9px;height:9px;border-right:1.5px solid var(--text-fog);border-bottom:1.5px solid var(--text-fog);transform:rotate(45deg);margin:9px auto 0;animation:bob 1.7s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
+  @media(max-width:900px){.hero-inner{grid-template-columns:1fr;gap:34px;padding:20px 0 88px}.hero .sun{display:none}.hero-feature{max-width:440px}.hero-copy{max-width:none}}
 
   /* ═══════ TOOL MARQUEE ═══════ */
   .toolstrip{background:linear-gradient(180deg,#241F16,#1B1813);padding:34px 0 40px;border-top:1px solid rgba(255,255,255,.05)}
@@ -195,6 +224,7 @@
 <!-- ═══════════ HERO ═══════════ -->
 <div class="hero">
   <div class="orb g1"></div><div class="orb g2"></div><div class="orb g3"></div>
+  <div class="sun"></div>
   <div class="wrap" style="width:100%">
     <nav>
       <div class="wm">Prompt <em>Atelier</em></div>
@@ -210,13 +240,31 @@
       </div>
     </nav>
     <div class="hero-inner">
-      <div class="kicker">A workshop for the AI era</div>
-      <h1>Welcome to the atelier where <em>prompts become craft</em></h1>
-      <p class="sub">AI videos, generative hosts, code-built design and automated content — every piece made with accessible tools, documented step by step, and finished with taste.</p>
-      <div class="cta-row">
-        <a class="btn gold" href="case-study-ep01.html">Watch Episode 01</a>
-        <a class="btn ghost" href="#craft">Explore the craft</a>
+      <div class="hero-copy">
+        <div class="kicker">A workshop for the AI era</div>
+        <h1>The atelier where <em>prompts become <span class="craft">craft</span></em></h1>
+        <p class="sub">AI videos, generative hosts, code-built design and automated content — every piece made with accessible tools, documented step by step, and finished with taste.</p>
+        <div class="cta-row">
+          <a class="btn gold" href="case-study-ep01.html">Watch Episode 01</a>
+          <a class="btn ghost" href="#craft">Explore the craft</a>
+        </div>
+        <div class="proofbar">
+          <span>7 episodes</span>
+          <span>Open-source on GitHub</span>
+          <span>Built with Claude Code</span>
+        </div>
       </div>
+      <a class="hero-feature glass" href="case-study-ep07.html" aria-label="Latest episode — The Atelier Ronin">
+        <div class="hf-media">
+          <img src="ep07/title-frame.jpg" alt="Episode 07 — The Atelier Ronin">
+          <span class="hf-play"></span>
+        </div>
+        <div class="hf-body">
+          <div class="hf-ep">Latest · Episode 07</div>
+          <div class="hf-title">The Atelier Ronin</div>
+          <div class="hf-desc">An 8-second AI title scene — every prompt shown.</div>
+        </div>
+      </a>
     </div>
   </div>
   <div class="scroll-hint">Scroll</div>
