@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prompt Atelier — The Cinematic Site Pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  @page{ size:A4; margin:0; }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{background:var(--porcelain)}
+  body{font-family:var(--sans);color:var(--text-ink);line-height:1.6}
+
+  .page{width:210mm;height:297mm;position:relative;overflow:hidden;page-break-after:always;background:var(--porcelain)}
+  .page:last-child{page-break-after:auto}
+  .pad{position:absolute;inset:0;padding:24mm 22mm}
+
+  /* dark stage (cover, dividers, closing) */
+  .stage{color:var(--text-cream);background:
+    radial-gradient(52% 62% at 84% 12%,rgba(193,154,61,.30),transparent 60%),
+    radial-gradient(56% 70% at 8% 92%,rgba(51,98,92,.42),transparent 60%),
+    linear-gradient(158deg,#16130E,#2B2418)}
+
+  .monogram{width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(145deg,var(--ink),var(--espresso));box-shadow:0 10px 30px rgba(0,0,0,.4);
+    font-family:var(--serif);font-style:italic;font-weight:500;font-size:26px;color:var(--gold-bright)}
+  .monogram span{font-style:normal;font-size:17px;margin-left:1px;color:var(--text-cream)}
+  .wm{font-family:var(--serif);font-size:22px}
+  .wm em{font-style:italic;color:var(--gold-bright)}
+
+  /* ── COVER ── */
+  .cover-eyebrow{margin-top:34mm;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold-bright);font-weight:600}
+  .cover h1{font-family:var(--serif);font-weight:400;font-size:70px;line-height:1.02;letter-spacing:-1px;margin-top:20px}
+  .cover h1 em{font-style:italic;color:var(--gold-bright)}
+  .cover .sub{margin-top:26px;font-size:17px;color:var(--text-fog);max-width:150mm;line-height:1.7}
+  .cover .foot{position:absolute;left:22mm;right:22mm;bottom:22mm;display:flex;justify-content:space-between;align-items:flex-end;
+    border-top:1px solid rgba(255,255,255,.16);padding-top:16px;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--text-fog)}
+  .cover .foot b{color:var(--gold-bright);font-weight:600}
+  .cover-mark{position:absolute;top:24mm;left:22mm;display:flex;align-items:center;gap:14px}
+
+  /* ── generic light page ── */
+  .kicker{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);font-weight:700}
+  .page h2{font-family:var(--serif);font-weight:400;font-size:40px;line-height:1.08;margin:12px 0 6px}
+  .page h2 em{font-style:italic;color:var(--gold-deep)}
+  .lede{color:var(--text-soft);font-size:15px;max-width:150mm;margin-top:10px}
+
+  .runhead{position:absolute;top:14mm;left:22mm;right:22mm;display:flex;justify-content:space-between;align-items:center;
+    font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--stone);font-weight:600}
+  .runhead .wm{font-family:var(--serif);font-size:14px;letter-spacing:0;text-transform:none;color:var(--text-ink)}
+  .runhead .wm em{font-style:italic;color:var(--gold-deep)}
+  .pagenum{position:absolute;bottom:14mm;left:22mm;right:22mm;display:flex;justify-content:space-between;
+    font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--stone);font-weight:600}
+
+  /* how-to steps */
+  .steps{margin-top:20px;display:flex;flex-direction:column;gap:2px}
+  .howstep{display:grid;grid-template-columns:38px 1fr;gap:20px;padding:15px 0;border-top:1px solid var(--linen);align-items:start}
+  .howstep .n{font-family:var(--serif);font-style:italic;font-weight:300;font-size:30px;color:var(--gold-deep);line-height:1}
+  .howstep b{font-family:var(--serif);font-weight:500;font-size:19px;display:block;margin-bottom:3px}
+  .howstep p{font-size:13.5px;color:var(--text-soft);line-height:1.55}
+  .howstep code{font-family:var(--mono);font-size:12px;background:var(--ivory);padding:1px 7px;border-radius:5px;color:var(--gold-deep)}
+
+  /* project page */
+  .proj-tag{display:inline-block;font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--teal);
+    border:1px solid rgba(51,98,92,.4);border-radius:999px;padding:5px 14px;font-weight:700;margin-bottom:16px}
+  .bestfor{font-size:13px;color:var(--text-soft);font-style:italic;margin:4px 0 20px;font-family:var(--serif);font-size:16px}
+  .promptbox{border-radius:18px;padding:26px 28px;color:var(--text-cream);background:
+    radial-gradient(60% 80% at 88% 6%,rgba(193,154,61,.22),transparent 60%),
+    linear-gradient(158deg,#17140F,#282017);box-shadow:0 14px 40px rgba(20,16,8,.22)}
+  .promptbox .lbl{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-bright);font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .promptbox .lbl::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(220,188,105,.5),transparent)}
+  .promptbox p{font-size:13px;line-height:1.72;color:var(--text-cream);margin-bottom:11px}
+  .promptbox p:last-child{margin-bottom:0}
+  .promptbox b{color:var(--gold-bright);font-weight:500}
+  .promptbox .shots{margin:4px 0 11px;padding-left:0;list-style:none}
+  .promptbox .shots li{font-size:12.5px;line-height:1.62;color:var(--text-fog);padding-left:22px;position:relative;margin-bottom:5px}
+  .promptbox .shots li b{color:var(--text-cream);font-weight:600}
+  .promptbox .shots li::before{content:counter(shot);counter-increment:shot;position:absolute;left:0;top:0;
+    font-family:var(--serif);font-style:italic;color:var(--gold-bright);font-size:13px}
+  .promptbox .shots{counter-reset:shot}
+  .makeyours{margin-top:16px;background:var(--ivory);border-radius:12px;padding:14px 18px;font-size:12.5px;color:var(--text-soft)}
+  .makeyours b{color:var(--gold-deep)}
+
+  /* closing */
+  .closing h2{font-family:var(--serif);font-weight:400;font-size:46px;color:var(--text-cream);line-height:1.1}
+  .closing h2 em{font-style:italic;color:var(--gold-bright)}
+  .closing .lede{color:var(--text-fog);margin-top:18px;font-size:15.5px;max-width:150mm}
+  .tiplist{margin-top:26px;display:flex;flex-direction:column;gap:0}
+  .tip{display:grid;grid-template-columns:30px 1fr;gap:18px;padding:14px 0;border-top:1px solid rgba(255,255,255,.14);align-items:start}
+  .tip .n{font-family:var(--serif);font-style:italic;color:var(--gold-bright);font-size:22px;line-height:1}
+  .tip b{font-family:var(--serif);font-weight:500;font-size:17px;color:var(--text-cream);display:block;margin-bottom:2px}
+  .tip p{font-size:12.5px;color:var(--text-fog);line-height:1.5}
+  .closing .foot{position:absolute;left:22mm;right:22mm;bottom:22mm;border-top:1px solid rgba(255,255,255,.16);padding-top:16px;
+    display:flex;justify-content:space-between;align-items:center;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-fog)}
+  .closing .foot b{color:var(--gold-bright)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ COVER ═══════════ -->
+<div class="page stage cover">
+  <div class="cover-mark">
+    <div class="monogram">P<span>a</span></div>
+    <div class="wm">Prompt <em>Atelier</em></div>
+  </div>
+  <div class="pad">
+    <div class="cover-eyebrow">The Prompt Pack · No. 01</div>
+    <h1 class="cover">The Cinematic<br><em>Site</em> Pack</h1>
+    <p class="sub">Six copy-paste briefs that turn one sentence into an award-style “3D scroll” website —
+      AI-generated video, scroll-driven motion, launched and verified. Every prompt runs on the Kie.ai API
+      with Seedance, upscaled with Topaz, assembled in code. The tools are affordable. The taste is the craft.</p>
+  </div>
+  <div class="foot">
+    <span>Prompt Atelier · <b>promptatelier.uk</b></span>
+    <span>2026 Edition</span>
+  </div>
+</div>
+
+<!-- ═══════════ HOW TO USE ═══════════ -->
+<div class="page">
+  <div class="runhead"><div class="wm">Prompt <em>Atelier</em></div><span>The Cinematic Site Pack</span></div>
+  <div class="pad">
+    <div class="kicker">How to use this pack</div>
+    <h2>Five rules, then <em>paste and go</em></h2>
+    <p class="lede">Each brief is complete: the video shots, the site structure, the design direction and the
+      instruction to launch and verify. Run one as-is before you customise it.</p>
+    <div class="steps">
+      <div class="howstep"><div class="n">1</div><div>
+        <b>The hero-image trick is the whole trick.</b>
+        <p>Every brief generates <b>one</b> hero image first, then passes its URL as an image reference to every
+          clip. That is what keeps your product identical across shots. Never remove that step.</p></div></div>
+      <div class="howstep"><div class="n">2</div><div>
+        <b>Render at 720p, upscale 2×.</b>
+        <p>Seedance at <code>720p</code> then Topaz <code>upscale_factor:2</code> → 1080p costs less than half of native
+          1080p and, for a scroll-scrubbed canvas, looks the same. Only a product whose detail <em>is</em> the pitch
+          deserves native 1080p.</p></div></div>
+      <div class="howstep"><div class="n">3</div><div>
+        <b>Chain clips for one continuous journey.</b>
+        <p>Seedance accepts a <code>first_frame_url</code> and <code>last_frame_url</code>. The journey briefs feed each clip’s
+          final frame into the next clip’s start frame — five clips that scrub like one unbroken camera move.</p></div></div>
+      <div class="howstep"><div class="n">4</div><div>
+        <b>Spend your takes on the hero orbit.</b>
+        <p>The orbit scrub is ~80% of the effect. Generate two or three takes there; take the first acceptable
+          result everywhere else. Card art for the case study is cropped free from frames you already own.</p></div></div>
+      <div class="howstep"><div class="n">5</div><div>
+        <b>Direct, don’t code.</b>
+        <p>After the first build, give feeling notes: “make the hero 20% slower,” “this section feels flat — add a
+          cursor interaction,” “the type looks generic.” Claude Code translates intent into the edit.</p></div></div>
+    </div>
+  </div>
+  <div class="pagenum"><span>The tools are free. The taste is the craft.</span><span>02</span></div>
+</div>
+
+<!-- ═══════════ PROJECT 01 — WATCH ═══════════ -->
+<div class="page">
+  <div class="runhead"><div class="wm">Prompt <em>Atelier</em></div><span>Project 01 · Luxury Product</span></div>
+  <div class="pad">
+    <div class="proj-tag">01 — Luxury Product</div>
+    <h2>The Timepiece <em>Reveal</em></h2>
+    <div class="bestfor">Best for any premium object with parts — watches, jewellery, audio, cameras.</div>
+    <div class="promptbox">
+      <div class="lbl">Copy · paste · run</div>
+      <p>Build me an award-style cinematic “3D scroll” website for <b>a fictional bronze tourbillon watch</b>,
+        the launch piece of a new maison.</p>
+      <p><b>VISUALS — Kie.ai API, Seedance (<code style="color:inherit">bytedance/seedance-2</code>), 720p · 16:9 · no audio · ~8s.</b>
+        First generate ONE hero image — <b>hand-forged bronze case, smoked amber dial fading to black, gold
+        tourbillon at six, dark leather strap</b> — and pass its URL as <b>reference_image_urls</b> on every clip so
+        the product is identical throughout:</p>
+      <ul class="shots">
+        <li><b>Hero orbit</b> — a slow, perfectly smooth 360° turntable in a charcoal void, one warm forge-glow rim
+          light, faint drifting embers. Returns to its start angle so the loop is seamless.</li>
+        <li><b>Macro fly-through</b> — extreme close-up gliding across the dial: faceted indices, the tourbillon cage
+          spinning, heat-shimmer on brushed bronze.</li>
+        <li><b>Exploded assembly</b> — gears, springs, bezel and strap float apart, then converge into the finished
+          watch on a final hero frame identical to the hero image.</li>
+      </ul>
+      <p><b>WEBSITE —</b> scroll-scrub the orbit as a canvas frame sequence so scrolling rotates the watch. Lenis
+        smooth scroll; glass overlays that ride the footage. Sections: cinematic hero with the name tracking in →
+        “Born of Fire” story → macro scrub → exploded engineering view with spec callouts → “Edition of 120 —
+        $36,000” → private waitlist. Charcoal background, molten-copper accent, high-contrast serif + minimal sans.
+        Launch on localhost and verify every scroll animation before telling me it’s done.</p>
+    </div>
+    <div class="makeyours"><b>Make it yours —</b> swap the watch for a fragrance, a sneaker or a camera. Keep the
+      orbit + macro + exploded structure; it flatters anything with parts.</div>
+  </div>
+  <div class="pagenum"><span>Prompt Atelier · The Cinematic Site Pack</span><span>03</span></div>
+</div>
+
+<!-- ═══════════ PROJECT 02 — SPIRIT ═══════════ -->
+<div class="page">
+  <div class="runhead"><div class="wm">Prompt <em>Atelier</em></div><span>Project 02 · Craft &amp; Provenance</span></div>
+  <div class="pad">
+    <div class="proj-tag">02 — Craft &amp; Provenance</div>
+    <h2>The Single <em>Cask</em></h2>
+    <div class="bestfor">Best for spirits, wine, olive oil, coffee — anything poured, aged, and bottled.</div>
+    <div class="promptbox">
+      <div class="lbl">Copy · paste · run</div>
+      <p>Build me a cinematic “3D scroll” website for <b>a fictional single-cask whisky</b> — one barrel, a few
+        hundred bottles, no two the same.</p>
+      <p><b>VISUALS — Kie.ai API, Seedance, 720p · 16:9 · no audio · ~8s.</b> First generate ONE hero image of the
+        bottle — <b>smoked-glass, hand-numbered label, amber spirit catching low candlelight, wax-dipped neck</b> —
+        and reference it in every clip:</p>
+      <ul class="shots">
+        <li><b>Hero orbit</b> — a slow 360° turntable of the bottle on dark oak, warm cellar light, dust motes
+          drifting through a single beam.</li>
+        <li><b>Macro pour</b> — extreme close-up of amber spirit flowing into a crystal glass, a single large ice
+          sphere cracking, condensation beading.</li>
+        <li><b>The provenance</b> — a slow move along a candle-lit row of oak casks in a stone warehouse, ending on
+          the chosen barrel with its stencilled number.</li>
+      </ul>
+      <p><b>WEBSITE —</b> scroll-scrub the orbit; scrolling turns the bottle to reveal the label. Sections: hero
+        with the distillery name tracking in → “Aged in the dark” story → macro pour scrub → cask-provenance section
+        with a tasting-note strip (nose / palate / finish) → “Cask No. 7 — 264 bottles” → allocation request. Deep
+        walnut background, single amber accent, refined serif, generous negative space. Launch and verify the scrub.</p>
+    </div>
+    <div class="makeyours"><b>Make it yours —</b> for a real distillery, use their bottle photo as the hero image
+      reference and feed Claude their actual tasting notes. This site is a genuine four-figure deliverable.</div>
+  </div>
+  <div class="pagenum"><span>Prompt Atelier · The Cinematic Site Pack</span><span>04</span></div>
+</div>
+
+<!-- ═══════════ PROJECT 03 — SNEAKER ═══════════ -->
+<div class="page">
+  <div class="runhead"><div class="wm">Prompt <em>Atelier</em></div><span>Project 03 · The Drop</span></div>
+  <div class="pad">
+    <div class="proj-tag">03 — The Drop</div>
+    <h2>The Midnight <em>Release</em></h2>
+    <div class="bestfor">Best for sneakers, streetwear, eyewear, any hyped limited release.</div>
+    <div class="promptbox">
+      <div class="lbl">Copy · paste · run</div>
+      <p>Build me a cinematic e-commerce “3D scroll” website for <b>a fictional limited sneaker drop</b> — a single
+        silhouette in a matte-black colourway with a chrome heel clip.</p>
+      <p><b>VISUALS — Kie.ai API, Seedance, 720p · no audio · ~8s.</b> First generate ONE hero image of the shoe —
+        <b>matte black knit upper, chrome heel counter, translucent amber sole, floating on a concrete-grey seamless</b> —
+        and reference it in every clip:</p>
+      <ul class="shots">
+        <li><b>Hero orbit</b> — a clean 360° turntable of the shoe floating in soft studio light, a slow parallax of
+          fine dust.</li>
+        <li><b>Macro travel</b> — extreme close-up gliding across stitching, knit texture, the chrome clip and the
+          translucent sole catching light.</li>
+        <li><b>Exploded build</b> — upper, cage, sole unit and laces separate and reassemble into the finished shoe.</li>
+      </ul>
+      <p><b>WEBSITE —</b> hero scroll-scrubs the orbit with the model name in massive type and a live countdown to
+        the drop. Product section with size selector and a demo “Add to Cart” drawer; macro section with a “Built
+        heavy, cut clean” materials manifesto; sticky cart, name marquee between sections, “Notify me” capture for
+        sold-out sizes. Concrete grey + matte black, one acid accent, brutalist condensed type. Launch and verify
+        the countdown and cart drawer.</p>
+    </div>
+    <div class="makeyours"><b>Make it yours —</b> replace the invented shoe with photos of your real product as the
+      image reference; Seedance animates <em>your</em> silhouette, not an approximation.</div>
+  </div>
+  <div class="pagenum"><span>Prompt Atelier · The Cinematic Site Pack</span><span>05</span></div>
+</div>
+
+<!-- ═══════════ PROJECT 04 — FRAGRANCE ═══════════ -->
+<div class="page">
+  <div class="runhead"><div class="wm">Prompt <em>Atelier</em></div><span>Project 04 · Atmosphere</span></div>
+  <div class="pad">
+    <div class="proj-tag">04 — Atmosphere</div>
+    <h2>The Last <em>Note</em></h2>
+    <div class="bestfor">Best for fragrance, candles, skincare — products that sell a feeling.</div>
+    <div class="promptbox">
+      <div class="lbl">Copy · paste · run</div>
+      <p>Build me a cinematic “3D scroll” website for <b>a fictional niche fragrance</b> — a dark amber eau de
+        parfum sold in an apothecary bottle.</p>
+      <p><b>VISUALS — Kie.ai API, Seedance, 720p · 16:9 · no audio · ~8s.</b> First generate ONE hero image — <b>heavy
+        faceted glass bottle, brushed-bronze cap, amber liquid, on black stone with a single shaft of warm light</b> —
+        and reference it in every clip:</p>
+      <ul class="shots">
+        <li><b>Hero orbit</b> — a slow 360° turntable of the bottle in near-darkness, light refracting through the
+          facets, faint smoke curling behind.</li>
+        <li><b>Macro facets</b> — extreme close-up travelling across the cut glass and the meniscus of the liquid,
+          light bending through the amber.</li>
+        <li><b>The sillage</b> — a single press of the atomiser; a slow-motion bloom of fine mist drifts and
+          dissipates against black.</li>
+      </ul>
+      <p><b>WEBSITE —</b> scroll-scrub the orbit; scrolling turns the bottle through the light. Sections: hero with
+        the house name tracking in → an olfactory pyramid revealed on scroll (top / heart / base notes) → macro
+        scrub → the sillage section as a full-bleed moment → “50ml — 300 bottles” → private list. Ink-black
+        background, warm amber accent, editorial serif, whisper-quiet copy. Launch and verify the scrub and the note
+        reveal.</p>
+    </div>
+    <div class="makeyours"><b>Make it yours —</b> the same structure sells a candle, a serum, or a bar of soap —
+      anything where atmosphere does the selling and words stay few.</div>
+  </div>
+  <div class="pagenum"><span>Prompt Atelier · The Cinematic Site Pack</span><span>06</span></div>
+</div>
+
+<!-- ═══════════ PROJECT 05 — MACHINE ═══════════ -->
+<div class="page">
+  <div class="runhead"><div class="wm">Prompt <em>Atelier</em></div><span>Project 05 · The Machine</span></div>
+  <div class="pad">
+    <div class="proj-tag">05 — The Machine</div>
+    <h2>The Terrain <em>Run</em></h2>
+    <div class="bestfor">Best for vehicles, e-bikes, drones, gear — products that live in an environment.</div>
+    <div class="promptbox">
+      <div class="lbl">Copy · paste · run</div>
+      <p>Build me a cinematic “3D scroll” website for <b>a fictional electric adventure motorcycle</b> — the product
+        moving through real terrain as you scroll, not sitting in a studio.</p>
+      <p><b>VISUALS — Kie.ai API, Seedance, 720p · 16:9 · no audio · ~8s.</b> First generate ONE hero image — <b>low,
+        matte-obsidian body, thin light-bar face, knobbly tyres</b> — and reference it everywhere. Chain the drive
+        clips start-frame to end-frame so the journey is continuous:</p>
+      <ul class="shots">
+        <li><b>Reveal</b> — dust settles at dawn in a high desert to reveal the bike motionless; the light-bar
+          ignites.</li>
+        <li><b>The run</b> — a low tracking shot as it launches across the flats, grit ribboning off the rear tyre.</li>
+        <li><b>The pass</b> — it threads a red-rock canyon at speed, the camera whipping around a corner to follow.</li>
+        <li><b>Night mode</b> — full dark; only its light signature and taillight trail carving through dunes.</li>
+      </ul>
+      <p><b>WEBSITE —</b> scroll-scrub the chained run so scrolling rides the bike. A speed HUD in the corner climbs
+        with scroll. Sections: hero with the name in ultrawide type → performance stats that count up → design
+        section with macro stills → night-mode section → three-finish configurator that recolours a hero still →
+        “Reserve — $500 deposit.” Black on black, electric accent, ultrawide condensed type. Launch and verify the
+        HUD syncs to scroll.</p>
+    </div>
+    <div class="makeyours"><b>Make it yours —</b> works for anything that moves. Keep the reveal → run → environment
+      → night structure and swap the terrain to suit the machine.</div>
+  </div>
+  <div class="pagenum"><span>Prompt Atelier · The Cinematic Site Pack</span><span>07</span></div>
+</div>
+
+<!-- ═══════════ PROJECT 06 — JOURNEY ═══════════ -->
+<div class="page">
+  <div class="runhead"><div class="wm">Prompt <em>Atelier</em></div><span>Project 06 · The Journey</span></div>
+  <div class="pad">
+    <div class="proj-tag">06 — The Journey</div>
+    <h2>The Long <em>Ascent</em></h2>
+    <div class="bestfor">Best for experiences, tourism, expeditions, museums — where scroll = a journey.</div>
+    <div class="promptbox">
+      <div class="lbl">Copy · paste · run</div>
+      <p>Build me a cinematic “3D scroll” website for <b>a fictional guided summit expedition</b> — a handful of
+        climbers per season, one unforgettable ascent.</p>
+      <p><b>VISUALS — Kie.ai API, Seedance, 720p · 16:9 · no audio · ~8–10s.</b> First generate ONE hero image of the
+        peak at first light and keep its shape consistent. Then chain the clips: use each clip’s <b>final frame</b> as
+        the next clip’s <b>first_frame_url</b> so all five join into one seamless climb:</p>
+      <ul class="shots">
+        <li><b>Basecamp</b> — dawn over a glacial valley; the trail begins, tents small below.</li>
+        <li><b>The forest</b> — through pine and mist, light breaking in shafts, the air thinning.</li>
+        <li><b>The ridge</b> — above the treeline onto a knife-edge ridge, cloud pouring over the saddle.</li>
+        <li><b>The wall</b> — an ice face under hard blue light, crampons biting, breath visible.</li>
+        <li><b>The summit</b> — the last steps onto the top; a sea of peaks and a held hero frame.</li>
+      </ul>
+      <p><b>WEBSITE —</b> concatenate the five clips and scroll-scrub the full ascent as one canvas sequence:
+        scrolling up <em>is</em> climbing. A fixed altitude meter counts 1,900m → 4,810m with stage labels. Sections
+        pinned per stage: hero (“How high will you go?”) → one fact per stage → kit list → “8 places · departing
+        June” → “Join the rope” request. Background grades slate → white with altitude, glacier-blue accent, thin
+        technical sans. Launch and verify the scrub is seamless across all five clips.</p>
+    </div>
+    <div class="makeyours"><b>Make it yours —</b> the same chained-journey structure works for a descent, a river,
+      a factory tour, or a founder’s story — any narrative with distinct stages.</div>
+  </div>
+  <div class="pagenum"><span>Prompt Atelier · The Cinematic Site Pack</span><span>08</span></div>
+</div>
+
+<!-- ═══════════ CLOSING ═══════════ -->
+<div class="page stage closing">
+  <div class="pad">
+    <div class="kicker" style="color:var(--gold-bright)">Before you ship</div>
+    <h2>Five notes from<br>the <em>atelier</em></h2>
+    <p class="lede">The difference between “an AI website” and one that gets bookmarked is entirely in the finish.</p>
+    <div class="tiplist">
+      <div class="tip"><div class="n">1</div><div><b>Consistency beats quality.</b>
+        <p>A softer clip where the product is identical across shots feels more expensive than four beautiful clips
+          of four different products. Always pass the hero image reference.</p></div></div>
+      <div class="tip"><div class="n">2</div><div><b>Compress for the web.</b>
+        <p>One instruction — “compress the frames for web” — typically cuts payload dramatically and makes the scroll
+          buttery on any laptop.</p></div></div>
+      <div class="tip"><div class="n">3</div><div><b>Readability is not optional.</b>
+        <p>Quiet label text must clear ~4.5:1 on the dark base, and any scroll-revealed copy needs a fallback so it
+          can never stay invisible. Verify it, don’t assume it.</p></div></div>
+      <div class="tip"><div class="n">4</div><div><b>Going live is one more prompt.</b>
+        <p>“Push this to a GitHub repo and deploy it free on Cloudflare Pages or GitHub Pages, then connect a custom
+          domain.” That’s the whole distribution step.</p></div></div>
+      <div class="tip"><div class="n">5</div><div><b>Document the build.</b>
+        <p>Ship every project with a case study — the tools, the prompts, the failures and the fixes. It’s the
+          portfolio and the proof, in one page.</p></div></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>Made with the <b>cinematic-product-site</b> skill</span>
+    <span>promptatelier.uk · @thePromptAtelier</span>
+  </div>
+</div>
+
+</body>
+</html>

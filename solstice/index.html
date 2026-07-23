@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FORGE &amp; FUMÉE — The Solstice · Bronze Tourbillon</title>
+  <meta name="description" content="The Solstice — a bronze tourbillon chronograph forged in Geneva. Edition of 120." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ceremonial preloader -->
+  <div id="loader">
+    <div class="loader-mark">F<span class="amp">&amp;</span>F</div>
+    <div class="loader-sub">Forge &amp; Fumée — Genève</div>
+    <div class="loader-count"><span id="loader-pct">00</span></div>
+  </div>
+
+  <!-- film grain + cursor -->
+  <div id="grain" aria-hidden="true"></div>
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div class="nav-mark">FORGE <span class="amp">&amp;</span> FUMÉE</div>
+    <div class="nav-links">
+      <a href="#story" data-hover>La Maison</a>
+      <a href="#calibre" data-hover>Le Calibre</a>
+      <a href="#edition" data-hover>L'Édition</a>
+    </div>
+    <a class="nav-cta" href="#waitlist" data-hover>Private Waitlist</a>
+  </nav>
+
+  <!-- ═══ 01 · HERO — orbit scrub with story beats riding the rotation ═══ -->
+  <section id="hero" class="pin-section" data-seq="orbit">
+    <div class="pin-viewport">
+      <canvas class="seq-canvas"></canvas>
+      <img class="seq-poster" src="assets/poster.png" alt="The Solstice — bronze tourbillon chronograph" />
+
+      <div class="hero-titles">
+        <p class="hero-overline">La maison présente</p>
+        <h1 id="brand-title" aria-label="FORGE & FUMÉE"></h1>
+        <p class="hero-sub">The Solstice &mdash; Bronze Tourbillon Chronograph</p>
+        <div class="scroll-hint"><span></span>Scroll</div>
+      </div>
+
+      <!-- story fragments that ride the orbit -->
+      <div class="beat beat-left glass" data-at="0.30" data-out="0.52">
+        <p class="beat-kicker">Chapitre I</p>
+        <p class="beat-line">Bronze is poured,<br /><em>not chosen.</em></p>
+      </div>
+      <div class="beat beat-right glass" data-at="0.55" data-out="0.76">
+        <p class="beat-kicker">Neuf semaines</p>
+        <p class="beat-line">Nine weeks between<br />the crucible <em>and your wrist.</em></p>
+      </div>
+      <div class="beat beat-center glass" data-at="0.80" data-out="0.97">
+        <p class="beat-line beat-quote">&ldquo;We do not make watches that resist time.<br />We make watches that <em>agree with it.</em>&rdquo;</p>
+        <p class="beat-cite">&mdash; Émile Fumée, Maître Horloger</p>
+      </div>
+
+      <div class="hero-meta">
+        <span>Réf. SOL-01 &mdash; Genève</span>
+        <span class="hero-meta-badge">Édition de 120</span>
+        <span>Bronze forgé &middot; Tourbillon &middot; 41&nbsp;mm</span>
+      </div>
+      <div class="vignette"></div>
+    </div>
+  </section>
+
+  <!-- marquee divider -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Forgé à la main &nbsp;·&nbsp; Genève &nbsp;·&nbsp; Édition de 120 &nbsp;·&nbsp; Solstice &nbsp;·&nbsp; Tourbillon volant &nbsp;·&nbsp; Patine vivante &nbsp;·&nbsp;</span>
+      <span>Forgé à la main &nbsp;·&nbsp; Genève &nbsp;·&nbsp; Édition de 120 &nbsp;·&nbsp; Solstice &nbsp;·&nbsp; Tourbillon volant &nbsp;·&nbsp; Patine vivante &nbsp;·&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- ═══ 02 · STORY — editorial over full-bleed footage ═══ -->
+  <section id="story" class="bg-band">
+    <div class="bg-band-media parallax" data-speed="-8"><img src="assets/stills/orbit-front.jpg" alt="" aria-hidden="true" /></div>
+    <div class="bg-band-scrim"></div>
+    <div class="story-inner">
+      <p class="kicker reveal">Chapitre I &mdash; La Maison</p>
+      <h2 class="reveal">Born<br /><em>of Fire</em></h2>
+      <p class="lede drop-cap reveal">Bronze is poured, not chosen. At eleven hundred degrees it forgets every shape it has ever held — and remembers only the hand that pours it. In our atelier above the Rhône, each Solstice case begins as a crucible of molten alloy and ends, nine weeks later, as a watch that will never be repeated.</p>
+      <p class="body-text reveal">The metal is cast, forged, brushed and then abandoned — deliberately — to the air of the valley. Oxygen does what no guillocheur can: it writes a patina that belongs to one case alone. Your Solstice is not finished when it leaves us. It is finished when you are.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 03 · MACRO — dial scrub with craft cards riding it ═══ -->
+  <section id="macro" class="pin-section" data-seq="macro">
+    <div class="pin-viewport">
+      <canvas class="seq-canvas"></canvas>
+      <img class="seq-poster" src="assets/poster.png" alt="Dial detail" />
+
+      <div class="overlay-card glass card-left" data-at="0.06" data-out="0.34" data-hover>
+        <span class="card-index">Acte I</span>
+        <h3>Le Bronze</h3>
+        <p>CuSn8 marine bronze, forged — never machined from bar stock. Nine weeks of open-air oxidation before first assembly. No two cases share a patina.</p>
+        <span class="card-foot">41 mm &middot; forged case</span>
+      </div>
+      <div class="overlay-card glass card-right" data-at="0.40" data-out="0.68" data-hover>
+        <span class="card-index">Acte II</span>
+        <h3>Le Cadran</h3>
+        <p>Smoked amber lacquer, hand-sprayed in fourteen passes from ember to black. Faceted bronze indices, each cut and seated under a loupe.</p>
+        <span class="card-foot">14 passes &middot; fumé lacquer</span>
+      </div>
+      <div class="overlay-card glass card-left-low" data-at="0.74" data-out="0.97" data-hover>
+        <span class="card-index">Acte III</span>
+        <h3>Le Tourbillon</h3>
+        <p>A flying tourbillon at six o'clock, its cage mirror-polished by hand for eleven hours. It breathes once a minute. You will find yourself waiting for it.</p>
+        <span class="card-foot">60 s &middot; one revolution</span>
+      </div>
+
+      <div class="vignette"></div>
+    </div>
+  </section>
+
+  <!-- ═══ 04 · ENGINEERING — assembly scrub + spec callouts ═══ -->
+  <section id="engineering" class="pin-section" data-seq="assembly">
+    <div class="pin-viewport">
+      <canvas class="seq-canvas"></canvas>
+      <img class="seq-poster" src="assets/stills/caseback.jpg" alt="Exploded assembly" />
+      <p class="engineering-title" data-at="0.02" data-out="0.30">Two hundred and three parts.<br /><em>One breath.</em></p>
+      <div class="spec-callouts">
+        <div class="spec" data-at="0.16"><span class="spec-num">41<em>mm</em></span><span class="spec-label">hand-forged bronze</span></div>
+        <div class="spec" data-at="0.38"><span class="spec-num">68<em>h</em></span><span class="spec-label">power reserve</span></div>
+        <div class="spec" data-at="0.60"><span class="spec-num">203</span><span class="spec-label">components</span></div>
+        <div class="spec" data-at="0.82"><span class="spec-num">1<em>of&nbsp;1</em></span><span class="spec-label">patina, unrepeatable</span></div>
+      </div>
+      <div class="vignette"></div>
+    </div>
+  </section>
+
+  <!-- ═══ 05 · LE CALIBRE — spec sheet over the skeleton caseback ═══ -->
+  <section id="calibre" class="bg-band">
+    <div class="bg-band-media parallax" data-speed="-6"><img src="assets/stills/caseback.jpg" alt="" aria-hidden="true" /></div>
+    <div class="bg-band-scrim scrim-right"></div>
+    <div class="calibre-inner">
+      <div class="calibre-panel glass reveal">
+        <p class="kicker">Chapitre III &mdash; Le Calibre</p>
+        <h2>FF-203</h2>
+        <p class="body-text">Two hundred and three components, wound by hand, visible through a sapphire back. Nothing hidden, because nothing needs to be.</p>
+        <dl class="spec-table">
+          <div><dt>Calibre</dt><dd>FF-203, manual wind</dd></div>
+          <div><dt>Components</dt><dd>203</dd></div>
+          <div><dt>Power reserve</dt><dd>68 hours</dd></div>
+          <div><dt>Frequency</dt><dd>28,800 vph</dd></div>
+          <div><dt>Regulator</dt><dd>Flying tourbillon, 60 s</dd></div>
+          <div><dt>Case</dt><dd>41 mm forged bronze CuSn8</dd></div>
+          <div><dt>Crystal</dt><dd>Domed sapphire, both faces</dd></div>
+          <div><dt>Dial</dt><dd>Smoked amber fumé, 14 passes</dd></div>
+          <div><dt>Strap</dt><dd>Espresso calf, bronze buckle</dd></div>
+          <div><dt>Water resistance</dt><dd>50 m</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 06 · NUMBERS — counters over footage ═══ -->
+  <section id="numbers" class="bg-band">
+    <div class="bg-band-media parallax" data-speed="-5"><img src="assets/stills/hands.jpg" alt="" aria-hidden="true" /></div>
+    <div class="bg-band-scrim scrim-heavy"></div>
+    <div class="numbers-grid">
+      <div class="number reveal"><span class="number-val" data-count="120">0</span><span class="number-label">pieces, ever</span></div>
+      <div class="number reveal"><span class="number-val" data-count="203">0</span><span class="number-label">components</span></div>
+      <div class="number reveal"><span class="number-val" data-count="68">0</span><span class="number-label">hours of reserve</span></div>
+      <div class="number reveal"><span class="number-val" data-count="41">0</span><span class="number-label">millimetres</span></div>
+    </div>
+  </section>
+
+  <!-- ═══ 07 · EDITION — certificate floating over the watch ═══ -->
+  <section id="edition" class="bg-band">
+    <div class="bg-band-media parallax" data-speed="-4"><img src="assets/poster.png" alt="" aria-hidden="true" /></div>
+    <div class="bg-band-scrim scrim-center"></div>
+    <div class="edition-inner">
+      <p class="kicker reveal">Chapitre IV &mdash; L'Édition</p>
+      <div class="certificate glass reveal" data-hover>
+        <div class="certificate-inner">
+          <div class="certificate-mark">F<span class="amp">&amp;</span>F</div>
+          <h2 class="certificate-title">Edition of 120</h2>
+          <p class="certificate-serial">N<sup>o</sup> &mdash;&mdash; / 120</p>
+          <div class="certificate-rule"></div>
+          <p class="certificate-price">$36,000</p>
+          <p class="certificate-note">Allocated. Never sold.</p>
+          <a class="btn-copper" href="#waitlist" data-hover>Request an Allocation</a>
+        </div>
+      </div>
+      <div class="press-strip">
+        <blockquote class="press-quote reveal"><p>&ldquo;A lesson in patience, cased in fire.&rdquo;</p><cite>Journal de l'Heure</cite></blockquote>
+        <blockquote class="press-quote reveal"><p>&ldquo;The only bronze that made us forget steel exists.&rdquo;</p><cite>Chronos &amp; Cie</cite></blockquote>
+        <blockquote class="press-quote reveal"><p>&ldquo;You do not read the time on it. You visit.&rdquo;</p><cite>La Complication</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 08 · WAITLIST — over embers ═══ -->
+  <section id="waitlist" class="bg-band">
+    <div class="bg-band-media parallax" data-speed="-4"><img src="assets/stills/tourbillon.jpg" alt="" aria-hidden="true" /></div>
+    <div class="bg-band-scrim scrim-heavy"></div>
+    <div class="waitlist-inner">
+      <p class="kicker reveal">Chapitre V &mdash; L'Allocation</p>
+      <h2 class="reveal">Request an<br /><em>Allocation</em></h2>
+      <p class="waitlist-note reveal">One hundred twenty pieces. A private register, kept by hand.<br />We write only once, and only when a case is yours.</p>
+      <form id="waitlist-form" class="reveal" autocomplete="off">
+        <div class="field"><input type="text" id="waitlist-name" placeholder="Name" required /></div>
+        <div class="field"><input type="email" id="waitlist-email" placeholder="Email" required /></div>
+        <button type="submit" class="btn-copper" data-hover>Join the Private Waitlist</button>
+      </form>
+      <p id="waitlist-confirm" hidden>Noted. We write only once.</p>
+      <p class="concierge reveal">Or write to the atelier &mdash; <a href="mailto:atelier@forgefumee.ch" data-hover>atelier@forgefumee.ch</a></p>
+    </div>
+
+    <footer>
+      <div class="footer-word" aria-hidden="true">FORGE <span class="amp">&amp;</span> FUMÉE</div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <span class="footer-head">La Maison</span>
+          <a href="#story" data-hover>Born of Fire</a>
+          <a href="#macro" data-hover>La Matière</a>
+          <a href="#calibre" data-hover>Le Calibre</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-head">L'Atelier</span>
+          <span>Quai des Forges 8</span>
+          <span>1204 Genève, Suisse</span>
+        </div>
+        <div class="footer-col">
+          <span class="footer-head">Contact</span>
+          <a href="mailto:atelier@forgefumee.ch" data-hover>atelier@forgefumee.ch</a>
+          <span>Par rendez-vous seulement</span>
+        </div>
+      </div>
+      <div class="footer-bar">
+        <span>&copy; MMXXVI Forge &amp; Fumée — a fictional maison</span>
+        <span>Solstice &middot; Réf. SOL-01</span>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 08 — The Watch That Spins As You Scroll · Prompt Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --glass-dark:rgba(24,20,14,.46); --glass-dark-b:rgba(255,255,255,.26);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+  .glass{backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+    border-radius:20px;box-shadow:0 12px 40px rgba(15,12,6,.28)}
+  .g-dark{background:var(--glass-dark);border:1px solid var(--glass-dark-b);color:var(--text-cream)}
+
+  /* ── nav ── */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  /* ── hero ── */
+  .hero{padding:56px 0 40px;text-align:left;background:
+    radial-gradient(55% 70% at 85% 0%,rgba(193,154,61,.10),transparent 60%),
+    radial-gradient(40% 55% at 5% 30%,rgba(51,98,92,.07),transparent 60%)}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:58px;line-height:1.12;margin:18px 0 20px;max-width:880px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  .video-shell{margin:44px 0 0;aspect-ratio:16/9;border-radius:26px;position:relative;overflow:hidden;box-shadow:0 24px 70px rgba(20,16,8,.28);background:#0d0b09}
+  .video-shell video{width:100%;height:100%;object-fit:cover;display:block}
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:12px;letter-spacing:.04em}
+  .figcap b{color:var(--gold-deep)}
+
+  /* ── sections ── */
+  section{padding:72px 0 8px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  .lede{color:var(--text-soft);max-width:660px;margin-bottom:8px}
+
+  /* stat tiles */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 26px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block;color:var(--text-ink)}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* step blocks */
+  .step{display:grid;grid-template-columns:330px 1fr;gap:40px;padding:44px 0;border-top:1px solid var(--linen);align-items:start}
+  @media(max-width:840px){.step{grid-template-columns:1fr}}
+  .step .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:64px;line-height:1;color:var(--gold-deep)}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:12px 0 10px}
+  .step p{font-size:15.5px;color:var(--text-soft)}
+  .step p + p{margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:9px;margin-top:16px;margin-right:8px;padding:8px 18px;border-radius:999px;
+    background:var(--ivory);border:1px solid var(--linen);font-size:12.5px;font-weight:600;letter-spacing:.06em}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+
+  /* figures */
+  .fig{border-radius:24px;overflow:hidden;position:relative;padding:26px;
+    display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;
+    background:radial-gradient(50% 65% at 82% 18%,rgba(193,154,61,.24) 0%,transparent 60%),
+      radial-gradient(60% 75% at 8% 90%,rgba(51,98,92,.4) 0%,transparent 60%),
+      linear-gradient(155deg,#16130E,#2B2418);box-shadow:0 18px 50px rgba(20,16,8,.22)}
+  .shot{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 12px 36px rgba(0,0,0,.45);max-width:100%}
+  .shot img{display:block;width:100%;height:auto}
+  .fullfig{border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(20,16,8,.22);border:1px solid var(--linen)}
+  .fullfig img{width:100%;display:block}
+  .promptbox{max-width:420px;padding:26px 30px;flex:1 1 320px}
+  .promptbox .lbl{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--text-fog);font-weight:600;margin-bottom:12px}
+  .promptbox code{font-family:ui-monospace,monospace;font-size:14px;line-height:1.6;color:var(--text-cream)}
+  .promptbox code b{color:var(--gold-bright);font-weight:400}
+  .portrait{width:250px;height:250px;border-radius:26px;overflow:hidden;border:1.5px solid rgba(220,188,105,.5);box-shadow:0 12px 36px rgba(0,0,0,.45);flex:0 0 auto}
+  .portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;transform:scale(1.05)}
+  .plabel{text-align:center;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-bright);margin-top:12px}
+
+  /* pipeline nodes */
+  .node{padding:14px 24px;font-family:var(--serif);font-weight:500;font-size:18px;border-radius:16px}
+  .node.gold{color:var(--gold-bright);border-color:rgba(220,188,105,.5)}
+  .pipe-col{display:flex;flex-direction:column;gap:12px}
+  .pipe-line{width:54px;height:2px;background:linear-gradient(90deg,transparent,var(--gold));align-self:center}
+  @media(max-width:600px){.pipe-line{width:2px;height:36px}}
+
+  /* cost bars */
+  .costs{width:100%;max-width:520px;display:flex;flex-direction:column;gap:18px}
+  .costrow b{font-family:var(--serif);font-size:16px;color:var(--text-cream);display:flex;justify-content:space-between;margin-bottom:8px}
+  .costrow b em{font-style:normal;color:var(--gold-bright)}
+  .bar{height:12px;border-radius:8px;background:rgba(255,255,255,.1);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--gold-deep),var(--gold-bright))}
+  .costnote{font-size:12.5px;color:var(--text-fog);margin-top:2px}
+
+  /* behind the scenes */
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 8px;border-radius:6px;font-family:ui-monospace,monospace}
+
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+  @media(max-width:720px){.gallery{grid-template-columns:1fr 1fr}}
+  .gcell{border-radius:18px;overflow:hidden;border:1px solid var(--linen);background:#0d0b09;aspect-ratio:1/1}
+  .gcell.wide{grid-column:span 2;aspect-ratio:auto}
+  .gcell img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* toolbox */
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool .paid{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  /* CTA row */
+  .ctarow{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:999px;font-weight:600;font-size:14px;letter-spacing:.03em;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .btn.gold{background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 14px 40px rgba(193,154,61,.32)}
+  .btn.ghost{border:1px solid var(--linen);color:var(--text-ink);background:#fff}
+  .btn:hover{transform:translateY(-2px)}
+
+  /* footer */
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+<link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+      <span class="nav-soc"><a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 08 · 3D &amp; Immersive Web</div>
+    <h1>The watch that <em>spins as you scroll</em></h1>
+    <p class="standfirst">A cinematic, scroll-driven product site for FORGE &amp; FUMÉE — a fictional bronze
+      tourbillon called the Solstice. One AI hero image anchors the product; three Seedance video clips are rendered
+      from it, upscaled with Topaz, cut to frame sequences, and painted to a canvas so scrolling literally rotates the
+      watch. No 3D artist, no video editor — the whole thing is code.</p>
+    <div class="meta">
+      <div><b>Medium</b>Scroll-scrub website</div>
+      <div><b>Generation cost</b>~$8 · 1,518 credits</div>
+      <div><b>Clips</b>3 · rendered 720p, upscaled 2×</div>
+      <div><b>Retakes</b>0 — all approved first take</div>
+    </div>
+
+    <div class="video-shell">
+      <video controls playsinline muted loop poster="ep08/hero.jpg" src="ep08/solstice-orbit.mp4"></video>
+    </div>
+    <div class="figcap"><b>The hero orbit</b> · the real Seedance clip, Topaz-upscaled to 1080p — this is what the
+      page scrubs frame-by-frame as you scroll. <a href="solstice/" style="color:var(--gold-deep)">Open the live site →</a></div>
+  </div>
+
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>One image, three clips, a site that rotates</h2>
+    <p class="lede">The brief was a luxury "3D scroll" product page. The trick that makes it hold together: generate a
+      single hero image first, then force every video clip to reference it — so the watch is identical in all three
+      shots. Everything else is orchestration.</p>
+    <div class="stats">
+      <div class="stat"><b>1</b><span>Hero image → the anchor</span></div>
+      <div class="stat"><b>3</b><span>Seedance clips</span></div>
+      <div class="stat"><b>363</b><span>Frames scrubbed on canvas</span></div>
+      <div class="stat"><b><em>~$8</em></b><span>Total generation spend</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ STEP 01 ══════════ -->
+  <section>
+    <div class="kicker">The Pipeline</div>
+    <h2>Step by step</h2>
+
+    <div class="step" style="margin-top:34px">
+      <div>
+        <div class="num">01</div>
+        <h3>The Hero Image</h3>
+        <p>Everything starts with one still. A single prompt to Seedream 5 Pro produced the Solstice — hand-forged
+          bronze case, smoked amber dial fading to black, a gold tourbillon at six, ember light. Its URL becomes the
+          <code style="font-family:ui-monospace,monospace;font-size:13px">reference_image_urls</code> passed to every clip.</p>
+        <span class="chip"><i></i>Seedream 5 Pro · via Kie.ai</span>
+        <span class="chip"><i></i>14 credits</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">Prompt (abridged)</div>
+            <code>Ultra-premium studio photograph of a luxury <b>bronze tourbillon watch</b>, hand-forged case with warm patina, <b>smoked amber dial</b> fading to black, gold tourbillon cage at six, dark leather strap, single <b>forge-glow rim light</b>, drifting embers, charcoal void. No text, no logo.</code>
+          </div>
+          <div>
+            <div class="portrait"><img src="ep08/hero.jpg" alt="The Solstice — generated hero image"></div>
+            <div class="plabel">The anchor</div>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 1</b> — one prompt in, one product out. This exact frame is referenced by all three clips.</div>
+      </div>
+    </div>
+
+    <!-- ══════════ STEP 02 ══════════ -->
+    <div class="step">
+      <div>
+        <div class="num">02</div>
+        <h3>The Three Shots</h3>
+        <p>From that reference, Seedance rendered three ~8-second clips: a 360° <b>hero orbit</b>, a <b>macro
+          fly-through</b> across the dial, and an <b>exploded assembly</b> that builds the watch from floating parts.
+          All three hold the product identical — the reference image is doing its job.</p>
+        <p>A gift we didn't prompt: on the back half of the orbit, Seedance invented a plausible skeleton case-back
+          with visible gearwork. It turned three dull seconds of strap into the most mechanical moment of the spin.</p>
+        <span class="chip"><i></i>Seedance 2.0 · via Kie.ai</span>
+        <span class="chip"><i></i>328 credits / clip</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep08/orbit-strip.jpg" alt="Three frames from the 360° orbit — front, side, skeleton caseback"></div>
+        <div class="figcap"><b>Fig. 2</b> — three angles from the single orbit clip: dial, profile, and the unprompted skeleton case-back.</div>
+      </div>
+    </div>
+
+    <!-- ══════════ STEP 03 ══════════ -->
+    <div class="step">
+      <div>
+        <div class="num">03</div>
+        <h3>The Upscale</h3>
+        <p>Every clip was rendered at 720p, then run through Topaz 2× and brought down to a clean 1080p. For a
+          scroll-scrubbed canvas the result is indistinguishable from native 1080p — at less than half the credits.</p>
+        <p>That decision paid for the whole project's headroom: three clips, three upscales, a hero image and a
+          comfortable retake budget, all inside ~1,500 credits.</p>
+        <span class="chip"><i></i>Topaz Video Upscale · via Kie.ai</span>
+        <span class="chip"><i></i>~64 credits / clip</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="costs">
+            <div class="costrow"><b>Native 1080p <em>102 cr/s</em></b><div class="bar"><i style="width:100%"></i></div><div class="costnote">the obvious, expensive path</div></div>
+            <div class="costrow"><b>720p → Topaz 2× <em>41 + 8 cr/s</em></b><div class="bar"><i style="width:48%"></i></div><div class="costnote">what we shipped — visually identical on a scrub</div></div>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 3</b> — render-cheap, upscale-smart. The lever that kept the build under $10.</div>
+      </div>
+    </div>
+
+    <!-- ══════════ STEP 04 ══════════ -->
+    <div class="step">
+      <div>
+        <div class="num">04</div>
+        <h3>The Assembly</h3>
+        <p>FFmpeg cut each upscaled clip into ~120 JPEG frames. Claude Code wrote the site: a sticky canvas that a
+          GSAP <b>scrub</b> tween paints frame-by-frame as you scroll, Lenis for smooth motion, and glass overlays that
+          fade in and out <em>riding the footage</em> — story beats on the orbit, spec cards on the macro, callouts on
+          the assembly. Editorial sections sit on full-bleed stills with parallax, so the whole page reads as one film.</p>
+        <span class="chip"><i></i>FFmpeg · frame extraction</span>
+        <span class="chip"><i></i>GSAP + Lenis · scroll-scrub</span>
+        <span class="chip"><i></i>Claude Code · the whole site</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="pipe-col">
+            <div class="glass g-dark node">Hero image</div>
+          </div>
+          <div class="pipe-line"></div>
+          <div class="pipe-col">
+            <div class="glass g-dark node">Orbit</div>
+            <div class="glass g-dark node">Macro</div>
+            <div class="glass g-dark node">Exploded</div>
+          </div>
+          <div class="pipe-line"></div>
+          <div class="pipe-col">
+            <div class="glass g-dark node">Topaz 2×</div>
+            <div class="glass g-dark node">363 frames</div>
+          </div>
+          <div class="pipe-line"></div>
+          <div class="pipe-col">
+            <div class="glass g-dark node gold">Scroll-scrub site</div>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 4</b> — one image fans out to three clips, upscaled, framed, and scrubbed on a canvas.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE STILLS ══════════ -->
+  <section>
+    <div class="kicker">The Footage</div>
+    <h2>Frames from the finished clips</h2>
+    <p class="lede">Every image below is a real frame from the generated, Topaz-upscaled footage — and every one of
+      these was cropped straight from the render to become card art on the site. Nothing was generated twice.</p>
+    <div class="gallery">
+      <div class="gcell wide"><img src="ep08/still-tourbillon.jpg" alt="Macro — the flying tourbillon at six o'clock"></div>
+      <div class="gcell"><img src="ep08/still-dial.jpg" alt="Macro — faceted indices on the smoked amber dial"></div>
+      <div class="gcell"><img src="ep08/still-caseback.jpg" alt="Orbit — the skeleton caseback"></div>
+      <div class="gcell wide"><img src="ep08/exploded.jpg" alt="Exploded assembly — components mid-air"></div>
+    </div>
+  </section>
+
+  <!-- ══════════ BEHIND THE SCENES ══════════ -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>What we learned (and what nearly broke)</h2>
+    <p class="lede">The honest notes — the parts a tidy tutorial leaves out.</p>
+    <div class="notes">
+      <div class="note"><b>AI can't spell — so don't let it</b><p>Image models garble engraved text into gibberish. Every prompt ended with <code>no readable text, no logo</code>; the brand name lives in the site's typography instead. One faint invented marking still slipped onto a bezel mid-assembly — invisible at scrub speed, so it stayed.</p></div>
+      <div class="note"><b>The hidden-pane rAF trap</b><p>A headless preview pane suspends <code>requestAnimationFrame</code>, so scroll tests read as "frozen" even when the site works. Verifying the scrub meant manually pumping the clock (<code>lenis.raf</code> + <code>gsap.updateRoot</code>) and hashing the canvas at three depths.</p></div>
+      <div class="note"><b>Consistency beats resolution</b><p>One reference image kept the watch identical across all three clips — the single biggest reason it looks expensive. A softer-but-consistent product always outreads four sharper-but-different ones.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div><b>Kie.ai API</b><br><span>Generation gateway — one key, every model</span></div><span class="free paid">CREDITS</span></div>
+      <div class="tool"><div><b>Seedream 5 Pro</b><br><span>The hero image (identity anchor)</span></div><span class="free paid">VIA KIE</span></div>
+      <div class="tool"><div><b>Seedance 2.0</b><br><span>The three video clips</span></div><span class="free paid">VIA KIE</span></div>
+      <div class="tool"><div><b>Topaz Video Upscale</b><br><span>720p → 1080p, 2×</span></div><span class="free paid">VIA KIE</span></div>
+      <div class="tool"><div><b>FFmpeg</b><br><span>Frame extraction &amp; normalisation</span></div><span class="free">OPEN SOURCE</span></div>
+      <div class="tool"><div><b>GSAP + Lenis</b><br><span>Scroll-scrub &amp; smooth scroll</span></div><span class="free">FREE</span></div>
+      <div class="tool"><div><b>Claude Code</b><br><span>Orchestration &amp; the entire site</span></div><span class="free">THE ASSEMBLER</span></div>
+    </div>
+
+    <div class="ctarow">
+      <a class="btn gold" href="solstice/">Open the live site →</a>
+      <a class="btn ghost" href="prompt-atelier-prompt-pack.pdf">Download the prompt pack →</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 08 · NEW CASE STUDIES EVERY WEEK</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+</body>
+</html>
