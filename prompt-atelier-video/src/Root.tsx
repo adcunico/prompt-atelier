@@ -2,6 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Composition, Sequence} from 'remotion';
 import {CaseStudy02, TOTAL_FRAMES as CS02_FRAMES} from './ep02/CaseStudy02';
 import {Lumen, LUMEN_TOTAL} from './ep05/Lumen';
+import {Ronin, RONIN_TOTAL} from './ronin/Ronin';
 import {stageBackground} from './theme';
 import {SofiaLayer} from './SofiaLayer';
 import {Captions} from './components';
@@ -76,6 +77,14 @@ export const Root: React.FC = () => (
       id="Lumen"
       component={Lumen}
       durationInFrames={LUMEN_TOTAL}
+      fps={FPS}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="Ronin"
+      component={Ronin}
+      durationInFrames={RONIN_TOTAL}
       fps={FPS}
       width={1920}
       height={1080}

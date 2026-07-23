@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 07 — The Atelier Ronin · Prompt Atelier</title>
+<meta name="description" content="How an eight-second samurai title scene was made: a moodboard, two AI keyframes, one Seedance video, and a kinetic title composited in Remotion — start to finish, with every prompt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --prism:linear-gradient(90deg,#C19A3D,#DCBC69,#33625C);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+  img{max-width:100%;display:block}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:56px;line-height:1.1;margin:18px 0 20px;max-width:920px}
+  h1 em{font-style:italic;background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:730px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+  .hero{padding:52px 0 20px}
+
+  /* ── the film band (dark atelier stage) ── */
+  .film-band{margin-top:52px;padding:60px 0;color:var(--text-cream);background:
+    radial-gradient(50% 65% at 82% 12%,rgba(193,154,61,.28),transparent 60%),
+    radial-gradient(60% 75% at 8% 95%,rgba(51,98,92,.40),transparent 60%),
+    linear-gradient(155deg,#16130E,#2B2418);border-top:1px solid rgba(193,154,61,.25);border-bottom:1px solid rgba(193,154,61,.25)}
+  .film-band .kicker{color:var(--gold-bright)}
+  .film-band h2{color:var(--text-cream)}
+  .film-band .lede{color:var(--text-fog)}
+  .film{margin-top:24px;border-radius:20px;overflow:hidden;border:1px solid rgba(193,154,61,.3);
+    box-shadow:0 40px 100px rgba(0,0,0,.5);background:#000;aspect-ratio:16/9}
+  .film video{width:100%;height:100%;display:block;object-fit:cover}
+  .film-cap{margin-top:18px;font-size:13px;color:var(--text-fog);letter-spacing:.04em}
+
+  section{padding:76px 0 10px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  h2 em{font-style:italic;color:var(--gold-deep)}
+  .lede{color:var(--text-soft);max-width:700px;margin-bottom:8px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 24px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* ── the build — numbered steps ── */
+  .step{display:grid;grid-template-columns:64px 1fr;gap:22px;margin-top:44px}
+  .step .num{font-family:var(--serif);font-style:italic;font-size:34px;color:var(--gold);line-height:1;padding-top:4px}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:25px;margin-bottom:8px}
+  .step p{color:var(--text-soft);font-size:15.5px;max-width:660px;margin-bottom:10px}
+  .step .fig{margin:18px 0 6px;border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 16px 44px rgba(60,50,30,.12)}
+  .figrow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0 6px}
+  .figrow figure{margin:0}
+  .figrow img{border-radius:14px;border:1px solid var(--linen)}
+  .cap{font-size:12.5px;color:var(--stone);margin-top:8px;letter-spacing:.02em}
+  .cap b{color:var(--text-soft)}
+
+  /* prompt blocks */
+  .prompt{background:linear-gradient(160deg,#1D1912,#2A2418);border:1px solid rgba(193,154,61,.28);
+    border-radius:14px;padding:18px 20px;margin:16px 0 6px;overflow-x:auto}
+  .prompt .pl{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-bright);font-weight:700;margin-bottom:10px;display:block}
+  .prompt pre{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#E8DEC8;white-space:pre-wrap}
+  .prompt .neg{color:#D98A72}
+
+  code{font-family:var(--mono);font-size:12.5px;background:var(--ivory);padding:2px 7px;border-radius:6px;color:var(--espresso)}
+
+  /* palette swatches */
+  .palette{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 6px}
+  .sw{width:96px;border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,.06);font-size:10px}
+  .sw .chip{height:56px}
+  .sw .lbl{padding:6px 8px;background:#fff;color:var(--text-soft);font-weight:600;letter-spacing:.04em}
+  .sw .lbl b{display:block;color:var(--text-ink);font-family:var(--mono);font-size:10.5px}
+
+  /* model table */
+  .tablewrap{overflow-x:auto;margin:22px 0 6px}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+  th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--linen);vertical-align:top}
+  th{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--stone);font-weight:700}
+  td b{color:var(--text-ink)}
+  tr.pick td{background:rgba(193,154,61,.09)}
+  .yes{color:var(--teal);font-weight:700}
+  .no{color:var(--stone)}
+
+  /* toolkit + toolbox reuse */
+  .kit{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note .n{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--gold-deep);display:block;margin-bottom:6px}
+  .note b{font-family:var(--serif);font-size:18.5px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool.repo{border:1.5px solid rgba(138,106,36,.4);text-decoration:none;color:inherit}
+  .tool.repo .free{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+
+  @media(max-width:640px){h1{font-size:38px}.step{grid-template-columns:1fr;gap:6px}.step .num{font-size:26px}.figrow{grid-template-columns:1fr}}
+</style>
+<link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+      <span class="nav-soc">
+        <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+        <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+      </span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 07 · AI Motion Design</div>
+    <h1>The Atelier Ronin: <em>eight seconds, one sword-draw, every prompt shown</em></h1>
+    <p class="standfirst">A scroll-stopping samurai title animation, rebuilt from scratch in the Prompt Atelier house style. No stock footage, no After Effects, no keyframe-by-keyframe animation. Just a moodboard, two AI-generated keyframes, a single video generation, and a kinetic title composited in code. This is the whole recipe — including the exact prompts and the one idea that makes AI motion look flawless.</p>
+    <div class="meta">
+      <div><b>Format</b>16:9 · 1920×1080 · 30fps</div>
+      <div><b>Runtime</b>8 seconds</div>
+      <div><b>Pipeline</b>Kie.ai → Remotion</div>
+      <div><b>Video gens</b>One. No stitching.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ THE FILM ══════════ -->
+<div class="film-band">
+  <div class="wrap">
+    <div class="kicker">The Film</div>
+    <h2>Watch the <em style="color:var(--gold-bright)">eight seconds</em></h2>
+    <p class="lede">The ronin completes his draw, the camera eases in and slides, and the title snaps in letter by letter under a faint 侍. Everything below is how it was made.</p>
+    <div class="film">
+      <video controls preload="metadata" poster="ep07/ronin-poster.jpg" playsinline>
+        <source src="ep07/ronin-final.mp4" type="video/mp4">
+      </video>
+    </div>
+    <p class="film-cap">The finished scene — the AI plate is the background; the slash-gold title, 侍 watermark, seal, particles and camera move are all Remotion.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>AI made the plate. <em>Code made the film.</em></h2>
+    <p class="lede">The trap with AI video is asking one model to do everything — motion, text, effects — and getting drift, garbled type and mush. The fix is a division of labour: let the AI generate only a clean <b>motion plate</b>, and do every legible, branded element in Remotion where it's frame-perfect and editable.</p>
+    <div class="stats">
+      <div class="stat"><b><em>2</em></b><span>Keyframes pinned the motion</span></div>
+      <div class="stat"><b>1</b><span>Video generation, zero stitched</span></div>
+      <div class="stat"><b>240</b><span>Frames composited in code</span></div>
+      <div class="stat"><b>0</b><span>Text baked by the AI</span></div>
+      <div class="stat"><b>100%</b><span>Brand palette, end to end</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE BUILD ══════════ -->
+  <section>
+    <div class="kicker">The Build</div>
+    <h2>Five steps, <em>start to finish</em></h2>
+    <p class="lede">Each step ships something the next one depends on — and each cheap artifact is approved before any expensive one is bought.</p>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="num">01</div>
+      <div>
+        <h3>A moodboard to lock the world</h3>
+        <p>Before generating anything animatable, the look is fixed: a warm, dark editorial atelier — ink-black robes, gold leaf, a single teal accent, a rising gold sun. The moodboard was generated free in ChatGPT (saving paid credits), then treated as the north star for every later frame.</p>
+        <figure class="fig"><img src="ep07/moodboard.png" alt="The Atelier Ronin moodboard — character study, gold sun, brushstroke, palette swatches and type"></figure>
+        <div class="prompt"><span class="pl">Moodboard prompt · ChatGPT</span><pre>Create a single landscape moodboard for an animated title scene, "The Atelier Ronin." A lone ronin mid-turn drawing a katana; ink-black and espresso robes, a gold-and-teal sash, porcelain skin highlights, a gold gleam on the blade. A large brushed gold sun disc. A single sweeping gold ink brushstroke. A palette swatch row: ink #1B1813, espresso #26221A, gold #C19A3D, gold-bright #DCBC69, teal #33625C. A type tile: "PROMPT ATELIER" in an elegant high-contrast serif, gold on dark. Warm, dark, hand-crafted, Japanese-minimalist meets fine-art atelier.</pre></div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="num">02</div>
+      <div>
+        <h3>A palette, written down as rules</h3>
+        <p>The moodboard's colours become a locked token set — the same values that drive the whole Prompt Atelier showreel. Gold is the hero accent; teal appears only as a sash detail; the dark warm stage is what makes the gold land. Nothing downstream is allowed to wander off it.</p>
+        <div class="palette">
+          <div class="sw"><div class="chip" style="background:#1B1813"></div><div class="lbl">ink<b>#1B1813</b></div></div>
+          <div class="sw"><div class="chip" style="background:#26221A"></div><div class="lbl">espresso<b>#26221A</b></div></div>
+          <div class="sw"><div class="chip" style="background:#3A3428"></div><div class="lbl">umber<b>#3A3428</b></div></div>
+          <div class="sw"><div class="chip" style="background:#C19A3D"></div><div class="lbl">gold<b>#C19A3D</b></div></div>
+          <div class="sw"><div class="chip" style="background:#DCBC69"></div><div class="lbl">gold-bright<b>#DCBC69</b></div></div>
+          <div class="sw"><div class="chip" style="background:#33625C"></div><div class="lbl">teal<b>#33625C</b></div></div>
+          <div class="sw"><div class="chip" style="background:#FBF8F2"></div><div class="lbl" style="color:#8A8272">porcelain<b>#FBF8F2</b></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="num">03</div>
+      <div>
+        <h3>Two keyframes — the whole trick</h3>
+        <p>Free-running AI video drifts and redraws faces. So the motion is <b>pinned at both ends</b>. Using <b>Nano Banana</b> (best-in-class for character consistency), a single character reference is recomposed into a wide START frame — coiled, blade sheathed, clean space reserved on the right. Then the END frame is generated <em>image-to-image from the start</em>, so the character stays pixel-identical while only the pose and framing change: blade drawn, settled, even more space for the title.</p>
+        <div class="figrow">
+          <figure><img src="ep07/keyframe-start.jpg" alt="Start keyframe — ronin coiled, blade sheathed"><div class="cap"><b>START</b> — coiled, held breath</div></figure>
+          <figure><img src="ep07/keyframe-end.jpg" alt="End keyframe — ronin with blade fully drawn"><div class="cap"><b>END</b> — draw complete, settled</div></figure>
+        </div>
+        <p>Both were approved as cheap images (~18 credits each) <em>before</em> spending a single video credit.</p>
+        <div class="prompt"><span class="pl">Keyframe prompt · Nano Banana (excerpt)</span><pre>Use the attached reference as the EXACT character. Recompose into a wide 16:9 landscape. Place the ronin in the LEFT third, three-quarters turned away, at the START of drawing his katana — hand on hilt, blade only just clearing the scabbard. Show a fuller standing figure. A large soft gold sun disc glows behind, left-of-center. Keep the entire RIGHT HALF as clean, warm-dark negative space. No text, no letters, no seal stamps.</pre></div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="num">04</div>
+      <div>
+        <h3>One video generation — motion by restraint</h3>
+        <p>The plate is a single <b>Seedance 2.0</b> render conditioned on both keyframes (<code>first_frame</code> + <code>last_frame</code>) — no clips, no stitching. The secret to flawless AI motion isn't the model, it's <b>restraint</b>: the body barely rotates, and the drama is carried by cloth inertia, the travelling blade gleam, and one slow camera move. The prompt is mostly physics and a hard list of forbidden artifacts.</p>
+        <figure class="fig"><img src="ep07/motion-strip.jpg" alt="Four frames across the sword draw showing the motion arc"></figure>
+        <div class="cap" style="margin-bottom:6px">Four moments across the six-second draw — coil, turn, extend, settle. The character never warps because it only has to travel between two frames it was given.</div>
+        <div class="prompt"><span class="pl">Motion prompt · Seedance 2.0 (excerpt)</span><pre>First image = frame 0; last image = the final frame. Animate a smooth, physically believable draw. The ronin does NOT spin; his body barely rotates. Beats: idle breath and drifting ribbon → complete the draw in one smooth arc, head turning slightly → blade reaches full extension, a gold gleam travels the edge → everything decelerates and settles. Camera: ONE move — a slow push-in that opens the right side.
+<span class="neg">Forbidden: extra limbs, a second sword, the blade bending or melting, face distortion, any text appearing, camera shake, full body rotation.</span></pre></div>
+        <h3 style="margin-top:26px;font-size:21px">Why Seedance — and why <em style="font-style:italic;color:var(--gold-deep)">not</em> motion-transfer</h3>
+        <p>Kie.ai offers a dozen video models. The tempting one — Kling Motion Control — transfers a real performer's body and face onto a character. But our ronin is <b>back-turned, face hidden</b>, so its biggest strength has nothing to grip. Tight keyframes on Seedance win on control.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Model</th><th>First + last frame</th><th>Motion transfer</th><th>Verdict for this shot</th></tr></thead>
+            <tbody>
+              <tr class="pick"><td><b>Seedance 2.0</b></td><td class="yes">Yes</td><td class="yes">Yes (separate mode)</td><td><b>Chosen.</b> Full control of both ends, one generation, native 1080p 16:9.</td></tr>
+              <tr><td>Wan 2.7 I2V</td><td class="yes">Yes</td><td class="no">—</td><td>Strong backup; tuned to reduce drift.</td></tr>
+              <tr><td>Kling 3.0</td><td class="yes">Yes</td><td class="no">—</td><td>Excellent, slightly pricier.</td></tr>
+              <tr><td>Kling Motion Control</td><td class="no">image + driver</td><td class="yes">Yes</td><td>Best for <em>visible</em> performers — wrong tool for a hidden face.</td></tr>
+              <tr><td>Veo 3.1</td><td class="yes">Yes</td><td class="no">—</td><td>Top fidelity, priciest.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step">
+      <div class="num">05</div>
+      <div>
+        <h3>Remotion brings it home</h3>
+        <p>The plate becomes the background of a React-driven Remotion composition. Everything legible or branded is drawn in code, frame-perfect: the title snaps in <b>letter by letter</b> with a staggered spring overshoot; the camera <b>zooms and slides left</b> as it lands; a huge faint <b>侍</b> sits behind it; a red seal <b>stamps</b> in to sign off; gold particles drift on deterministic noise and a soft turbulence haze breathes over the whole frame.</p>
+        <figure class="fig"><img src="ep07/title-frame.jpg" alt="Final title frame — PROMPT ATELIER in gold with the 侍 watermark and red seal"></figure>
+        <div class="cap" style="margin-bottom:6px">The title beat — Fraunces gold, the 侍 watermark, and the seal, all rendered in Remotion over the AI plate.</div>
+        <div class="prompt"><span class="pl">The type animation · Remotion</span><pre>text.split('').map((ch, i) => {
+  const s = spring({ frame: frame - delay - i * 3, fps,
+                     config: { damping: 12, stiffness: 190, mass: 0.6 } });
+  return <span style={{
+    opacity: Math.min(1, s),
+    transform: `translateY(${(1 - s) * 46}px) scale(${0.55 + s * 0.45})
+                rotate(${(1 - s) * -7}deg)`,
+  }}>{ch}</span>;
+})</pre></div>
+        <p style="margin-top:12px">Particles use Remotion's deterministic <code>random()</code> and <code>@remotion/noise</code> (never <code>Math.random</code>, which would flicker between renders); the haze is an animated SVG <code>feTurbulence</code> on a <code>screen</code> blend. Because it's all code, every timing, colour and position is a one-line change.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ LESSONS ══════════ -->
+  <section>
+    <div class="kicker">What We Learned</div>
+    <h2>Four things that made it <em>work</em></h2>
+    <div class="kit">
+      <div class="note"><span class="n">01</span><b>Pin the motion, don't free-run it</b><p>Two approved keyframes turn an unpredictable generation into a controlled interpolation. Nearly every AI-video failure mode — drift, extra limbs, garbled faces — disappears when the model only has to travel between two frames you've already blessed.</p></div>
+      <div class="note"><span class="n">02</span><b>Restraint reads as skill</b><p>A small, weighted action with one camera move looks like a master swordsman. A big spin makes the model invent geometry it was never given. Less motion, cleaner render.</p></div>
+      <div class="note"><span class="n">03</span><b>Text belongs in code</b><p>AI-baked type warps and shimmers. Kept in Remotion, "PROMPT ATELIER" is letter-perfect, on-brand, and editable to the pixel — and it can animate with real character.</p></div>
+      <div class="note"><span class="n">04</span><b>Budget the expensive step</b><p>Images are cheap (~18 credits); a 1080p Seedance render is not (~630). Approve every keyframe first. And re-encode the plate with dense keyframes before Remotion, or it won't seek cleanly.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div><b>Nano Banana</b><br><span>Reference-driven keyframes — the character, locked across frames</span></div><span class="free">KIE.AI</span></div>
+      <div class="tool"><div><b>Seedance 2.0</b><br><span>One first+last-frame render — the whole motion plate</span></div><span class="free">KIE.AI</span></div>
+      <div class="tool"><div><b>Remotion</b><br><span>Title, camera, 侍, seal, particles, haze — all in React</span></div><span class="free">CODE</span></div>
+      <div class="tool"><div><b>ffmpeg</b><br><span>Frame normalisation, keyframe re-encode, the final mux</span></div><span class="free">CLI</span></div>
+      <div class="tool"><div><b>Claude Code</b><br><span>Directed the pipeline, wrote the prompts and the composition</span></div><span class="free">AGENT</span></div>
+      <a class="tool repo" href="https://github.com/adcunico/atelier-ronin" target="_blank" rel="noopener"><div><b>The Source ↗</b><br><span>The full pipeline, prompts and skill, reproducible</span></div><span class="free">GITHUB</span></a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 07 · CRAFTED WITH PROMPTS, FINISHED WITH TASTE</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+
+</body>
+</html>
