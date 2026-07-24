@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 09 — Buzz Off (Work in Progress) · Prompt Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --stone:#A99D88;
+    /* episode palette — Buzz Off morning light */
+    --cream:#FAF5EB; --honey:#C98A2B; --honey-bright:#E0A93E; --sage:#71835F; --terracotta:#C65A32;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--cream);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0;position:relative;z-index:3}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--honey)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover{color:var(--honey)}
+
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--honey);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:56px;line-height:1.1;margin:18px 0 20px;max-width:920px}
+  h1 em{font-style:italic;color:var(--honey)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  .wip{display:inline-flex;align-items:center;gap:10px;margin-top:26px;padding:10px 22px;border-radius:999px;
+    background:rgba(201,138,43,.12);border:1px solid rgba(201,138,43,.4);font-size:13px;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--honey)}
+  .wip i{width:9px;height:9px;border-radius:50%;background:var(--honey);animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.35}}
+
+  .hero{padding:56px 0 20px;position:relative}
+  .video-shell{margin:48px 0 0;position:relative;background:#fff;padding:16px 16px 60px;border-radius:6px;
+    box-shadow:0 26px 70px rgba(90,60,15,.22)}
+  .video-shell video{width:100%;display:block;border-radius:3px}
+  .video-shell .cap{position:absolute;bottom:18px;left:0;right:0;text-align:center;
+    font-family:var(--serif);font-style:italic;font-size:19px;color:var(--text-soft)}
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:16px;letter-spacing:.04em}
+  .figcap b{color:var(--honey)}
+
+  section{padding:76px 0 10px;position:relative}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  h2 em{font-style:italic;color:var(--honey)}
+  .lede{color:var(--text-soft);max-width:680px;margin-bottom:8px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border-radius:14px;padding:26px 24px 22px;box-shadow:0 10px 30px rgba(90,60,15,.12)}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block}
+  .stat b em{font-style:italic;color:var(--honey)}
+  .stat span{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  .imgcard{background:#fff;padding:14px 14px 18px;border-radius:6px;box-shadow:0 18px 50px rgba(90,60,15,.16);margin-top:36px}
+  .imgcard img{width:100%;display:block;border-radius:3px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+
+  /* comparison slider */
+  .slider-card{background:#fff;padding:18px 18px 26px;border-radius:6px;box-shadow:0 22px 60px rgba(90,60,15,.2);margin-top:40px;position:relative}
+  .cmp{position:relative;overflow:hidden;user-select:none}
+  .cmp>img{width:100%;display:block;pointer-events:none}
+  .cmp .top{position:absolute;inset:0;clip-path:inset(0 50% 0 0)}
+  .cmp .top img{width:100%;height:100%;object-fit:cover}
+  .cmp .handle{position:absolute;top:0;bottom:0;width:3px;background:var(--honey-bright);left:50%;pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+  .cmp .handle::after{content:'⟷';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;
+    background:var(--honey);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 20px rgba(90,60,15,.35)}
+  .cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize}
+  .cmp .tag{position:absolute;bottom:14px;padding:7px 16px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:rgba(27,24,19,.75);border-radius:4px}
+  .cmp .tag.l{left:14px}
+  .cmp .tag.r{right:14px}
+
+  /* method cards */
+  .method{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:40px}
+  .m-card{background:#fff;padding:26px 26px 24px;border-radius:14px;box-shadow:0 14px 40px rgba(90,60,15,.14)}
+  .m-card .n{font-family:var(--serif);font-style:italic;font-weight:300;font-size:46px;line-height:1;color:var(--honey)}
+  .m-card b{font-family:var(--serif);font-size:20px;font-weight:500;display:block;margin:12px 0 8px}
+  .m-card p{font-size:14px;color:var(--text-soft)}
+
+  /* fail cards */
+  .fails{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:40px}
+  .fail{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 14px 40px rgba(90,60,15,.14);display:flex;flex-direction:column}
+  .fail img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+  .fail .fx{padding:22px 24px 24px}
+  .fail .lbl{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--terracotta)}
+  .fail b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin:8px 0 6px}
+  .fail p{font-size:13.5px;color:var(--text-soft)}
+  .fail .fix{margin-top:12px;font-size:13px;color:var(--sage);font-weight:600}
+  .fail .fix::before{content:'✓ ';color:var(--sage)}
+
+  /* prompt block */
+  .prompt{background:var(--ink);color:var(--text-cream);font-family:ui-monospace,Consolas,monospace;font-size:13px;line-height:1.7;
+    border-radius:12px;padding:22px 26px;margin-top:26px;overflow-x:auto}
+  .prompt b{color:var(--honey-bright);font-weight:400}
+  .prompt .cm{color:var(--text-fog)}
+
+  /* rules list */
+  ul.rules{margin:30px 0 0;padding-left:0;list-style:none;display:grid;gap:14px;max-width:760px}
+  ul.rules li{background:#fff;border-radius:12px;padding:18px 22px;font-size:14.5px;box-shadow:0 8px 24px rgba(90,60,15,.1)}
+  ul.rules li b{color:var(--honey)}
+
+  /* todo */
+  .todo{display:grid;gap:12px;margin-top:34px;max-width:620px}
+  .todo div{display:flex;gap:14px;align-items:center;font-size:15px}
+  .todo i{width:22px;height:22px;border-radius:7px;border:2px solid var(--linen);flex:0 0 22px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px}
+  .todo .done i{background:var(--sage);border-color:var(--sage);color:#fff}
+  .todo .done span{color:var(--text-soft)}
+
+  .bible-cta{display:flex;gap:22px;align-items:center;background:linear-gradient(145deg,#26221A,#1B1813);color:var(--text-cream);
+    border-radius:18px;padding:32px 36px;margin-top:44px;flex-wrap:wrap}
+  .bible-cta .t{flex:1;min-width:240px}
+  .bible-cta b{font-family:var(--serif);font-size:24px;font-weight:500;display:block}
+  .bible-cta p{font-size:14px;color:var(--text-fog);margin-top:6px}
+  .btn{display:inline-block;padding:15px 34px;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none;
+    background:linear-gradient(145deg,var(--honey-bright),var(--honey));color:#241B0C;transition:transform .25s}
+  .btn:hover{transform:translateY(-2px)}
+
+  footer{margin-top:100px;padding:60px 0;text-align:center;color:var(--text-cream);background:linear-gradient(165deg,#15120D,#262016)}
+  footer .wm{font-size:32px}
+  footer p{font-size:12.5px;color:var(--text-fog);letter-spacing:.14em;margin-top:12px}
+  footer a{color:var(--text-fog)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+
+  <!-- ═══════ HERO ═══════ -->
+  <div class="hero">
+    <div class="kicker">Episode 09 · AI Animated Short</div>
+    <h1>Buzz Off: turning a two-year-old script into a <em>Pixar-style short</em></h1>
+    <p class="standfirst">A meditating woman, one very persistent mosquito, and a full studio pipeline — production bible, keyframe continuity system, and the first animated shots. This one's still in the oven; here's the making-of, as it's being made.</p>
+    <div class="wip"><i></i>Work in progress · Part I — pre-production &amp; first shots</div>
+    <div class="meta">
+      <div><b>Images</b>Nano Banana Pro · Kie.ai</div>
+      <div><b>Video</b>Kling 3.0 · Gemini Omni</div>
+      <div><b>Voice (planned)</b>ElevenLabs</div>
+      <div><b>Pipeline</b>Claude Code + Node</div>
+      <div><b>Status</b>Acts I–II boarded</div>
+    </div>
+
+    <div class="video-shell">
+      <video src="ep09/reel-frenzy.mp4" autoplay muted loop playsinline></video>
+      <div class="cap">"When the world feels turbulent… meet it with stillness." — peak chaos, Kling 3.0 from a single keyframe</div>
+    </div>
+  </div>
+
+  <!-- ═══════ NUMBERS ═══════ -->
+  <section>
+    <div class="kicker">The Sprint So Far</div>
+    <h2>A film in <em>20 shots</em>, built shot by shot</h2>
+    <div class="stats">
+      <div class="stat"><b><em>20</em></b><span>shots storyboarded</span></div>
+      <div class="stat"><b><em>8</em></b><span>keyframes approved</span></div>
+      <div class="stat"><b><em>2</em></b><span>test clips animated</span></div>
+      <div class="stat"><b>~<em>$5</em></b><span>images so far</span></div>
+      <div class="stat"><b><em>1</em></b><span>very smug mosquito</span></div>
+    </div>
+  </section>
+
+  <!-- ═══════ MOODBOARD ═══════ -->
+  <section>
+    <div class="kicker">Step One</div>
+    <h2>One mood board to <em>rule the film</em></h2>
+    <p class="lede">Everything starts from a single generated board: title treatment, both characters, the set, the palette, and the opening quote — then the characters and room get cropped out and re-used as reference images for every single keyframe. Words drift; pictures don't.</p>
+    <div class="imgcard"><img src="ep09/moodboard.png" alt="Buzz Off mood board — title, Maya, Buzz, environment, palette"></div>
+    <p class="figcap"><b>The whole film on one canvas.</b> Maya's turnaround, Buzz's two poses, the environment and five paint swatches — generated in one shot, then cropped into reference sheets.</p>
+  </section>
+
+  <!-- ═══════ PIPELINE ═══════ -->
+  <section>
+    <div class="kicker">The System</div>
+    <h2>A studio pipeline in <em>four moves</em></h2>
+    <p class="lede">Adapted from Episode 03's keyframe-pair workflow, rebuilt for character animation: the video model never invents a composition — it only animates between frames that were approved as cheap images first.</p>
+    <div class="method">
+      <div class="m-card"><div class="n">1</div><b>Bible before pixels</b><p>A production bible defines all 20 shots, the voiceover script, a lens map (85mm for feeling, 24mm for comedy), and the story spine before anything is generated.</p></div>
+      <div class="m-card"><div class="n">2</div><b>References beat words</b><p>Every keyframe request carries the character crops and the approved master wide as image references — up to 8 per generation on Nano Banana Pro.</p></div>
+      <div class="m-card"><div class="n">3</div><b>Approve cheap, buy expensive</b><p>Keyframes cost ~25 credits; clips cost ~110–180. Nothing goes to video until its still frame passes review. Retakes happen at image price.</p></div>
+      <div class="m-card"><div class="n">4</div><b>Surgical edits, not re-rolls</b><p>A duplicate mug? A too-big mosquito? A 12-credit image-to-image edit fixes the flaw and keeps every other approved pixel intact.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══════ CONTINUITY ═══════ -->
+  <section>
+    <div class="kicker">The Hard Part</div>
+    <h2>Keeping one room <em>one room</em></h2>
+    <p class="lede">AI models happily redecorate between shots. The fix is a three-layer continuity system — and it's the heart of this whole production.</p>
+    <ul class="rules">
+      <li><b>Layer 1 — a floor plan in words.</b> Every prompt carries the same fixed geometry: window and sofa frame-left, desk and mirror behind right, one low table, exactly ONE mug in the whole room — and where the camera physically stands for this shot.</li>
+      <li><b>Layer 2 — the master wide.</b> The approved establishing shot is attached to every other generation as an image reference. Furniture positions survive in pictures far better than in prose.</li>
+      <li><b>Layer 3 — chained frames.</b> A shot's end frame is generated image-to-image <em>from</em> its approved start frame, so nothing drifts mid-shot.</li>
+    </ul>
+    <div class="imgcard"><img src="ep09/master-wide.jpg" alt="The master wide — Maya meditating in the established living room"></div>
+    <p class="figcap"><b>The canonical set.</b> Shot 02 doubles as the establishing shot of the film and the ground truth every other camera angle must obey.</p>
+
+    <div class="slider-card">
+      <div class="cmp" id="cmp">
+        <img src="ep09/master-wide.jpg" alt="Shot 02 — sharp">
+        <div class="top"><img src="ep09/scene-01-blur.jpg" alt="Shot 01 — the same frame, optically blurred"></div>
+        <div class="handle"></div>
+        <input type="range" min="0" max="100" value="50" aria-label="Compare blurred and sharp frame">
+        <span class="tag l">Shot 01 — opening blur</span>
+        <span class="tag r">Shot 02 — focus reveal</span>
+      </div>
+    </div>
+    <p class="figcap"><b>The zero-cost shot.</b> The film's opening frame isn't generated at all — it's the master wide put through an ffmpeg gaussian blur, so the cut into shot 02 plays as a focus-reveal. Free, and pixel-perfect continuity.</p>
+  </section>
+
+  <!-- ═══════ FAILURES ═══════ -->
+  <section>
+    <div class="kicker">The Failures &amp; The Fixes</div>
+    <h2>Three ways this went <em>wrong first</em></h2>
+    <p class="lede">Every case study here shows the misses. This episode had three recurring ones — each now a standing rule in the production bible.</p>
+    <div class="fails">
+      <div class="fail"><img src="ep09/scene-04.jpg" alt="Shot 04 still life, stylized retake">
+        <div class="fx"><div class="lbl">Failure 01</div><b>Photorealism creep</b>
+        <p>Two shot types kept sliding into photography: frames with no character face, and extreme macros <em>on</em> a face — pores and all.</p>
+        <div class="fix">Every risky prompt now opens with "a cartoon animated world, NOT a photograph" — plus "NO pores" on face macros.</div></div>
+      </div>
+      <div class="fail"><img src="ep09/scene-05.jpg" alt="Shot 05 — the mosquito as a barely-visible speck">
+        <div class="fx"><div class="lbl">Failure 02</div><b>The scale-creeping mosquito</b>
+        <p>Every model wanted the mosquito to be a co-star: dragonfly-sized, in focus, grinning. It took three rounds of notes to shrink him.</p>
+        <div class="fix">New hard rule: true real-world scale — a speck the viewer has to look for, no wider than an eyebrow even in macro.</div></div>
+      </div>
+      <div class="fail"><img src="ep09/scene-03.jpg" alt="Shot 03 close-up with correct background">
+        <div class="fx"><div class="lbl">Failure 03</div><b>The fourth-wall trap</b>
+        <p>Over-the-shoulder angles kept "turning" Maya toward whatever wall the model put behind her — because the wall she faces is never seen on camera.</p>
+        <div class="fix">Over-the-shoulder shots are banned on this set; reverse angles became front three-quarters, and prompts now state her facing direction.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ REVEAL DISCIPLINE ═══════ -->
+  <section>
+    <div class="kicker">A Storytelling Rule, Enforced in Prompts</div>
+    <h2>Hiding the star until <em>shot 16</em></h2>
+    <p class="lede">In the script, the mosquito's adorable design — the headband, the huge eyes — is only revealed when he lands in Maya's palm and unrolls a tiny yoga mat. So the prompts enforce it: before shot 16 he may only exist as a dark motion-blurred silhouette.</p>
+    <div class="grid2">
+      <div class="imgcard" style="margin-top:36px"><img src="ep09/buzz-ref.png" alt="Buzz character reference — full design"><p class="figcap" style="margin:12px 4px 2px"><b>The design the audience hasn't earned yet.</b> Buzz's reference sheet — reserved for the third act.</p></div>
+      <div class="imgcard" style="margin-top:36px"><img src="ep09/scene-07.jpg" alt="Shot 07 — the silhouette lunar-lander descent"><p class="figcap" style="margin:12px 4px 2px"><b>What the film shows instead.</b> Shot 07: a speck-scale silhouette descending like a lunar lander.</p></div>
+    </div>
+    <div class="prompt"><span class="cm">// the standing clause, verbatim, from every pre-reveal prompt:</span><br>
+REVEAL RULE — Buzz's design stays hidden until much later in the film: in this shot he appears only as a small <b>DARK, MOTION-BLURRED mosquito silhouette</b>. No readable eyes, no face, no headband, no grin, no crisp edges — just a fuzzy dark shape with a faint translucent wing shimmer. <b>TRUE REAL-WORLD SCALE</b> — a speck of a few millimeters the viewer has to look for.</div>
+  </section>
+
+  <!-- ═══════ SECOND VIDEO ═══════ -->
+  <section>
+    <div class="kicker">First Motion Tests</div>
+    <h2>Two clips, two <em>tempos</em></h2>
+    <p class="lede">Both animated with Kling 3.0 from a single approved keyframe each — one slow-burn macro, one full slapstick. The film's story clips will use locked-off cameras; these two deliberately break that rule for the showreel.</p>
+    <div class="video-shell">
+      <video src="ep09/reel-lunar.mp4" controls muted loop playsinline></video>
+      <div class="cap">The lunar landing — slow-motion descent, orbital arc, touchdown one leg at a time</div>
+    </div>
+    <div class="imgcard"><img src="ep09/scene-12.jpg" alt="Shot 12 — full frenzy keyframe"></div>
+    <p class="figcap"><b>The keyframe behind the hero clip.</b> Shot 12: tai chi meets cartoon frenzy, every prop still exactly where the master wide says it lives — and the mosquito a speck by the mirror.</p>
+  </section>
+
+  <!-- ═══════ BIBLE CTA ═══════ -->
+  <section>
+    <div class="bible-cta">
+      <div class="t"><b>The Production Bible</b>
+      <p>All 20 shots, the voiceover script, the lens map, the continuity rules and the reveal discipline — the full working document this film is being made from.</p></div>
+      <a class="btn" href="ep09/production-bible.html">Read the bible →</a>
+    </div>
+  </section>
+
+  <!-- ═══════ WHAT'S NEXT ═══════ -->
+  <section>
+    <div class="kicker">Still To Come</div>
+    <h2>Part II — <em>the film itself</em></h2>
+    <div class="todo">
+      <div class="done"><i>✓</i><span>Script, production bible &amp; mood board</span></div>
+      <div class="done"><i>✓</i><span>Continuity system — floor plan, master wide, chained frames</span></div>
+      <div class="done"><i>✓</i><span>Act I &amp; first Act II keyframes approved</span></div>
+      <div class="done"><i>✓</i><span>First motion tests (Kling 3.0)</span></div>
+      <div><i></i><span>Remaining keyframes — Acts II, III &amp; the yoga-mat reveal</span></div>
+      <div><i></i><span>Story clips — locked-off cameras, Gemini Omni</span></div>
+      <div><i></i><span>ElevenLabs voiceover — nine lines of serene irony</span></div>
+      <div><i></i><span>Edit, sound design &amp; the three seconds of total silence</span></div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>EPISODE 09 · PART I — TO BE CONTINUED</p>
+  <p style="margin-top:20px"><a href="index.html">← Back to all case studies</a></p>
+</footer>
+
+<script>
+  (function(){
+    const cmp=document.getElementById('cmp');
+    if(!cmp)return;
+    const top=cmp.querySelector('.top'),handle=cmp.querySelector('.handle'),range=cmp.querySelector('input');
+    range.addEventListener('input',()=>{
+      const v=range.value;
+      top.style.clipPath=`inset(0 ${100-v}% 0 0)`;
+      handle.style.left=v+'%';
+    });
+  })();
+</script>
+</body>
+</html>

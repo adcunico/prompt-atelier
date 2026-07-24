@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buzz Off — Production Bible · Prompt Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF5EB; --linen:#E9E1D2; --ink:#1B1813;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --honey:#C98A2B; --honey-bright:#E0A93E; --sage:#71835F; --terracotta:#C65A32; --stone:#A99D88;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--cream);color:var(--text-ink);line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:0 32px 90px}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--honey)}
+  nav a{text-decoration:none;color:var(--text-ink)}
+  nav .back{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-soft)}
+  nav .back:hover{color:var(--honey)}
+  header{padding:40px 0 10px}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--honey);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:52px;line-height:1.08;margin:16px 0 14px}
+  h1 em{font-style:italic;color:var(--honey)}
+  .standfirst{font-size:17px;color:var(--text-soft);max-width:640px}
+  .specs{display:flex;flex-wrap:wrap;gap:8px 30px;margin-top:26px;padding:16px 22px;background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(90,60,15,.08)}
+  .specs div{font-size:13.5px}
+  .specs b{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--stone);font-weight:600}
+  section{margin-top:64px}
+  h2{font-family:var(--serif);font-weight:400;font-size:32px;margin:6px 0 10px}
+  h2 em{font-style:italic;color:var(--honey)}
+  .lede{color:var(--text-soft);max-width:640px;margin-bottom:6px;font-size:15.5px}
+  .card{background:#fff;border-radius:14px;padding:24px 28px;margin-top:20px;box-shadow:0 10px 30px rgba(90,60,15,.1)}
+  .card h3{font-family:var(--serif);font-weight:500;font-size:20px;margin-bottom:8px}
+  .card p{font-size:14.5px;color:var(--text-soft)}
+  .tname{font-family:ui-monospace,Consolas,monospace;font-size:13px;color:var(--honey);font-weight:700}
+  pre{background:var(--ink);color:var(--text-cream);font-family:ui-monospace,Consolas,monospace;font-size:12.5px;line-height:1.65;
+    border-radius:10px;padding:16px 20px;margin-top:12px;white-space:pre-wrap;overflow-x:auto}
+  .tablewrap{overflow-x:auto;border-radius:12px;background:#fff;box-shadow:0 10px 30px rgba(90,60,15,.1);margin-top:24px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:680px}
+  th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--stone);padding:12px 16px;border-bottom:2px solid var(--linen)}
+  td{padding:10px 16px;border-top:1px solid var(--linen);vertical-align:top}
+  td.n,td.d{font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.act td{background:var(--cream);font-family:var(--serif);font-weight:600;font-size:13px;letter-spacing:.05em}
+  .vo{color:var(--sage);font-style:italic}
+  ul.notes{margin-top:20px;padding-left:0;list-style:none;display:grid;gap:12px}
+  ul.notes li{background:#fff;border-radius:12px;padding:16px 20px;font-size:14px;box-shadow:0 8px 24px rgba(90,60,15,.08)}
+  ul.notes li b{color:var(--honey)}
+  .voline{display:grid;grid-template-columns:3.4rem 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--linen);font-size:14.5px}
+  .voline .ref{color:var(--stone);font-size:12px;font-variant-numeric:tabular-nums;padding-top:2px}
+  .voline q{font-style:italic}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="../index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <a class="back" href="../case-study-ep09.html">← Back to the case study</a>
+  </nav>
+
+  <header>
+    <div class="kicker">Episode 09 · Working document</div>
+    <h1>Buzz Off — <em>Production Bible</em></h1>
+    <p class="standfirst">The living document the film is being made from: reusable prompt tokens, Pixar-derived craft rules, the continuity system, and all twenty shots. Written by Aline Cunico with Claude Code; updated as production advances.</p>
+    <div class="specs">
+      <div><b>Runtime</b>≈ 2 min 45 s</div>
+      <div><b>Format</b>16:9 · 1080p</div>
+      <div><b>Shots</b>20 (19 generated)</div>
+      <div><b>Images</b>Nano Banana Pro</div>
+      <div><b>Video</b>Gemini Omni / Kling 3.0</div>
+      <div><b>Voice</b>ElevenLabs</div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Reusable <em>tokens</em></h2>
+    <p class="lede">Four blocks pasted into every image prompt. The text sets intent; the real consistency comes from attaching the mood-board crops and the approved master wide as reference images.</p>
+    <div class="card"><span class="tname">[STYLE]</span>
+      <pre>High-end 3D animated feature film still in the style of a modern Pixar-like animation. Soft rounded character design, expressive oversized eyes, palette of warm cream, honey amber, sage green and terracotta, subtle subsurface scattering on skin, shallow depth of field, cinematic 16:9. Restrained cinematic lighting: soft window key light, gentle warm fill and bounce, subtle rim light, warm candle practicals, light volumetric morning haze through gauzy curtains.</pre></div>
+    <div class="card"><span class="tname">[MAYA]</span>
+      <pre>Maya, a young woman in her mid-20s with a kind, expressive round face, large warm brown eyes, dark hair in a loose messy bun, oversized sage-green t-shirt, charcoal yoga pants, and colorful mismatched socks — one orange-striped, one teal polka-dot.</pre></div>
+    <div class="card"><span class="tname">[BUZZ]</span> — <b style="font-size:13px">reveal discipline: this design appears only from shot 16 onward.</b> Before that he is a dark motion-blurred silhouette at true real-world mosquito scale — a speck the viewer has to look for. Sole exception: shot 14 may show wide white cartoon eyes inside the silhouette.
+      <pre>Buzz, a thumb-sized cartoon mosquito with huge glossy expressive eyes, a tiny red headband tied slightly askew, iridescent translucent wings, six spindly legs, a short rounded harmless snoot, and a cheeky, curious grin.</pre></div>
+    <div class="card"><span class="tname">[GEO]</span> — the fixed floor plan; append to every image prompt with one sentence saying where this shot's camera stands.
+      <pre>Fixed set geometry — never rearrange it. In master-wide screen terms: Maya sits at the center of the round woven jute rug, always FACING the master wide's camera; she never turns her body toward the window. The sunlit window with gauzy curtains and the sofa beneath it are along the frame-left wall. The wooden art desk with jars of brushes and the framed yoga photo is behind her to frame-right, with the round brass mirror on the wall above it. The leafy potted plant stands behind her between window and desk. At the front-right edge of the rug: one low wooden table holding the single teal ceramic mug of steaming tea and the single lit candle. There is exactly ONE mug in the whole room. Her phone lies on the rug in front of her knees. Maya is always sitting cross-legged in lotus with hands resting on her knees, unless this shot explicitly changes her pose. Never add furniture or props that are not in the master wide.</pre></div>
+  </section>
+
+  <section>
+    <h2>Pixar craft <em>grammar</em></h2>
+    <p class="lede">Distilled from Pixar's own methodology (Pixar in a Box): the camera never calls attention to itself, lenses carry emotion, and life comes from tiny imperfections.</p>
+    <div class="card"><h3>The story spine</h3>
+      <p>Maya <b>wants</b> silence; she <b>needs</b> harmony with the world as it is. Buzz wants to play; he needs a fellow yogi. The guide's voiceover states the theme literally while the pictures contradict it — until shot 14, where want and need trade places.</p></div>
+    <div class="card"><h3>Invisible camera &amp; lens map</h3>
+      <p>Slow dollies and pushes only — no whip pans, no drone moves. Push-ins are earned, not decorative: the film gets exactly three (shots 2, 15, 16), each marking an emotional realization.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Shots</th><th>Lens</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>2, 19</td><td>35mm gentle wide</td><td>Establishing / closing — the world, warmly held</td></tr>
+          <tr><td>3, 9, 13, 15, 18</td><td>85mm portrait, compressed</td><td>Emotional intimacy on Maya</td></tr>
+          <tr><td>5, 8, 10, 11, 12</td><td>24mm wide-angle</td><td>Comedy — energy and exaggeration</td></tr>
+          <tr><td>4, 6, 7, 14, 16, 17, 20</td><td>Macro, extremely shallow</td><td>Buzz's tiny world and still-life details</td></tr>
+        </tbody></table></div></div>
+    <div class="card"><h3>Performance rules — appended to every video prompt</h3>
+      <pre>Tiny imperfections keep her alive, never frozen: continuous gentle breathing, occasional slow blinks, micro weight shifts, small finger adjustments. When she reacts to something, the movement flows in order: eyes first, then head, then torso, then hips — never everything at once. Poses read clearly in silhouette.</pre></div>
+    <div class="card"><h3>Edit rhythm</h3>
+      <p>Cut slower than feels natural — on Maya's breaths, not the music grid. Hold shot 13's mirror beat a half-second past comfortable, and protect shot 14's three seconds of total silence absolutely.</p></div>
+  </section>
+
+  <section>
+    <h2>The continuity <em>system</em></h2>
+    <ul class="notes">
+      <li><b>Layer 1 — [GEO] in words.</b> The floor plan plus a camera-position sentence in every image prompt.</li>
+      <li><b>Layer 2 — the master wide as an image.</b> The approved shot 02 frame attached as a reference to every other shot in the set — models hold furniture positions from a picture far better than from prose.</li>
+      <li><b>Layer 3 — chained frames.</b> End frames are generated image-to-image from their approved start frames, so nothing drifts inside a shot. Pose carries over between shots unless the script explicitly changes it.</li>
+      <li><b>No over-the-shoulder angles.</b> The wall Maya faces is never seen on camera, so back-views make her read as facing the wrong way. Reverse angles become front three-quarters.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Shot list <em>at a glance</em></h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Dur</th><th>Beat</th><th>Voiceover</th><th>Keyframes</th></tr></thead>
+      <tbody>
+        <tr class="act"><td colspan="5">ACT I · CALM — 0:00–0:41</td></tr>
+        <tr><td class="n">1</td><td class="d">6 s</td><td>Opening quote over the master wide, optically blurred (not generated)</td><td>—</td><td>derived</td></tr>
+        <tr><td class="n">2</td><td class="d">8 s</td><td>Establishing wide: Maya meditating — the master frame</td><td class="vo">"Welcome. Thank you for joining…"</td><td>start</td></tr>
+        <tr><td class="n">3</td><td class="d">7 s</td><td>Close-up: deep breath, calm smile</td><td class="vo">"Take a deep breath in… and out…"</td><td>start</td></tr>
+        <tr><td class="n">4</td><td class="d">5 s</td><td>Still-life: steam, candle, mismatched socks</td><td>—</td><td>start</td></tr>
+        <tr class="act"><td colspan="5">ACT II · THE INTRUDER — 0:41–1:21</td></tr>
+        <tr><td class="n">5</td><td class="d">6 s</td><td>First buzz — a speck-blur zips past her nose</td><td>—</td><td>start</td></tr>
+        <tr><td class="n">6</td><td class="d">8 s</td><td>The matador — hovers at her shoulder, lands, gets flicked</td><td class="vo">"If something distracts you…"</td><td>start + end</td></tr>
+        <tr><td class="n">7</td><td class="d">8 s</td><td>Forehead landing — lunar lander, sweat bead</td><td class="vo">"That's it. Soften your face…"</td><td>start + end</td></tr>
+        <tr><td class="n">8</td><td class="d">7 s</td><td>SMACK — the miss; victory loop through tea steam</td><td>—</td><td>start</td></tr>
+        <tr><td class="n">9</td><td class="d">6 s</td><td>The unraveling — breathing quickens</td><td class="vo">"Let go of the need to control…"</td><td>start</td></tr>
+        <tr class="act"><td colspan="5">ACT III · CHAOS — 1:21–1:49</td></tr>
+        <tr><td class="n">10</td><td class="d">8 s</td><td>Eruption — swats escalate, cushion flies</td><td>—</td><td>start</td></tr>
+        <tr><td class="n">11</td><td class="d">6 s</td><td>Slow-mo: the potted plant tips, dirt arcs</td><td>—</td><td>start</td></tr>
+        <tr><td class="n">12</td><td class="d">8 s</td><td>Full frenzy — part tai chi, part cartoon</td><td class="vo">"When the world feels turbulent…"</td><td>start</td></tr>
+        <tr><td class="n">13</td><td class="d">6 s</td><td>The mirror — freeze, snort, laugh</td><td>—</td><td>start + end</td></tr>
+        <tr class="act"><td colspan="5">ACT IV · THE TURN — 1:49–2:45</td></tr>
+        <tr><td class="n">14</td><td class="d">4 s</td><td>Total silence; the mosquito frozen mid-air, wide-eyed</td><td>—</td><td>start</td></tr>
+        <tr><td class="n">15</td><td class="d">6 s</td><td>The centering breath; music returns</td><td class="vo">"What energy will you carry forward…"</td><td>start</td></tr>
+        <tr><td class="n">16</td><td class="d">8 s</td><td>The palm landing — Buzz fully revealed at last</td><td>—</td><td>start + end</td></tr>
+        <tr><td class="n">17</td><td class="d">8 s</td><td>The tiny yogi — miniature mat unfurls; Maya laughs</td><td>—</td><td>start + end</td></tr>
+        <tr><td class="n">18</td><td class="d">7 s</td><td>Mirroring — she matches his breathing</td><td class="vo">"Peace isn't the silence around you…"</td><td>start</td></tr>
+        <tr><td class="n">19</td><td class="d">8 s</td><td>Two yogis — pull-back, golden light</td><td class="vo">"True calm comes when you find harmony…"</td><td>start + end</td></tr>
+        <tr><td class="n">20</td><td class="d">6 s</td><td>The bow — one eye opens, a cheeky bow, fade out</td><td>—</td><td>start</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section>
+    <h2>Voiceover script — <em>ElevenLabs</em></h2>
+    <p class="lede">Nine lines, one serene meditation-guide voice that never reacts to the chaos. Suggested settings: stability ~0.65, similarity ~0.80, style ~0.10, speed ~0.90. Recorded first — the VO is the film's metronome.</p>
+    <div class="card">
+      <div class="voline"><span class="ref">S2</span><q>Welcome. Thank you for joining this morning meditation.</q></div>
+      <div class="voline"><span class="ref">S3</span><q>Take a deep breath in… and out. Let the world fade away.</q></div>
+      <div class="voline"><span class="ref">S6</span><q>If something distracts you, don't chase it. Simply notice… and return to the breath.</q></div>
+      <div class="voline"><span class="ref">S7</span><q>That's it. Soften your face. Stay grounded.</q></div>
+      <div class="voline"><span class="ref">S9</span><q>Let go of the need to control. Just breathe.</q></div>
+      <div class="voline"><span class="ref">S12</span><q>When the world feels turbulent… meet it with stillness.</q></div>
+      <div class="voline"><span class="ref">S15</span><q>What energy will you carry forward today?</q></div>
+      <div class="voline"><span class="ref">S18</span><q>Peace isn't the silence around you… it's the quiet you find within.</q></div>
+      <div class="voline" style="border-bottom:none"><span class="ref">S19</span><q>True calm comes when you find harmony with the world as it is.</q></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Field <em>notes</em></h2>
+    <ul class="notes">
+      <li><b>References beat words.</b> Attach the character sheets and master wide to every keyframe; fix drift with edits ("same character, change only the pose"), not re-rolls.</li>
+      <li><b>End frames are a tool, not a rule.</b> Pin both frames only when the landing pose matters; high-motion shots read livelier from a start frame plus a vivid motion prompt.</li>
+      <li><b>Two shot types drift photorealistic</b> — no-face frames and extreme face macros. Both get "a cartoon animated world, NOT a photograph" up front; face macros add "NO pores, no realistic skin texture."</li>
+      <li><b>The mosquito is a speck.</b> True real-world scale pre-reveal — a few dozen pixels in a medium shot, no wider than an eyebrow in macro. Err on too small.</li>
+      <li><b>Silence is a sound decision.</b> Shot 14's three seconds of dead air is the film's best joke — cut every track completely.</li>
+      <li><b>All text in the edit.</b> The opening proverb, the title card, credits: real overlays, never AI-rendered.</li>
+      <li><b>Budget for retries.</b> Keyframes ~25 credits, story clips ~110, showreel clips ~180. Approve the cheap thing before buying the expensive thing.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>
