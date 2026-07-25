@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B1813; --espresso:#26221A;
+    --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1584px;height:396px;overflow:hidden}
+  body{font-family:var(--sans);position:relative;background:
+    radial-gradient(46% 120% at 78% 8%,rgba(193,154,61,.26) 0%,transparent 60%),
+    radial-gradient(52% 130% at 6% 100%,rgba(51,98,92,.42) 0%,transparent 62%),
+    radial-gradient(30% 80% at 45% -10%,rgba(193,154,61,.10) 0%,transparent 70%),
+    linear-gradient(160deg,#16130E 0%,#221C13 55%,#2B2418 100%)}
+
+  /* faint atelier grid — barely-there craft texture */
+  .weave{position:absolute;inset:0;opacity:.05;background:
+    repeating-linear-gradient(90deg,transparent 0 119px,#F6F0E4 119px 120px),
+    repeating-linear-gradient(0deg,transparent 0 119px,#F6F0E4 119px 120px)}
+
+  /* ghost monogram — decorative, lives under the avatar zone */
+  .ghost{position:absolute;left:-38px;bottom:-152px;font-family:var(--serif);font-style:italic;font-weight:300;
+    font-size:470px;line-height:1;color:rgba(246,240,228,.045);letter-spacing:-18px}
+  .ghost span{font-size:300px;font-style:italic}
+
+  /* hairline that ties the composition */
+  .thread{position:absolute;left:0;right:0;top:198px;height:1px;
+    background:linear-gradient(90deg,transparent 0%,rgba(220,188,105,.0) 26%,rgba(220,188,105,.34) 46%,rgba(220,188,105,.18) 70%,transparent 100%)}
+
+  /* string lights riding the thread */
+  .bulb{position:absolute;width:5px;height:5px;border-radius:50%;background:#DCBC69;box-shadow:0 0 12px 3px rgba(220,188,105,.45)}
+
+  /* ── wordmark block (right of avatar safe zone) ── */
+  .brand{position:absolute;left:440px;top:50%;transform:translateY(-50%);}
+  .kicker{font-size:12.5px;letter-spacing:.42em;text-transform:uppercase;color:var(--stone);font-weight:600;margin-bottom:16px}
+  .wm{font-family:var(--serif);font-weight:400;font-size:76px;line-height:1;color:var(--text-cream);letter-spacing:-1px;white-space:nowrap}
+  .wm em{font-style:italic;color:var(--gold-bright)}
+  .tagline{margin-top:19px;font-size:13.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--text-fog);font-weight:500;white-space:nowrap}
+  .tagline b{color:var(--text-cream);font-weight:600}
+
+  /* ── the bench: three staggered work cards ── */
+  .bench{position:absolute;right:46px;top:50%;transform:translateY(-50%);display:flex;align-items:center}
+  .card{border-radius:20px;overflow:hidden;position:relative;flex:0 0 auto;
+    border:1px solid rgba(255,255,255,.26);
+    box-shadow:0 24px 60px rgba(10,8,4,.55), 0 4px 14px rgba(10,8,4,.4)}
+  .card img{display:block;width:100%;height:100%;object-fit:cover}
+  .card .tag{position:absolute;left:0;right:0;bottom:0;padding:22px 14px 10px;text-align:center;
+    font-size:10px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:rgba(246,240,228,.92);
+    background:linear-gradient(180deg,transparent,rgba(16,13,9,.78))}
+  .c1{width:168px;height:222px;transform:rotate(-4deg) translateY(12px);z-index:1}
+  .c2{width:188px;height:254px;margin-left:-22px;z-index:3;outline:1px solid rgba(220,188,105,.55);outline-offset:4px}
+  .c3{width:168px;height:222px;margin-left:-22px;transform:rotate(4deg) translateY(16px);z-index:2}
+  .c1 img,.c3 img{filter:saturate(.96) brightness(.94)}
+</style>
+</head>
+<body>
+  <div class="weave"></div>
+  <div class="ghost">P<span>a</span></div>
+  <div class="thread"></div>
+  <div class="bulb" style="left:420px;top:196px"></div>
+  <div class="bulb" style="left:1010px;top:196px;opacity:.75"></div>
+  <div class="bulb" style="left:452px;top:196px;opacity:.55;width:4px;height:4px"></div>
+
+  <div class="brand">
+    <div class="kicker">A workshop for the AI era</div>
+    <div class="wm">Prompt <em>Atelier</em></div>
+    <div class="tagline">The tools are free. <b>The taste is the craft.</b></div>
+  </div>
+
+  <div class="bench">
+    <div class="card c1"><img src="ep10/hero.jpg" alt="" style="object-position:62% 40%"><div class="tag">Film</div></div>
+    <div class="card c2"><img src="ep11/frame-settle.jpg" alt="" style="object-position:68% 30%"><div class="tag">Animation</div></div>
+    <div class="card c3"><img src="ep08/hero.jpg" alt="" style="object-position:50% 38%"><div class="tag">Design</div></div>
+  </div>
+</body>
+</html>
