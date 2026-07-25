@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 10 — VOO: The Future, Built from Scraps · Prompt Atelier</title>
+<meta property="og:title" content="VOO: the future, built from scraps — an AI filmmaking case study">
+<meta property="og:description" content="A grounded near-future hero shot: a teenage maker on a favela rooftop launches a hand-built drone toward a city he's locked out of. Character, location and prop carried as reusable Elements through Higgsfield's AI filmmaking pipeline.">
+<meta property="og:image" content="ep10/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --glass-dark:rgba(24,20,14,.46); --glass-dark-b:rgba(255,255,255,.26);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+  .glass{backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+    border-radius:20px;box-shadow:0 12px 40px rgba(15,12,6,.28)}
+  .g-dark{background:var(--glass-dark);border:1px solid var(--glass-dark-b);color:var(--text-cream)}
+
+  /* ── nav ── */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  /* ── hero ── */
+  .hero{padding:56px 0 40px;text-align:left;background:
+    radial-gradient(55% 70% at 85% 0%,rgba(193,154,61,.10),transparent 60%),
+    radial-gradient(40% 55% at 5% 30%,rgba(51,98,92,.07),transparent 60%)}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:58px;line-height:1.12;margin:18px 0 20px;max-width:880px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  .video-shell{margin:44px 0 0;aspect-ratio:16/9;border-radius:26px;position:relative;overflow:hidden;box-shadow:0 24px 70px rgba(20,16,8,.28);background:#0d0b09}
+  .video-shell video{width:100%;height:100%;object-fit:cover;display:block}
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:12px;letter-spacing:.04em}
+  .figcap b{color:var(--gold-deep)}
+
+  /* ── sections ── */
+  section{padding:72px 0 8px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  .lede{color:var(--text-soft);max-width:660px;margin-bottom:8px}
+
+  /* stat tiles */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 26px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block;color:var(--text-ink)}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* step blocks */
+  .step{display:grid;grid-template-columns:330px 1fr;gap:40px;padding:44px 0;border-top:1px solid var(--linen);align-items:start}
+  @media(max-width:840px){.step{grid-template-columns:1fr}}
+  .step .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:64px;line-height:1;color:var(--gold-deep)}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:12px 0 10px}
+  .step p{font-size:15.5px;color:var(--text-soft)}
+  .step p + p{margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:9px;margin-top:16px;margin-right:8px;padding:8px 18px;border-radius:999px;
+    background:var(--ivory);border:1px solid var(--linen);font-size:12.5px;font-weight:600;letter-spacing:.06em}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+
+  /* figures */
+  .fig{border-radius:24px;overflow:hidden;position:relative;padding:26px;
+    display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;
+    background:radial-gradient(50% 65% at 82% 18%,rgba(193,154,61,.24) 0%,transparent 60%),
+      radial-gradient(60% 75% at 8% 90%,rgba(51,98,92,.4) 0%,transparent 60%),
+      linear-gradient(155deg,#16130E,#2B2418);box-shadow:0 18px 50px rgba(20,16,8,.22)}
+  .fullfig{border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(20,16,8,.22);border:1px solid var(--linen)}
+  .fullfig img{width:100%;display:block}
+  .promptbox{max-width:420px;padding:26px 30px;flex:1 1 320px}
+  .promptbox .lbl{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--text-fog);font-weight:600;margin-bottom:12px}
+  .promptbox code{font-family:ui-monospace,monospace;font-size:14px;line-height:1.6;color:var(--text-cream)}
+  .promptbox code b{color:var(--gold-bright);font-weight:400}
+  .portrait{width:250px;height:250px;border-radius:26px;overflow:hidden;border:1.5px solid rgba(220,188,105,.5);box-shadow:0 12px 36px rgba(0,0,0,.45);flex:0 0 auto}
+  .portrait img{width:100%;height:100%;object-fit:cover}
+  .plabel{text-align:center;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-bright);margin-top:12px}
+
+  /* pipeline nodes */
+  .node{padding:14px 24px;font-family:var(--serif);font-weight:500;font-size:18px;border-radius:16px}
+  .node.gold{color:var(--gold-bright);border-color:rgba(220,188,105,.5)}
+  .pipe-col{display:flex;flex-direction:column;gap:12px}
+  .pipe-line{width:54px;height:2px;background:linear-gradient(90deg,transparent,var(--gold));align-self:center}
+  @media(max-width:600px){.pipe-line{width:2px;height:36px}}
+
+  /* film strip */
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:720px){.strip{grid-template-columns:1fr}}
+  .strip .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .strip .cell img{width:100%;display:block}
+  .strip .lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);margin-top:9px;text-align:center}
+
+  /* behind the scenes */
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 8px;border-radius:6px;font-family:ui-monospace,monospace}
+
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+  @media(max-width:720px){.gallery{grid-template-columns:1fr 1fr}}
+  .gcell{border-radius:18px;overflow:hidden;border:1px solid var(--linen);background:#0d0b09;aspect-ratio:1/1}
+  .gcell.wide{grid-column:span 2;aspect-ratio:auto}
+  .gcell img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* toolbox */
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool .paid{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  /* CTA row */
+  .ctarow{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:999px;font-weight:600;font-size:14px;letter-spacing:.03em;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .btn.gold{background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 14px 40px rgba(193,154,61,.32)}
+  .btn.ghost{border:1px solid var(--linen);color:var(--text-ink);background:#fff}
+  .btn:hover{transform:translateY(-2px)}
+
+  /* footer */
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+<link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+      <span class="nav-soc"><a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 10 · AI Filmmaking</div>
+    <h1>VOO: the future, <em>built from scraps</em></h1>
+    <p class="standfirst"><em>Voo</em> is Portuguese for flight. At golden hour on a favela rooftop, fifteen-year-old
+      Dé releases a drone he assembled from scavenged parts and watches it climb toward a gleaming skyline he's
+      otherwise locked out of. One quiet, hopeful beat of grounded sci-fi — made end-to-end in Higgsfield's AI
+      filmmaking pipeline as the capstone of their Academy course, with character, location and prop carried as
+      reusable Elements into a single finished shot.</p>
+    <div class="meta">
+      <div><b>Medium</b>AI short film · hero shot</div>
+      <div><b>Pipeline</b>Higgsfield Cinema Studio</div>
+      <div><b>Elements</b>3 · character, location, prop</div>
+      <div><b>Length</b>8 seconds · 720p</div>
+    </div>
+
+    <div class="video-shell" id="film">
+      <video controls playsinline poster="ep10/hero.jpg" src="ep10/prompt-atelier-ep10.mp4"></video>
+    </div>
+    <div class="figcap"><b>The hero shot</b> · rendered in Seedance 2.0 with all three Elements attached — Dé's face,
+      the rooftop light and the hand-built drone hold consistent from first frame to last.</div>
+  </div>
+
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>Consistency is the whole film</h2>
+    <p class="lede">The hardest thing in AI film isn't a pretty frame — it's the same face, the same drone and the
+      same light surviving from asset to final render. So the piece was built the way a director briefs a crew:
+      pre-production first, every Element locked before a single second of video was generated, and one moment
+      shot properly instead of thirty seconds of drift.</p>
+    <div class="stats">
+      <div class="stat"><b>3</b><span>Reusable Elements</span></div>
+      <div class="stat"><b><em>70%</em></b><span>Of a shot is its location</span></div>
+      <div class="stat"><b>1</b><span>Shot, done properly</span></div>
+      <div class="stat"><b>100%</b><span>Original — no brands, no IP</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE PIPELINE ══════════ -->
+  <section>
+    <div class="kicker">The Pipeline</div>
+    <h2>Step by step</h2>
+
+    <div class="step" style="margin-top:34px">
+      <div>
+        <div class="num">01</div>
+        <h3>The Location</h3>
+        <p>The course's loudest rule — <em>locations set 70% of your shot's quality</em> — decided the build order.
+          The rooftop came first: terracotta and turquoise walls, water tanks, string lights, satellite dishes, and a
+          future skyline glowing across the bay. Golden-hour amber against teal shadows, in the naturalistic spirit of
+          César Charlone's photography on <i>City of God</i>.</p>
+        <p>The first take came back over-stylized — game-art gloss instead of documentary warmth. The fix was a model
+          switch and a prompt rewritten for photographic realism; the retake became the <code style="font-family:ui-monospace,monospace;font-size:13px">@Setting</code>
+          Element every later prompt references.</p>
+        <span class="chip"><i></i>Environment Element · @Setting</span>
+        <span class="chip"><i></i>Golden hour · locked</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep10/rooftop-element.jpg" alt="The rooftop location Element — favela rooftop at golden hour, drone waiting on the tiles, future skyline in the distance"></div>
+        <div class="figcap"><b>Fig. 1</b> — the location Element: the rooftop at golden hour, the drone already waiting
+          on the tiles, the future on the horizon.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">02</div>
+        <h3>The Character</h3>
+        <p>Dé, around fifteen, a self-taught maker in a hand-me-down utility vest. Built in Soul 2.0 with a character
+          reference sheet and the pipeline's hard rule: <b>identity and motion stay separate</b>. The character ID
+          preserves who Dé is; the action prompt only ever describes what he does — so his face survives every
+          generation untouched.</p>
+        <p>An early wardrobe pass wore a trademarked football kit and was flagged for IP eligibility. It was replaced
+          with fully original clothing — and every prompt after that stated the originality rule out loud.</p>
+        <span class="chip"><i></i>Soul 2.0 · @De_photo</span>
+        <span class="chip"><i></i>Identity ≠ motion</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep10/frame-hold.jpg" alt="Dé on the rooftop at golden hour, holding his hand-built drone"></div>
+        <div class="figcap"><b>Fig. 2</b> — Dé in the finished shot, drone in hand: same face, same vest, same light
+          as the reference sheet.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">03</div>
+        <h3>The Prop</h3>
+        <p>The drone is the story in object form — a quadcopter that looks genuinely hand-assembled, generated and
+          detailed in Nano Banana Pro. Mismatched props, taped battery, a salvaged action cam, a friendship bracelet
+          on one arm, and a painted Brazilian flag beside the name scrawled in marker: <b>Dé</b>.</p>
+        <p>It was built on the workbench first, as its own Element, then carried outside — same object, same scratches
+          — onto the rooftop and into the air.</p>
+        <span class="chip"><i></i>Nano Banana Pro · @Drone_animation</span>
+        <span class="chip"><i></i>Story in an object</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">Prop brief (abridged)</div>
+            <code>A drone built by a fifteen-year-old from <b>scavenged parts</b> — mismatched propellers, zip-ties, taped battery pack, salvaged action cam, a <b>hand-painted Brazilian flag</b> and the name <b>"Dé"</b> in marker. Loved, repaired, flown daily. 100% original, no brands, no logos.</code>
+          </div>
+          <div>
+            <div class="portrait"><img src="ep10/drone-workshop.jpg" alt="The hand-built drone on the workshop bench — Brazilian flag, the name Dé in marker"></div>
+            <div class="plabel">The prop Element</div>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 3</b> — the drone on Dé's bench. Every scratch is a line of backstory.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">04</div>
+        <h3>The Shot</h3>
+        <p>With all three Elements locked, the final beat was animated in Seedance 2.0 — character, location and prop
+          attached as references, the action prompt carrying only the launch: hands open, the drone lifts, Dé's eyes
+          follow it up toward the skyline.</p>
+        <p>Eight seconds, by design. A short beat held properly reads as a scene; a long one invites drift. Story
+          first, then the technology — never the other way around.</p>
+        <span class="chip"><i></i>Seedance 2.0 · final render</span>
+        <span class="chip"><i></i>Claude · prompt collaborator</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="pipe-col">
+            <div class="glass g-dark node">@De_photo</div>
+            <div class="glass g-dark node">@Setting</div>
+            <div class="glass g-dark node">@Drone_animation</div>
+          </div>
+          <div class="pipe-line"></div>
+          <div class="pipe-col">
+            <div class="glass g-dark node">Seedance 2.0</div>
+          </div>
+          <div class="pipe-line"></div>
+          <div class="pipe-col">
+            <div class="glass g-dark node gold">The hero shot</div>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 4</b> — three Elements in, one consistent shot out. The pipeline is the film crew.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE FOOTAGE ══════════ -->
+  <section>
+    <div class="kicker">The Footage</div>
+    <h2>One launch, frame by frame</h2>
+    <p class="lede">Three moments from the finished eight seconds — the hold, the release, the rise. Watch the drone:
+      the painted flag, the taped battery and the scrawled name stay legible in flight, which is exactly what the
+      Elements system is for.</p>
+    <div class="strip" style="margin-top:34px">
+      <div><div class="cell"><img src="ep10/frame-hold.jpg" alt="Frame — Dé holds the drone, propellers starting to spin"></div><div class="lbl">The hold</div></div>
+      <div><div class="cell"><img src="ep10/frame-launch.jpg" alt="Frame — the drone lifts from his open hands"></div><div class="lbl">The release</div></div>
+      <div><div class="cell"><img src="ep10/frame-rise.jpg" alt="Frame — the drone climbs past camera, skyline behind"></div><div class="lbl">The rise</div></div>
+    </div>
+    <div class="gallery">
+      <div class="gcell wide"><img src="ep10/drone-element.jpg" alt="The drone Element in close-up on the workbench"></div>
+      <div class="gcell"><img src="ep10/drone-workshop.jpg" alt="The drone from above — flag and name visible"></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE CUTTING ROOM FLOOR ══════════ -->
+  <section>
+    <div class="kicker">The Cutting Room Floor</div>
+    <h2>The takes that <em style="font-style:italic;color:var(--gold-deep)">didn't</em> make it</h2>
+    <p class="lede">Every one of these is a real generation from the project — beautiful, and wrong. The over-stylized
+      first rooftop, the location scouts from other models, a younger Dé from an early character test. Keeping the
+      outtakes is part of the discipline: a generation ledger tells you what a shot really cost.</p>
+    <div class="gallery">
+      <div class="gcell wide"><img src="ep10/location-take1.jpg" alt="First location take — over-stylized, game-art gloss; rejected for photographic realism"></div>
+      <div class="gcell"><img src="ep10/location-alt-vertical.jpg" alt="Location scout — vertical golden-hour rooftop, unused"></div>
+      <div class="gcell"><img src="ep10/location-alt-rio.jpg" alt="Location scout — Rio-flavored rooftop with distant Christ statue, unused"></div>
+      <div class="gcell wide"><img src="ep10/location-alt-gold.jpg" alt="Location scout — heavy gold grade, futuristic skyline, unused"></div>
+      <div class="gcell wide"><img src="ep10/character-test.jpg" alt="Early character test — a younger Dé with a different drone, unused"></div>
+      <div class="gcell"><img src="ep10/location-alt-wide.jpg" alt="Location scout — wide sunset rooftop, unused"></div>
+    </div>
+    <div class="figcap" style="margin-top:14px"><b>Top left</b> — the "cartoony" first take that triggered the model
+      switch. <b>Bottom left</b> — the first Dé, before the character settled at fifteen.</div>
+  </section>
+
+  <!-- ══════════ BEHIND THE SCENES ══════════ -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>What we learned (and what nearly broke)</h2>
+    <p class="lede">The honest notes — the parts a tidy tutorial leaves out.</p>
+    <div class="notes">
+      <div class="note"><b>Locations really are 70%</b><p>The first rooftop was rejected for game-art gloss, and the
+        retake was the best money never spent — once the environment read as photographic, character and prop landed
+        inside it almost for free. Build the world first; everything else inherits its light.</p></div>
+      <div class="note"><b>Say "original" before you're asked</b><p>One trademarked football kit triggered an
+        IP-eligibility flag and a wardrobe rebuild. Since then every prompt carries the rule explicitly:
+        <code>100% ORIGINAL, ZERO IP — no brands, kits, logos or likenesses</code>. Cheaper as a habit than as a fix.</p></div>
+      <div class="note"><b>Short is a choice, not a limit</b><p>Eight seconds that hold — face stable, drone
+        consistent, light unbroken — read as cinema. The identity/motion separation in Soul 2.0 is what keeps a face
+        from being rewritten by an action prompt.</p></div>
+      <div class="note"><b>Still open</b><p>Free-credit renders carry the platform watermark, so the showreel version
+        needs a paid re-render — plus two companion shots for coverage (a tight reaction insert, a drone-rising POV)
+        and a proper grade and sound pass.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div><b>Higgsfield Cinema Studio</b><br><span>The pipeline — Elements, director's panel</span></div><span class="free paid">PLATFORM</span></div>
+      <div class="tool"><div><b>Soul 2.0</b><br><span>Dé — character identity &amp; reference sheet</span></div><span class="free paid">HIGGSFIELD</span></div>
+      <div class="tool"><div><b>Nano Banana Pro</b><br><span>The hand-built drone prop</span></div><span class="free paid">HIGGSFIELD</span></div>
+      <div class="tool"><div><b>Seedance 2.0</b><br><span>The final animated shot</span></div><span class="free paid">HIGGSFIELD</span></div>
+      <div class="tool"><div><b>Claude</b><br><span>Prompting &amp; creative collaborator</span></div><span class="free">CO-DIRECTOR</span></div>
+      <div class="tool"><div><b>Higgsfield Academy</b><br><span>The AI Filmmaking Pipeline course — the playbook</span></div><span class="free">THE METHOD</span></div>
+    </div>
+
+    <div class="ctarow">
+      <a class="btn gold" href="#film">Watch the hero shot ↑</a>
+      <a class="btn ghost" href="index.html#cases">All case studies →</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 10 · NEW CASE STUDIES EVERY WEEK</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+</body>
+</html>
