@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 12 — CHASED AWAKE: seven wonders, one dream · Prompt Atelier</title>
+<meta property="og:title" content="CHASED AWAKE: seven wonders, one dream — a 55-second sprint out of a nightmare">
+<meta property="og:description" content="A teenage lucid dreamer is chased through the seven wonders of the modern world by a shadow of smoke and obsidian — until she stops running. Script by Claude, storyboarded end-to-end in Google Flow's Storyboard Studio: 9 scenes, 29 frames, 15 locked assets.">
+<meta property="og:image" content="ep12/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --glass-dark:rgba(24,20,14,.46); --glass-dark-b:rgba(255,255,255,.26);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+  .glass{backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+    border-radius:20px;box-shadow:0 12px 40px rgba(15,12,6,.28)}
+  .g-dark{background:var(--glass-dark);border:1px solid var(--glass-dark-b);color:var(--text-cream)}
+
+  /* ── nav ── */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  /* ── hero ── */
+  .hero{padding:56px 0 40px;text-align:left;background:
+    radial-gradient(55% 70% at 85% 0%,rgba(193,154,61,.10),transparent 60%),
+    radial-gradient(40% 55% at 5% 30%,rgba(51,98,92,.07),transparent 60%)}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:58px;line-height:1.12;margin:18px 0 20px;max-width:880px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  .video-shell{margin:44px 0 0;aspect-ratio:16/9;border-radius:26px;position:relative;overflow:hidden;box-shadow:0 24px 70px rgba(20,16,8,.28);background:#0d0b09}
+  .video-shell img,.video-shell video{width:100%;height:100%;object-fit:cover;display:block}
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:12px;letter-spacing:.04em}
+  .figcap b{color:var(--gold-deep)}
+
+  /* ── sections ── */
+  section{padding:72px 0 8px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  .lede{color:var(--text-soft);max-width:660px;margin-bottom:8px}
+
+  /* stat tiles */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 26px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block;color:var(--text-ink)}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* step blocks */
+  .step{display:grid;grid-template-columns:330px 1fr;gap:40px;padding:44px 0;border-top:1px solid var(--linen);align-items:start}
+  @media(max-width:840px){.step{grid-template-columns:1fr}}
+  .step .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:64px;line-height:1;color:var(--gold-deep)}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:12px 0 10px}
+  .step p{font-size:15.5px;color:var(--text-soft)}
+  .step p + p{margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:9px;margin-top:16px;margin-right:8px;padding:8px 18px;border-radius:999px;
+    background:var(--ivory);border:1px solid var(--linen);font-size:12.5px;font-weight:600;letter-spacing:.06em}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+
+  /* figures */
+  .fig{border-radius:24px;overflow:hidden;position:relative;padding:26px;
+    display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;
+    background:radial-gradient(50% 65% at 82% 18%,rgba(193,154,61,.24) 0%,transparent 60%),
+      radial-gradient(60% 75% at 8% 90%,rgba(51,98,92,.4) 0%,transparent 60%),
+      linear-gradient(155deg,#16130E,#2B2418);box-shadow:0 18px 50px rgba(20,16,8,.22)}
+  .fullfig{border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(20,16,8,.22);border:1px solid var(--linen)}
+  .fullfig img{width:100%;display:block}
+  .fullfig + .fullfig{margin-top:18px}
+  .promptbox{max-width:460px;padding:26px 30px;flex:1 1 320px}
+  .promptbox .lbl{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--text-fog);font-weight:600;margin-bottom:12px}
+  .promptbox code{font-family:ui-monospace,monospace;font-size:13.5px;line-height:1.6;color:var(--text-cream);display:block}
+  .promptbox code b{color:var(--gold-bright);font-weight:400}
+  .promptbox code + .lbl{margin-top:18px}
+
+  /* pairs */
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.pair{grid-template-columns:1fr}}
+  .pair .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .pair .cell img{width:100%;display:block}
+  .pair .lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);margin:9px 0 18px;text-align:center}
+
+  /* film strip */
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:720px){.strip{grid-template-columns:1fr}}
+  .strip .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .strip .cell img,.strip .cell video{width:100%;display:block}
+  .strip .lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);margin:9px 0 18px;text-align:center}
+  .strip2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.strip2{grid-template-columns:1fr}}
+  .strip2 .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .strip2 .cell video{width:100%;display:block}
+  .strip2 .lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);margin:9px 0 18px;text-align:center}
+
+  /* the cut table */
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--linen);border-radius:16px;overflow:hidden;margin-top:34px}
+  th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-soft);text-align:left;padding:14px 18px;background:var(--ivory)}
+  td{padding:12px 18px;border-top:1px solid var(--linen);vertical-align:middle}
+  td.tc{font-family:ui-monospace,monospace;font-size:12.5px;color:var(--text-soft);white-space:nowrap}
+  td b{font-weight:600}
+  td .sh{color:var(--gold-deep);font-weight:600;font-size:12px;letter-spacing:.08em}
+
+  /* behind the scenes */
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 8px;border-radius:6px;font-family:ui-monospace,monospace}
+
+  /* toolbox */
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px;gap:14px}
+  .tool .tid{display:flex;align-items:center;gap:14px}
+  .tool .tid img{width:26px;height:26px;flex:none}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool .paid{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  /* CTA row */
+  .ctarow{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:999px;font-weight:600;font-size:14px;letter-spacing:.03em;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .btn.gold{background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 14px 40px rgba(193,154,61,.32)}
+  .btn.ghost{border:1px solid var(--linen);color:var(--text-ink);background:#fff}
+  .btn:hover{transform:translateY(-2px)}
+
+  /* footer */
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+<link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+      <span class="nav-soc"><a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 12 · AI Dream-Chase Short</div>
+    <h1>CHASED AWAKE: seven wonders, <em>one dream</em></h1>
+    <p class="standfirst">It's the dream everyone has had — something is behind you, every exit leads somewhere
+      stranger, and you can't stop running. Thalia, a teenage lucid dreamer, sprints through the seven wonders of
+      the modern world with a Shadow of black smoke and obsidian one step behind her — until, on the arm of Christ
+      the Redeemer at sunrise, she stops running and turns around. Fifty-five seconds, nine scenes, no dialogue.
+      Written with Claude, storyboarded end-to-end in Google Flow's Storyboard Studio, animated frame by frame.</p>
+    <div class="meta">
+      <div><b>Medium</b>AI dream-chase short · 9 scenes</div>
+      <div><b>Pipeline</b>Google Flow · Storyboard Studio</div>
+      <div><b>Storyboard</b>29 frames · 15 locked assets</div>
+      <div><b>Working title</b>Seven Doors</div>
+      <div><b>Length</b>48 seconds · 1440p · 16:9</div>
+    </div>
+
+    <div class="video-shell" id="film">
+      <video controls playsinline poster="ep12/hero.jpg" src="ep12/prompt-atelier-ep12.mp4"></video>
+    </div>
+    <div class="figcap"><b>The finished film</b> · 48 seconds, nine scenes, seven wonders — Topaz-upscaled to 1440p,
+      scored with "Worlds in Motion." The poster frame is the climax: the moment she stops running.</div>
+  </div>
+
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>Board the whole film before you spend a second of video</h2>
+    <p class="lede">The method this time: treat the AI studio like a real one. A finished shot-by-shot script first;
+      then a full storyboard pass in Google Flow's Storyboard Studio, where every character, wonder and prop is locked
+      as a reference asset <em>before</em> any video is generated. By the time the video engines ran, there was no
+      creative decision left to gamble on — only motion.</p>
+    <div class="stats">
+      <div class="stat"><b>9</b><span>Scenes · no dialogue</span></div>
+      <div class="stat"><b>29</b><span>Storyboard frames</span></div>
+      <div class="stat"><b>15</b><span>Locked assets</span></div>
+      <div class="stat"><b><em>7</em></b><span>Wonders of the world</span></div>
+      <div class="stat"><b>48s</b><span>One accelerating chase</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE PIPELINE ══════════ -->
+  <section>
+    <div class="kicker">The Pipeline</div>
+    <h2>Step by step</h2>
+
+    <div class="step" style="margin-top:34px">
+      <div>
+        <div class="num">01</div>
+        <h3>The Script</h3>
+        <p>The film was written before any tool was opened. Working with Claude, the idea — "a teen chased through
+          the seven wonders, each exit leading into the next, until she wakes" — became a nine-scene screenplay with
+          the camera grammar built in: an ECU of glowing eyes to open, high angles and extreme wides while she's
+          hunted, a deliberate switch to a low angle the moment she stops running. Scene durations shrink as the
+          chase accelerates, then the longest shot of the film is held for the turn.</p>
+        <p>A second Claude pass converted each scene plus its reference frame into <b>one production-ready
+          paragraph</b> — a single continuous prompt carrying character description, action, camera move, lighting,
+          sound design and grade, ready to paste into any video model.</p>
+        <span class="chip"><i></i>Claude · writer's room</span>
+        <span class="chip"><i></i>One paragraph per scene</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">Scene 2 prompt (abridged)</div>
+            <code>Ultra-realistic cinematic <b>extreme wide shot</b> at foggy purple dusk on the Great Wall of China: Thalia … sprinting away from camera as the Wall snakes toward a watchtower whose doorway <b>blazes with warm golden portal light</b>; behind her the bricks tear loose and swarm into a churning mass of black smoke <b>veined with molten gold</b> … low drone track following her run … sound design of pounding footsteps, grinding masonry, her ragged breathing … <b>no dialogue</b>, 4K photorealistic, no text or watermark.</code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 1</b> — the master-prompt format: framing first, then subject, threat, portal,
+          camera, sound, grade. Every scene got exactly one of these.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">02</div>
+        <h3>The Studio</h3>
+        <p>Inside Google Flow: <b>New project → Tools → Discover → Storyboard Studio</b>, visual style set to
+          <b>Realistic</b> at the door — the style choice cascades into every asset and frame generated after it.</p>
+        <p>The script window takes the story as a prompt and returns a proper screenplay — scene headings, action
+          lines, transitions — which was then rewritten line by line to match the Claude draft. The screenplay is the
+          project's spine: every asset and storyboard frame Flow generates from here on refers back to it.</p>
+        <span class="chip"><i></i>Google Flow · Storyboard Studio</span>
+        <span class="chip"><i></i>Style: Realistic</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep12/flow-script.png" alt="Storyboard Studio's script editor showing the Seven Doors screenplay with scene headings and transitions"></div>
+        <div class="figcap"><b>Fig. 2</b> — the script tab: screenplay formatting with scene headings, sound notes
+          and a WHIP PAN transition, editable like a document.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">03</div>
+        <h3>The Cast</h3>
+        <p>The Assets tab is where continuity is won. <b>Autofill</b> read the screenplay and proposed the cast:
+          Thalia — warm copper skin, waist-length windswept black hair, crimson silk tunic, charcoal leggings, tan
+          parkour boots, a gold sun-dial pendant — and the Shadow, a shapeshifter of volcanic smoke and jagged
+          obsidian, veined with pulsing gold.</p>
+        <p>Each was generated as a <b>character sheet on a neutral background</b> — portrait plus full-body turnaround
+          — so every later frame draws from the same reference. Flow even wrote them backstories: Thalia is a lucid
+          dreamer who can reshape the dream through touch; the Shadow is her own anxiety, guarding the subconscious.</p>
+        <span class="chip"><i></i>Autofill characters</span>
+        <span class="chip"><i></i>Nano Banana image gen</span>
+      </div>
+      <div>
+        <div class="pair">
+          <div><div class="cell"><img src="ep12/asset-thalia.jpg" alt="Thalia character sheet — portrait and full-body reference in crimson tunic"></div><div class="lbl">Thalia · character sheet</div></div>
+          <div><div class="cell"><img src="ep12/asset-shadow.jpg" alt="The Shadow character sheet — obsidian jaguar form with gold veins, face and full-body reference"></div><div class="lbl">The Shadow · jaguar form</div></div>
+        </div>
+        <div class="figcap"><b>Fig. 3</b> — the two-view character sheets. The Shadow's mirror-chrome face is the
+          film's ending hidden in plain sight: what she's running from reflects her.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">04</div>
+        <h3>The World</h3>
+        <p>Eleven locations and two props, all autofilled from the screenplay and then curated: the seven wonders,
+          plus the connective tissue — the bedroom, the Siq canyon, the Treasury facade, El Castillo — and the two
+          objects that carry the story's magic: the <b>Intihuatana stone</b> Thalia slams her palm onto, and the
+          <b>Taj Mahal snow globe</b> that ends the film on her nightstand.</p>
+        <p>Each location arrives as a four-view board — establishing wide, detail, alternate angle, atmosphere — so
+          the storyboard stage can cut around a place without reinventing it. The glowing gold portal is already
+          present in the location plates, keeping the film's one recurring visual rule consistent from the start.</p>
+        <span class="chip"><i></i>11 locations · 2 props</span>
+        <span class="chip"><i></i>Four-view boards</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep12/flow-assets.png" alt="Storyboard Studio assets tab showing Thalia, the Shadow, and location boards for the Bedroom, Great Wall, Petra and the Treasury"></div>
+        <div class="figcap"><b>Fig. 4</b> — the Assets tab: characters and four-view location boards, one Autofill
+          away from the screenplay.</div>
+        <div class="pair" style="margin-top:18px">
+          <div><div class="cell"><img src="ep12/asset-wall-board.jpg" alt="Great Wall of China location board — four views with the glowing golden watchtower door"></div><div class="lbl">Great Wall · location board</div></div>
+          <div><div class="cell"><img src="ep12/asset-treasury-board.jpg" alt="Petra Treasury location board — four views of the carved sandstone facade"></div><div class="lbl">The Treasury · location board</div></div>
+        </div>
+        <div class="pair">
+          <div><div class="cell"><img src="ep12/asset-intihuatana.jpg" alt="Intihuatana stone prop render on neutral background"></div><div class="lbl">Prop · Intihuatana stone</div></div>
+          <div><div class="cell"><img src="ep12/asset-snowglobe.jpg" alt="Taj Mahal snow globe prop render with gold glitter on mahogany base"></div><div class="lbl">Prop · the snow globe</div></div>
+        </div>
+        <div class="figcap"><b>Fig. 5</b> — world and props as clean reference plates. The snow globe was designed
+          asset-first so the film's final shot and Scene 1's blurred background could show the identical object.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">05</div>
+        <h3>The Storyboard</h3>
+        <p>The Storyboard tab holds the film's metadata — every scene from the screenplay, with an <b>Autofill
+          Scene</b> button per scene. Flow generated <b>29 frames across the 9 scenes</b>, each one linked to the
+          reference assets it uses, so Thalia's tunic, the Shadow's obsidian and the wonders' architecture stay
+          consistent frame to frame.</p>
+        <p>Every frame carries three layers of intent, not just a picture: a <b>visual</b> description, a
+          <b>motion</b> description (the camera move), and an <b>audio</b> description (the sound design). That
+          trio is effectively a pre-written video prompt — the storyboard does the prompt engineering for you.</p>
+        <span class="chip"><i></i>Autofill scene · 29 frames</span>
+        <span class="chip"><i></i>Visual + motion + audio per frame</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep12/flow-storyboard.png" alt="Storyboard Studio's storyboard tab showing Taj Mahal and Christ the Redeemer scene frames with the frame inspector open on The Settling Gold"></div>
+        <div class="figcap"><b>Fig. 6</b> — the Storyboard tab: frames per scene on the left, the inspector on the
+          right with frame description and its linked reference assets (Bedroom · Taj Mahal · Snow Globe).</div>
+        <div class="fig" style="margin-top:18px">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">One frame's metadata — Scene 01 · "The Golden Awakening"</div>
+            <code><b>Visual</b> — extreme close-up on Thalia's eyes as they snap open; irises pulse with an unnatural golden light cutting through the dark bedroom.<br><br><b>Motion</b> — camera locked in a tight macro shot, capturing the minute detail of the glowing irises.<br><br><b>Audio</b> — the heartbeat spikes in volume and tempo; a faint ethereal hum rises in pitch.</code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 7</b> — what a storyboard frame actually stores. Picture, camera and sound —
+          three prompts in one object.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">06</div>
+        <h3>The Save</h3>
+        <p>Before closing the project, one non-negotiable habit: <b>Save the story</b>. Flow downloads the entire
+          production as a single local JSON — this project's file weighs <b>69.6&nbsp;MB</b> because it embeds
+          everything: the full screenplay in markdown, all 15 assets with their images encoded inline, and all 29
+          frames with their visual, motion and audio text.</p>
+        <p>The warning is earned: clicking <b>Done</b> without saving can leave the project unrecoverable in the
+          cloud. With the JSON on disk, the whole film — cast, world, board — reloads anywhere, anytime. It's the
+          production bible and the backup in one file.</p>
+        <span class="chip"><i></i>Save the story → local JSON</span>
+        <span class="chip"><i></i>69.6 MB · everything inline</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">Inside the save file</div>
+            <code>{<br>&nbsp;&nbsp;"projectTitle": <b>"SEVEN DOORS"</b>,<br>&nbsp;&nbsp;"globalStyle": "Realistic",<br>&nbsp;&nbsp;"fullMarkdown": "# …the entire screenplay…",<br>&nbsp;&nbsp;"assets": [ <b>15</b> × character · location · prop,<br>&nbsp;&nbsp;&nbsp;&nbsp;each with physicalCharacteristics,<br>&nbsp;&nbsp;&nbsp;&nbsp;backstory and inline images ],<br>&nbsp;&nbsp;"frames": [ <b>29</b> × visual · motion · audio ]<br>}</code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 8</b> — the anatomy of the 69.6 MB project save. The screenplay, the cast sheets
+          and every frame's intent, one portable file.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">07</div>
+        <h3>The Animation</h3>
+        <p>Video generation ran frame by frame, two tabs open — the storyboard on one side, the media library on the
+          other. For each shot: <b>drag the chosen frame into the agent prompt</b>, paste the scene's
+          production-ready paragraph, and swap character mentions for the <b>avatar logic names</b> defined in the
+          Characters section — that's what keeps faces (and, in dialogue films, voices) consistent across clips.</p>
+        <p>Engine settings per shot: <b>Omniflash</b> as the cost-effective default — especially when a scene holds
+          more than two characters — aspect ratio locked to 16:9 throughout. Animation prompts follow one discipline:
+          <b>preserve the frame, choreograph only the change</b> — the creature dissolves, the glitter settles, the
+          camera barely moves. Then the clips went to an external editor for the cut.</p>
+        <span class="chip"><i></i>Frame → agent prompt</span>
+        <span class="chip"><i></i>Omniflash · 16:9</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">Image-to-video prompt (abridged) — the climax</div>
+            <code><b>Animate this exact frame preserving its composition</b>, characters and lighting: … the creature continues to disintegrate in slow majestic motion, obsidian fragments igniting into <b>golden embers that sweep upward in a great spiraling arc</b> … her body holding still and unafraid … camera holds nearly locked with a <b>very slow push-in</b>, stone arm geometry remaining rigid and unchanged … <b>the girl remains perfectly stable</b> … no dialogue, 4K photorealistic.</code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 9</b> — the animation discipline: the still owns the composition, the prompt owns
+          only the motion. Stability instructions ride at the front of the prompt.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE STORYBOARD ══════════ -->
+  <section>
+    <div class="kicker">The Board</div>
+    <h2>Nine scenes, one golden thread</h2>
+    <p class="lede">The hero frame of each scene. Watch the film's one recurring rule: every exit — door, fissure,
+      trapdoor, cenote, stone, pool, reflection — glows the same warm gold, so the audience always knows where
+      "out" is. And gold is also the color of her eyes, the shockwave, the shatter, and the glitter in the snow
+      globe: the way out was hers the whole time.</p>
+    <div class="strip" style="margin-top:34px">
+      <div><div class="cell"><img src="ep12/scene-01-eyes.jpg" alt="Scene 1 — extreme close-up of Thalia's eyes glowing gold in the dark bedroom"></div><div class="lbl">01 · The golden awakening</div></div>
+      <div><div class="cell"><img src="ep12/scene-02-wall.jpg" alt="Scene 2 — Thalia sprints along the Great Wall as bricks lift into the air behind her"></div><div class="lbl">02 · The Great Wall</div></div>
+      <div><div class="cell"><img src="ep12/scene-03-petra.jpg" alt="Scene 3 — Thalia scrambles to her feet before the Treasury at Petra as shadows churn in the doorway"></div><div class="lbl">03 · Petra</div></div>
+      <div><div class="cell"><img src="ep12/scene-04-colosseum.jpg" alt="Scene 4 — the Shadow's stone-jaguar paw slams into the moonlit Colosseum arena beside Thalia"></div><div class="lbl">04 · The Colosseum</div></div>
+      <div><div class="cell"><img src="ep12/scene-05-chichen.jpg" alt="Scene 5 — over the serpent Shadow's coils, Thalia sprints down Chichén Itzá toward the jungle"></div><div class="lbl">05 · Chichén Itzá</div></div>
+      <div><div class="cell"><img src="ep12/scene-06-machu.jpg" alt="Scene 6 — Thalia slams her palm onto the glowing Intihuatana stone at Machu Picchu"></div><div class="lbl">06 · Machu Picchu</div></div>
+      <div><div class="cell"><img src="ep12/scene-07-taj.jpg" alt="Scene 7 — Thalia's boots strike the reflecting pool at the Taj Mahal, shattering the Shadow's reflection"></div><div class="lbl">07 · The Taj Mahal</div></div>
+      <div><div class="cell"><img src="ep12/scene-08-christ.jpg" alt="Scene 8 — extreme wide aerial of Thalia on the arm of Christ the Redeemer above a sea of sunrise clouds"></div><div class="lbl">08 · Christ the Redeemer</div></div>
+      <div><div class="cell"><img src="ep12/scene-09-globe.jpg" alt="Scene 9 — the Taj Mahal snow globe on the nightstand, gold glitter settling, alarm clock reading 6:18"></div><div class="lbl">09 · The settling gold</div></div>
+    </div>
+    <div class="figcap" style="margin-top:14px"><b>Continuity check</b> — same tunic, same pendant, same boots, same
+      gold across nine locations and three times of day. That's the asset lock doing its job.</div>
+  </section>
+
+  <!-- ══════════ THE CUT ══════════ -->
+  <section>
+    <div class="kicker">The Cut</div>
+    <h2>Pacing by subtraction</h2>
+    <p class="lede">The chase works because every scene is shorter than the audience expects, and the film's longest
+      held shot is the one where nothing chases her at all. The timings below are the shooting plan; the finished
+      cut runs 48 seconds — tighter still, as chases should be.</p>
+    <table>
+      <tr><th>TC</th><th>Scene</th><th>Beat</th><th>Framing</th><th>Dur.</th></tr>
+      <tr><td class="tc">0:00</td><td><b>01</b> · Bedroom, night</td><td>Her eyes snap open, glowing gold</td><td><span class="sh">ECU</span></td><td>4s</td></tr>
+      <tr><td class="tc">0:04</td><td><b>02</b> · Great Wall</td><td>The Wall dissolves into the Shadow; she runs</td><td><span class="sh">EWS · high</span></td><td>7s</td></tr>
+      <tr><td class="tc">0:11</td><td><b>03</b> · Petra</td><td>Tumbles out of the Treasury; sandstorm behind</td><td><span class="sh">WS · low</span></td><td>6s</td></tr>
+      <tr><td class="tc">0:17</td><td><b>04</b> · Colosseum</td><td>The stone jaguar's paw slams down</td><td><span class="sh">MS · handheld</span></td><td>6s</td></tr>
+      <tr><td class="tc">0:23</td><td><b>05</b> · Chichén Itzá</td><td>The serpent pours down the pyramid</td><td><span class="sh">OTS</span></td><td>6s</td></tr>
+      <tr><td class="tc">0:29</td><td><b>06</b> · Machu Picchu</td><td>Palm on the Intihuatana — gold shockwave</td><td><span class="sh">MS → CU</span></td><td>5s</td></tr>
+      <tr><td class="tc">0:34</td><td><b>07</b> · Taj Mahal</td><td>She runs on the water; the Shadow lives in the reflection</td><td><span class="sh">ECU · slow-mo</span></td><td>6s</td></tr>
+      <tr><td class="tc">0:40</td><td><b>08</b> · Christ the Redeemer</td><td>She stops. Turns. The Shadow shatters to gold</td><td><span class="sh">EWS → low MS</span></td><td>9s</td></tr>
+      <tr><td class="tc">0:49</td><td><b>09</b> · Bedroom, morning</td><td>Awake. A smile. The glitter settles in the globe</td><td><span class="sh">ECU</span></td><td>6s</td></tr>
+    </table>
+    <div class="figcap" style="margin-top:14px"><b>The camera argument</b> — high angles and extreme wides while
+      she's prey; the film's only low angle on Thalia arrives the moment she stops running. The grammar hands her
+      the power before the story does.</div>
+  </section>
+
+  <!-- ══════════ THE FOOTAGE ══════════ -->
+  <section>
+    <div class="kicker">The Footage</div>
+    <h2>Raw clips, straight from the engine</h2>
+    <p class="lede">Ungraded, unedited generations — each one animated from its locked storyboard frame with a
+      motion-only prompt. The stills carry the composition; the clips only have to move.</p>
+    <div class="strip2" style="margin-top:34px">
+      <div><div class="cell"><video controls playsinline muted loop preload="metadata" src="ep12/clip-wall.mp4"></video></div><div class="lbl">The Wall · scene 02</div></div>
+      <div><div class="cell"><video controls playsinline muted loop preload="metadata" src="ep12/clip-serpent.mp4"></video></div><div class="lbl">The serpent · scene 05</div></div>
+      <div><div class="cell"><video controls playsinline muted loop preload="metadata" src="ep12/clip-water.mp4"></video></div><div class="lbl">The water run · scene 07</div></div>
+      <div><div class="cell"><video controls playsinline muted loop preload="metadata" src="ep12/clip-wake.mp4"></video></div><div class="lbl">The wake · scene 09</div></div>
+    </div>
+    <div class="figcap" style="margin-top:14px"><b>Worth pausing on</b> — in the water run, the Shadow exists only in
+      the reflection: above the waterline there's nothing behind her. Dream logic the image stage made cheap and the
+      video stage made move.</div>
+  </section>
+
+  <!-- ══════════ BEHIND THE SCENES ══════════ -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>What we learned (and what nearly broke)</h2>
+    <p class="lede">The honest notes — six lessons this film paid for.</p>
+    <div class="notes">
+      <div class="note"><b>Fix the still, not the prompt</b><p>The climax kept warping — a person standing on a
+        statue's arm is geometry video models love to melt. Rewriting the video prompt never fixed it. Regenerating
+        the <em>still</em> — with the Shadow already mid-shatter, so the clip only had to finish the dissolve — fixed
+        it in one take. When motion breaks, move the problem upstream to the image.</p></div>
+      <div class="note"><b>One emotion per clip</b><p>The wake-up asked for fear → relief → smile in five seconds; the
+        engine rushed it and the smile read fake. The fix was editorial, not generative: generate only
+        <code>freeze, breathe, blink, soften</code> and let the cut to the snow globe deliver the smile. The edit is
+        an emotion engine too.</p></div>
+      <div class="note"><b>Split the beat</b><p>A sprint down steep pyramid steps is one of the hardest motions in
+        current models — legs jitter and slide. Plan B was two shots: a near-static reaction close-up (smoke erupting
+        above her), then the wide OTS chase where her figure is small enough to stay clean. Two easy generations beat
+        one impossible one.</p></div>
+      <div class="note"><b>Name the dream, not the device</b><p>The working title <em>Seven Doors</em> died in review:
+        only two exits are literally doors — the rest are a fissure, a trapdoor, a cenote, a stone, a pool.
+        <em>Chased Awake</em> names what the film is actually about — the dream everyone has had — and gives the
+        ending away only after you've seen it.</p></div>
+      <div class="note"><b>Early tokens win</b><p>Video models weight the front of a prompt. Stability instructions —
+        <code>animate this exact frame</code>, <code>the girl remains perfectly stable</code>, <code>stone geometry
+        rigid and unchanged</code> — moved to the opening clause of every animation prompt. Style adjectives went to
+        the back, where they can't outvote the physics.</p></div>
+      <div class="note"><b>Save the story. Always.</b><p>Storyboard Studio's local save is the whole production in one
+        JSON — 69.6&nbsp;MB with the screenplay, all 15 asset sheets and all 29 frames embedded. Clicking
+        <code>Done</code> without it can orphan the cloud project. The file reloads everything; it became the
+        production bible this case study was written from.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/google.svg" alt=""><div><b>Google Flow · Storyboard Studio</b><br><span>Script → assets → 29-frame storyboard</span></div></div><span class="free">THE STUDIO</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/googlegemini.svg" alt=""><div><b>Nano Banana</b><br><span>Character sheets, location boards, props &amp; frames</span></div></div><span class="free">IMAGE GEN</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/google.svg" alt=""><div><b>Veo &amp; Omniflash engines</b><br><span>Frame-locked image-to-video, 16:9</span></div></div><span class="free paid">VIDEO GEN</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/claude.svg" alt=""><div><b>Claude Code</b><br><span>Script, shot grammar, prompts &amp; this case study</span></div></div><span class="free">THE PRODUCER</span></div>
+    </div>
+
+    <div class="ctarow">
+      <a class="btn gold" href="#film">Back to the film ↑</a>
+      <a class="btn ghost" href="index.html#cases">All case studies →</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 12 · NEW CASE STUDIES EVERY WEEK</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+</body>
+</html>
