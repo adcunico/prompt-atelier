@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 13 — SO YOU WANT TO LEARN TO SURF: one reference, a whole new wave · Prompt Atelier</title>
+<meta property="og:title" content="SO YOU WANT TO LEARN TO SURF — remaking a reference film's soul in a new world">
+<meta property="og:description" content="A 16-second illustrated skate tutorial becomes a golden-hour surf film: GPT-Image moodboard, Nano Banana Pro keyframes, Seedance first+last-frame video, Topaz upscale, ElevenLabs voice, Suno score — composed and mixed in Remotion. All generation through one Kie.ai key.">
+<meta property="og:image" content="ep13/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --glass-dark:rgba(24,20,14,.46); --glass-dark-b:rgba(255,255,255,.26);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+  .glass{backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+    border-radius:20px;box-shadow:0 12px 40px rgba(15,12,6,.28)}
+  .g-dark{background:var(--glass-dark);border:1px solid var(--glass-dark-b);color:var(--text-cream)}
+
+  /* ── nav ── */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  /* ── hero ── */
+  .hero{padding:56px 0 40px;text-align:left;background:
+    radial-gradient(55% 70% at 85% 0%,rgba(193,154,61,.10),transparent 60%),
+    radial-gradient(40% 55% at 5% 30%,rgba(51,98,92,.07),transparent 60%)}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:58px;line-height:1.12;margin:18px 0 20px;max-width:880px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  .video-shell{margin:44px 0 0;aspect-ratio:16/9;border-radius:26px;position:relative;overflow:hidden;box-shadow:0 24px 70px rgba(20,16,8,.28);background:#0d0b09}
+  .video-shell img,.video-shell video{width:100%;height:100%;object-fit:cover;display:block}
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:12px;letter-spacing:.04em}
+  .figcap b{color:var(--gold-deep)}
+
+  /* ── sections ── */
+  section{padding:72px 0 8px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  .lede{color:var(--text-soft);max-width:660px;margin-bottom:8px}
+
+  /* stat tiles */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 26px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block;color:var(--text-ink)}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* step blocks */
+  .step{display:grid;grid-template-columns:330px 1fr;gap:40px;padding:44px 0;border-top:1px solid var(--linen);align-items:start}
+  @media(max-width:840px){.step{grid-template-columns:1fr}}
+  .step .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:64px;line-height:1;color:var(--gold-deep)}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:12px 0 10px}
+  .step p{font-size:15.5px;color:var(--text-soft)}
+  .step p + p{margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:9px;margin-top:16px;margin-right:8px;padding:8px 18px;border-radius:999px;
+    background:var(--ivory);border:1px solid var(--linen);font-size:12.5px;font-weight:600;letter-spacing:.06em}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+
+  /* figures */
+  .fig{border-radius:24px;overflow:hidden;position:relative;padding:26px;
+    display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;
+    background:radial-gradient(50% 65% at 82% 18%,rgba(193,154,61,.24) 0%,transparent 60%),
+      radial-gradient(60% 75% at 8% 90%,rgba(51,98,92,.4) 0%,transparent 60%),
+      linear-gradient(155deg,#16130E,#2B2418);box-shadow:0 18px 50px rgba(20,16,8,.22)}
+  .fullfig{border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(20,16,8,.22);border:1px solid var(--linen)}
+  .fullfig img{width:100%;display:block}
+  .fullfig + .fullfig{margin-top:18px}
+  .promptbox{max-width:460px;padding:26px 30px;flex:1 1 320px}
+  .promptbox .lbl{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--text-fog);font-weight:600;margin-bottom:12px}
+  .promptbox code{font-family:ui-monospace,monospace;font-size:13.5px;line-height:1.6;color:var(--text-cream);display:block}
+  .promptbox code b{color:var(--gold-bright);font-weight:400}
+  .promptbox code + .lbl{margin-top:18px}
+
+  /* pairs */
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.pair{grid-template-columns:1fr}}
+  .pair .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .pair .cell img{width:100%;display:block}
+  .pair .lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);margin:9px 0 18px;text-align:center}
+
+  /* film strip */
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:720px){.strip{grid-template-columns:1fr}}
+  .strip .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .strip .cell img,.strip .cell video{width:100%;display:block}
+  .strip .lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);margin:9px 0 18px;text-align:center}
+  .strip2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.strip2{grid-template-columns:1fr}}
+  .strip2 .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .strip2 .cell video{width:100%;display:block}
+  .strip2 .lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);margin:9px 0 18px;text-align:center}
+
+  /* the cut table */
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--linen);border-radius:16px;overflow:hidden;margin-top:34px}
+  th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-soft);text-align:left;padding:14px 18px;background:var(--ivory)}
+  td{padding:12px 18px;border-top:1px solid var(--linen);vertical-align:middle}
+  td.tc{font-family:ui-monospace,monospace;font-size:12.5px;color:var(--text-soft);white-space:nowrap}
+  td b{font-weight:600}
+  td .sh{color:var(--gold-deep);font-weight:600;font-size:12px;letter-spacing:.08em}
+
+  /* behind the scenes */
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 8px;border-radius:6px;font-family:ui-monospace,monospace}
+
+  /* toolbox */
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px;gap:14px}
+  .tool .tid{display:flex;align-items:center;gap:14px}
+  .tool .tid img{width:26px;height:26px;flex:none}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool .paid{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  /* CTA row */
+  .ctarow{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:999px;font-weight:600;font-size:14px;letter-spacing:.03em;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .btn.gold{background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 14px 40px rgba(193,154,61,.32)}
+  .btn.ghost{border:1px solid var(--linen);color:var(--text-ink);background:#fff}
+  .btn:hover{transform:translateY(-2px)}
+
+  /* footer */
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+<link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+      <span class="nav-soc"><a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 13 · Reference-to-Remake Pipeline</div>
+    <h1>SO YOU WANT TO LEARN TO SURF: one reference, <em>a whole new wave</em></h1>
+    <p class="standfirst">Start from someone else's finished film — a 16-second illustrated skateboarding tutorial —
+      and remake its soul in a new world: same editorial gouache language, new palette, new sport, new motion.
+      A single GPT-Image grid became moodboard <em>and</em> storyboard; Nano Banana Pro locked ten keyframes;
+      Seedance animated between them, first frame to last. Every pixel generated through one API hub, finished
+      with real type and a real mix in Remotion. Five shots, five spoken lines, twenty seconds.</p>
+    <div class="meta">
+      <div><b>Medium</b>Illustrated surf tutorial · 5 shots</div>
+      <div><b>Pipeline</b>Kie.ai · Seedance · Remotion</div>
+      <div><b>Keyframes</b>10 frames · first + last per shot</div>
+      <div><b>Reference</b>A skate tutorial in cobalt blue</div>
+      <div><b>Length</b>20 seconds · 1440p · 16:9</div>
+    </div>
+
+    <div class="video-shell" id="film">
+      <video controls playsinline poster="ep13/hero.jpg" src="ep13/prompt-atelier-ep13.mp4"></video>
+    </div>
+    <div class="figcap"><b>The finished film</b> · five shots at golden hour — Seedance clips upscaled 2× through
+      Topaz, subtitles and voiceover timed to a hand-made edit, scored with "Salted Cedar."</div>
+  </div>
+
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>Gate every dollar behind an approval</h2>
+    <p class="lede">The economics wrote the process: images cost cents, video clips cost real money. So the pipeline
+      is a staircase of cheap approvals — style brief, moodboard, storyboard, keyframes — and the expensive video
+      model runs only when the exact first and last frame of every shot is already signed off. Nothing left to
+      gamble on but motion.</p>
+    <div class="stats">
+      <div class="stat"><b>1</b><span>Reference film studied</span></div>
+      <div class="stat"><b>6</b><span>Moodboard panels · one grid</span></div>
+      <div class="stat"><b>10</b><span>Locked keyframes</span></div>
+      <div class="stat"><b><em>5</em></b><span>Seedance clips</span></div>
+      <div class="stat"><b>2×</b><span>Topaz upscale to 1440p</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE PIPELINE ══════════ -->
+  <section>
+    <div class="kicker">The Pipeline</div>
+    <h2>Step by step</h2>
+
+    <div class="step" style="margin-top:34px">
+      <div>
+        <div class="num">01</div>
+        <h3>The Reference</h3>
+        <p>The brief began with someone else's film: a 16-second illustrated skateboarding tutorial — flat painterly
+          gouache, a character in an oversized white tee on a cobalt field, dashed speed lines, a jagged graphic
+          shadow, a subtitle bar carrying the narration. Frames were extracted and studied for what actually made
+          the look: bold flat shapes, paper texture, no outlines, and a shot grammar of wide → close-up → extreme
+          close-up → rolling profile.</p>
+        <p>The remake kept the language and changed everything else: skateboarding became surfing, cobalt became a
+          golden-hour palette — deep teal-emerald ocean, apricot-coral sky — and the speed lines became spray. The
+          style description was written once and pasted verbatim into <b>every</b> image and motion prompt after;
+          repetition is what keeps twenty generations looking like one film.</p>
+        <span class="chip"><i></i>ffmpeg frame extraction</span>
+        <span class="chip"><i></i>One reusable style block</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep13/reference.jpg" alt="Reference frame — illustrated skateboarder rolling on a cobalt blue background with subtitle bar"></div>
+        <div class="figcap"><b>Fig. 1</b> — the reference: editorial illustration, graphic motion devices,
+          narration in a subtitle bar. The remake borrows the grammar, not the pixels.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">02</div>
+        <h3>The Moodboard That Became the Storyboard</h3>
+        <p>GPT-Image took the style block and six panel prompts and returned one grid so coherent it collapsed two
+          pipeline stages: the five narrative panels mapped one-to-one onto the planned beats — intro on the beach,
+          waxing the board, paddling out, the pop-up, the hero carve — plus an abstract palette study that later
+          became the film's end card.</p>
+        <p>Instead of a second storyboard round, the grid was approved as-is and sliced into panels with ffmpeg.
+          Each panel became the canonical reference for its shot: the character bible, the palette bible and the
+          composition bible in one image.</p>
+        <span class="chip"><i></i>GPT-Image · exploration</span>
+        <span class="chip"><i></i>Six panels · one generation</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep13/moodboard.jpg" alt="Six-panel moodboard grid — beach intro, waxing hands, paddling, feet on board, wave carve, abstract texture study"></div>
+        <div class="figcap"><b>Fig. 2</b> — the grid that did two jobs. Five story panels and a texture study,
+          consistent character and palette in a single GPT-Image generation.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">03</div>
+        <h3>The Keyframes</h3>
+        <p>Seedance's first-and-last-frame mode is the single biggest lever on AI motion quality — it pins both ends
+          of every clip and leaves the model nothing to drift toward. That means ten keyframes for five shots.
+          Nano Banana Pro regenerated each approved panel as a full-bleed 16:9 "anchor," then edited each anchor
+          into its partner frame — pose progressed, spray bigger, wax swirls spread — with everything else held
+          identical.</p>
+        <p>Two anchors drifted on the first pass — the model moved the intro character into the water, and zoomed
+          the pop-up out to a full body. Both were retaken with CRITICAL-prefixed constraints rather than accepted:
+          keyframe errors multiply once they reach video.</p>
+        <span class="chip"><i></i>Nano Banana Pro · 2K</span>
+        <span class="chip"><i></i>Anchor → partner chaining</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep13/keyframes.jpg" alt="Contact sheet of ten keyframes — first and last frame pairs for all five shots"></div>
+        <div class="figcap"><b>Fig. 3</b> — the ten-frame contact sheet sent for approval: left column first frames,
+          right column last frames, one row per shot.</div>
+        <div class="pair" style="margin-top:18px">
+          <div><div class="cell"><img src="ep13/pair-s4-first.jpg" alt="Pop-up shot first frame — bare feet hovering in mid-air above the surfboard deck"></div><div class="lbl">Pop-up · first frame: feet in the air</div></div>
+          <div><div class="cell"><img src="ep13/pair-s4-last.jpg" alt="Pop-up shot last frame — feet planted on the deck across the coral stringer"></div><div class="lbl">Pop-up · last frame: the landing</div></div>
+        </div>
+        <div class="figcap"><b>Fig. 4</b> — the reversed-anchor trick: the approved panel became the <em>landing</em>,
+          and a hovering-feet variant was generated as the start — so Seedance animates the impact, not the wind-up.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">04</div>
+        <h3>The Motion</h3>
+        <p>One motion prompt per shot, all built the same way: style declaration first, then subject motion, then
+          secondary motion — fabric, foam, seabirds — then the camera, then the guards: <b>no morphing, character
+          stays on-model, painterly texture preserved</b>. Clips were generated at 720p, half the cost of native
+          1080p; for flat illustrated art the resolution comes back for free at the upscale stage, and the savings
+          buy retakes.</p>
+        <p>The generations taught their own lesson: contained motion — waxing, paddling, carving — came back clean,
+          while invented locomotion produced a shadow that walked by itself. The cut, not the prompt, fixed it:
+          a 5-second take usually holds 2–3 clean seconds, and the human edit kept exactly those.</p>
+        <span class="chip"><i></i>Seedance · first+last frame</span>
+        <span class="chip"><i></i>720p · retakes over resolution</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">Motion prompt (abridged) — the hero carve</div>
+            <code>Flat gouache editorial illustration animation, smooth 2D feel. Wide hero shot: the surfer <b>carves down the face of a huge stylized curling wave</b> and drops deeper into the barrel, crouching lower with arms spread for balance; <b>spray explodes off the tail in sharp paper-cut cream shapes</b>, the bold graphic shadow slides across the teal wave face, the coral sun glows through the translucent lip … slight slow camera push-in … <b>no morphing, character stays on-model</b>, painterly texture preserved.</code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 5</b> — style first, motion in the middle, guards at the end. The keyframes own
+          the composition; the prompt only choreographs the change.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">05</div>
+        <h3>The Sound</h3>
+        <p>The reference's subtitle bar implied a voice, so the remake got one: five short lines — "So you want to
+          learn to surf" through "Get low… and let the wave carry you" — generated in ElevenLabs as <b>five separate
+          files</b>, one per line, so each read could be snapped to its exact cut. When two reads collided at the
+          fastest cut, one simply started early: in a quick edit, audio leads picture.</p>
+        <p>The bed is a Suno instrumental — warm nylon guitar and soft hand percussion, "Salted Cedar" — ducked
+          under the voice at 18% and faded out with the end card.</p>
+        <span class="chip"><i></i>ElevenLabs · line per file</span>
+        <span class="chip"><i></i>Suno · instrumental bed</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">The whole script</div>
+            <code>S1 — So you want to learn to surf.<br>S2 — First — wax your board.<br>S3 — Paddle out past the break.<br>S4 — Pop up — front foot over the stringer.<br>S5 — Get low… and let the wave carry you.</code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 6</b> — twenty-two words of narration. Tutorial films are written in beats,
+          not paragraphs.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">06</div>
+        <h3>The Finish</h3>
+        <p>After picture lock the cut went through Topaz — hosted on the same API hub as everything else — for a 2×
+          upscale to 2560×1440; flat gouache shapes upscale essentially losslessly. Then Remotion did what
+          generative models cannot: <b>real type</b>. The subtitle bar, timed to measured cut points, and the end
+          card set on the moodboard's texture panel — plus the full audio mix of five voice lines and the music bed.</p>
+        <p>The last battle was a subtle frame-to-frame shimmer in the render. Measured, not guessed: the plate's
+          inter-frame noise was 9.47, the rendered file's was 17.38 — the renderer's per-frame JPEG capture was
+          adding visible noise to textured art. The endgame: Remotion renders <b>only the overlay</b> — text and
+          audio on a transparent alpha track — and ffmpeg composites it over the untouched plate in a single encode.
+          Plate pixels, exactly once through a codec.</p>
+        <span class="chip"><i></i>Topaz · 2× to 1440p</span>
+        <span class="chip"><i></i>Alpha overlay + one encode</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">The composite, in one move</div>
+            <code>ffmpeg -i <b>plate.mp4</b> -i <b>overlay.mov</b>&nbsp;&nbsp;# ProRes 4444 + alpha, from Remotion<br>&nbsp;&nbsp;-filter_complex "[0:v]…tpad[base];<br>&nbsp;&nbsp;[base][1:v]<b>overlay</b>[v]"<br>&nbsp;&nbsp;-map "[v]" -map 1:a -crf 16 <b>final.mp4</b></code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 7</b> — the overlay carries the type and the whole mix; the plate is never
+          re-captured. Flicker: gone by construction.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE CUT ══════════ -->
+  <section>
+    <div class="kicker">The Cut</div>
+    <h2>Five beats, one lesson each</h2>
+    <p class="lede">The edit is human — cut in a phone editor from the five raw clips, trimming around what the
+      models got wrong and keeping what they got right. Subtitles and voice were then timed to the measured cuts,
+      crossfades and all.</p>
+    <table>
+      <tr><th>TC</th><th>Shot</th><th>Beat</th><th>Framing</th><th>Dur.</th></tr>
+      <tr><td class="tc">0:00</td><td><b>S1</b> · The invitation</td><td>On the sand, board planted, sun huge behind</td><td><span class="sh">WS</span></td><td>2.7s</td></tr>
+      <tr><td class="tc">0:02</td><td><b>S2</b> · Wax your board</td><td>Circular strokes, swirls spreading on the deck</td><td><span class="sh">ECU</span></td><td>4.8s</td></tr>
+      <tr><td class="tc">0:07</td><td><b>S3</b> · Paddle out</td><td>Foam ribbons off the fingertips, swell ahead</td><td><span class="sh">WS · water level</span></td><td>5.0s</td></tr>
+      <tr><td class="tc">0:12</td><td><b>S4</b> · The pop-up</td><td>Feet hover, then land across the stringer</td><td><span class="sh">ECU</span></td><td>2.3s</td></tr>
+      <tr><td class="tc">0:14</td><td><b>S5</b> · Let it carry you</td><td>Low crouch into the barrel, sun through the lip</td><td><span class="sh">EWS → push-in</span></td><td>2.7s</td></tr>
+      <tr><td class="tc">0:17</td><td><b>End card</b></td><td>"Now paddle out." on the texture study</td><td><span class="sh">Card</span></td><td>2.5s</td></tr>
+    </table>
+    <div class="figcap" style="margin-top:14px"><b>The pacing argument</b> — the two instructional close-ups get the
+      time; the hero shots stay short and leave you wanting the wave back. Tutorials earn style by being useful
+      first.</div>
+  </section>
+
+  <!-- ══════════ THE FOOTAGE ══════════ -->
+  <section>
+    <div class="kicker">The Footage</div>
+    <h2>Raw clips, straight from the engine</h2>
+    <p class="lede">Ungraded 720p Seedance generations, before Topaz and before the edit — each animated between its
+      two locked keyframes with a motion-only prompt.</p>
+    <div class="strip" style="margin-top:34px">
+      <div><div class="cell"><video controls playsinline muted loop preload="metadata" src="ep13/clip-wax.mp4"></video></div><div class="lbl">The wax · shot S2</div></div>
+      <div><div class="cell"><video controls playsinline muted loop preload="metadata" src="ep13/clip-paddle.mp4"></video></div><div class="lbl">The paddle · shot S3</div></div>
+      <div><div class="cell"><video controls playsinline muted loop preload="metadata" src="ep13/clip-carve.mp4"></video></div><div class="lbl">The carve · shot S5</div></div>
+    </div>
+    <div class="figcap" style="margin-top:14px"><b>Worth pausing on</b> — the foam. Water is where generative video
+      is at its best, and the flat paper-cut style hides the physics sins that would expose a photoreal render.</div>
+  </section>
+
+  <!-- ══════════ BEHIND THE SCENES ══════════ -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>What we learned (and what nearly broke)</h2>
+    <p class="lede">The honest notes — six lessons this film paid for.</p>
+    <div class="notes">
+      <div class="note"><b>Approve before you spend</b><p>Images cost cents; clips cost ~250 credits each. The
+        staircase of approvals — brief, moodboard, keyframe contact sheet — meant the expensive model never ran on
+        an unapproved idea. The one time the account hit zero, it was <em>mid-batch</em>: the balance went negative
+        and queued tasks failed with unhelpful 500s. Check the balance before every batch.</p></div>
+      <div class="note"><b>Reverse the keyframe</b><p>For an impact beat, make the approved frame the <em>ending</em>.
+        The pop-up's panel became the landing; a hovering-feet variant became the start. The model animated the
+        satisfying half of the motion instead of inventing an approach it would have fumbled.</p></div>
+      <div class="note"><b>Models invent locomotion</b><p>Asked to walk a character across a beach, Seedance produced
+        a shadow strolling on its own and a surfer moon-walking backwards. Contained motion — waxing, paddling,
+        carving — came back clean every time. Keep travel beats static or short, and let the edit do the walking.</p></div>
+      <div class="note"><b>HTTP 200 is not success</b><p>The API hub returns errors <em>inside</em> successful HTTP
+        responses — <code>{"code": 422}</code> in a 200 body — and a required voice parameter documented as optional.
+        Surface the app-level code on every call or you'll debug <code>data: null</code> crashes instead of reading
+        "voiceId cannot be empty."</p></div>
+      <div class="note"><b>Chase flicker with numbers</b><p>"It flickers" became measurable: ffmpeg's signalstats put
+        the plate at YDIF 9.47 and the render at 17.38 — the renderer's JPEG frame capture was the noise. The fix
+        wasn't a setting; it was architecture: render only the text overlay with alpha, composite in ffmpeg, and the
+        plate's pixels pass through exactly one encode.</p></div>
+      <div class="note"><b>Text is never generative</b><p>No AI frame carries a single word. Subtitles, the end card —
+        all real type, rendered by Remotion over the footage. Generative models mangle letterforms, and baked-in text
+        can't be retimed when a human re-edits the cut underneath it.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/kie.svg" alt=""><div><b>Kie.ai</b><br><span>One API hub: images, video, upscale — one key, one billing</span></div></div><span class="free paid">THE HUB</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/openai.svg" alt=""><div><b>GPT-Image</b><br><span>The six-panel moodboard-turned-storyboard</span></div></div><span class="free">MOODBOARD</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/googlegemini.svg" alt=""><div><b>Nano Banana Pro</b><br><span>Ten reference-locked keyframes at 2K</span></div></div><span class="free">KEYFRAMES</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/bytedance.svg" alt=""><div><b>Seedance</b><br><span>First+last-frame image-to-video, 720p</span></div></div><span class="free paid">VIDEO GEN</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/topaz.svg" alt=""><div><b>Topaz Video Upscale</b><br><span>2× to 2560×1440 after picture lock</span></div></div><span class="free paid">UPSCALE</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/elevenlabs.svg" alt=""><div><b>ElevenLabs</b><br><span>Five narration lines, one file per cut</span></div></div><span class="free">VOICE</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/suno.svg" alt=""><div><b>Suno</b><br><span>"Salted Cedar" — the instrumental bed</span></div></div><span class="free">MUSIC</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/remotion.svg" alt=""><div><b>Remotion</b><br><span>Real type, timed subtitles, end card, full mix</span></div></div><span class="free">TITLES &amp; MIX</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/ffmpeg.svg" alt=""><div><b>ffmpeg</b><br><span>Frame forensics, cut detection, the final composite</span></div></div><span class="free">COMPOSITE</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/claude.svg" alt=""><div><b>Claude Code</b><br><span>The producer: prompts, pipeline code &amp; this case study</span></div></div><span class="free">THE PRODUCER</span></div>
+    </div>
+
+    <div class="ctarow">
+      <a class="btn gold" href="#film">Back to the film ↑</a>
+      <a class="btn ghost" href="index.html#cases">All case studies →</a>
+    </div>
+  </section>
+</div>
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 13 · NEW CASE STUDIES EVERY WEEK</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+</body>
+</html>
