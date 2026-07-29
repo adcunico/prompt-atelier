@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 14 — HOLLYWOOD WASN'T SUPPOSED TO EXIST: a paper-cut documentary in 36 beats · Prompt Atelier</title>
+<meta property="og:title" content="HOLLYWOOD WASN'T SUPPOSED TO EXIST — a Vox-style paper-cut documentary in 36 beats">
+<meta property="og:description" content="A 3-minute paper-cut history documentary built entirely in browser tools: Claude researches, writes and prompt-engineers; Google Flow's nano banana batch-generates 41 images through ZappyFlow; one universal prompt animates them into 5-second clips; ElevenLabs narrates, Suno scores, CapCut cuts.">
+<meta property="og:image" content="ep14/hero-placeholder.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --glass-dark:rgba(24,20,14,.46); --glass-dark-b:rgba(255,255,255,.26);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+  .glass{backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+    border-radius:20px;box-shadow:0 12px 40px rgba(15,12,6,.28)}
+  .g-dark{background:var(--glass-dark);border:1px solid var(--glass-dark-b);color:var(--text-cream)}
+
+  /* ── nav ── */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  /* ── hero ── */
+  .hero{padding:56px 0 40px;text-align:left;background:
+    radial-gradient(55% 70% at 85% 0%,rgba(193,154,61,.10),transparent 60%),
+    radial-gradient(40% 55% at 5% 30%,rgba(51,98,92,.07),transparent 60%)}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:58px;line-height:1.12;margin:18px 0 20px;max-width:880px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  .video-shell{margin:44px 0 0;aspect-ratio:16/9;border-radius:26px;position:relative;overflow:hidden;box-shadow:0 24px 70px rgba(20,16,8,.28);background:#0d0b09;display:block}
+  .video-shell img,.video-shell video{width:100%;height:100%;object-fit:cover;display:block}
+  a.video-shell{cursor:pointer}
+  a.video-shell img{transition:transform .6s ease}
+  a.video-shell:hover img{transform:scale(1.025)}
+  .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(180deg,rgba(13,11,9,.0) 40%,rgba(13,11,9,.38));transition:background .3s}
+  a.video-shell:hover .play{background:linear-gradient(180deg,rgba(13,11,9,.06) 40%,rgba(13,11,9,.5))}
+  .play .btn-circle{width:112px;height:112px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:rgba(24,20,14,.55);border:2px solid rgba(246,240,228,.85);
+    backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);
+    box-shadow:0 18px 50px rgba(0,0,0,.45);transition:transform .3s,background .3s}
+  a.video-shell:hover .btn-circle{transform:scale(1.08);background:rgba(138,106,36,.72)}
+  .play .btn-circle svg{width:38px;height:38px;fill:var(--text-cream);margin-left:6px}
+  .play .watch{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-size:12.5px;font-weight:700;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--text-cream);text-shadow:0 2px 10px rgba(0,0,0,.6)}
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:12px;letter-spacing:.04em}
+  .figcap b{color:var(--gold-deep)}
+
+  /* ── sections ── */
+  section{padding:72px 0 8px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  .lede{color:var(--text-soft);max-width:660px;margin-bottom:8px}
+
+  /* stat tiles */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 26px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block;color:var(--text-ink)}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* step blocks */
+  .step{display:grid;grid-template-columns:330px 1fr;gap:40px;padding:44px 0;border-top:1px solid var(--linen);align-items:start}
+  @media(max-width:840px){.step{grid-template-columns:1fr}}
+  .step .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:64px;line-height:1;color:var(--gold-deep)}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:12px 0 10px}
+  .step p{font-size:15.5px;color:var(--text-soft)}
+  .step p + p{margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:9px;margin-top:16px;margin-right:8px;padding:8px 18px;border-radius:999px;
+    background:var(--ivory);border:1px solid var(--linen);font-size:12.5px;font-weight:600;letter-spacing:.06em}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+
+  /* figures */
+  .fig{border-radius:24px;overflow:hidden;position:relative;padding:26px;
+    display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;
+    background:radial-gradient(50% 65% at 82% 18%,rgba(193,154,61,.24) 0%,transparent 60%),
+      radial-gradient(60% 75% at 8% 90%,rgba(51,98,92,.4) 0%,transparent 60%),
+      linear-gradient(155deg,#16130E,#2B2418);box-shadow:0 18px 50px rgba(20,16,8,.22)}
+  .fullfig{border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(20,16,8,.22);border:1px solid var(--linen)}
+  .fullfig img{width:100%;display:block}
+  .fullfig + .fullfig{margin-top:18px}
+  .promptbox{max-width:460px;padding:26px 30px;flex:1 1 320px}
+  .promptbox .lbl{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--text-fog);font-weight:600;margin-bottom:12px}
+  .promptbox code{font-family:ui-monospace,monospace;font-size:13.5px;line-height:1.6;color:var(--text-cream);display:block}
+  .promptbox code b{color:var(--gold-bright);font-weight:400}
+  .promptbox code + .lbl{margin-top:18px}
+
+  /* pairs */
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.pair{grid-template-columns:1fr}}
+  .pair .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .pair .cell img{width:100%;display:block}
+  .pair .lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);margin:9px 0 18px;text-align:center}
+
+  /* film strip */
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:720px){.strip{grid-template-columns:1fr}}
+  .strip .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .strip .cell img,.strip .cell video{width:100%;display:block}
+  .strip .lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);margin:9px 0 18px;text-align:center}
+
+  /* the cut table */
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--linen);border-radius:16px;overflow:hidden;margin-top:34px}
+  th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-soft);text-align:left;padding:14px 18px;background:var(--ivory)}
+  td{padding:12px 18px;border-top:1px solid var(--linen);vertical-align:middle}
+  td.tc{font-family:ui-monospace,monospace;font-size:12.5px;color:var(--text-soft);white-space:nowrap}
+  td b{font-weight:600}
+  td .sh{color:var(--gold-deep);font-weight:600;font-size:12px;letter-spacing:.08em}
+
+  /* behind the scenes */
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 8px;border-radius:6px;font-family:ui-monospace,monospace}
+
+  /* toolbox */
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px;gap:14px}
+  .tool .tid{display:flex;align-items:center;gap:14px}
+  .tool .tid img{width:26px;height:26px;flex:none}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool .paid{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  /* CTA row */
+  .ctarow{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:999px;font-weight:600;font-size:14px;letter-spacing:.03em;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .btn.gold{background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 14px 40px rgba(193,154,61,.32)}
+  .btn.ghost{border:1px solid var(--linen);color:var(--text-ink);background:#fff}
+  .btn:hover{transform:translateY(-2px)}
+
+  /* footer */
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+<link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+      <span class="nav-soc"><a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study · Episode 14 · Browser-Tools Vox Pipeline</div>
+    <h1>HOLLYWOOD WASN'T SUPPOSED TO EXIST: <em>a paper-cut documentary in 36 beats</em></h1>
+    <p class="standfirst">A three-minute Vox-style history documentary built entirely in browser tools.
+      Claude researched the story, wrote the script to a word-count budget, broke it into 36 visual beats and
+      compiled every image prompt into one text file. Google Flow's nano banana generated all 41 frames in a single
+      ZappyFlow batch; one universal motion prompt turned them into 5-second parallax clips; ElevenLabs narrated,
+      Suno scored, and CapCut cut it together. The story it tells: why the film capital of the world is a temperance
+      colony that once banned movie theaters.</p>
+    <div class="meta">
+      <div><b>Medium</b>Paper-cut animated documentary</div>
+      <div><b>Pipeline</b>Flow · ZappyFlow · CapCut</div>
+      <div><b>Beats</b>36 + a cold open · 5s each</div>
+      <div><b>Style</b>One block · 41 repetitions</div>
+      <div><b>Length</b>3 minutes · 1080p · 16:9</div>
+    </div>
+
+    <a class="video-shell" id="film" href="https://youtu.be/bxi4inQ7aAI" target="_blank" rel="noopener">
+      <img src="ep14/hero-placeholder.jpg" alt="Paper-cut Hollywood sign on a hillside surrounded by question marks, lit by a spotlight — the film's opening frame">
+      <span class="play">
+        <span class="btn-circle"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg></span>
+        <span class="watch">Watch the film · 3 min</span>
+      </span>
+    </a>
+    <div class="figcap"><b>The finished film</b> · three minutes, thirty-seven paper-cut clips — playing on YouTube.</div>
+  </div>
+
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>One style block, repeated until it becomes a film</h2>
+    <p class="lede">No keyframe pairs, no API, no render pipeline — this episode is the browser-tools cousin of our
+      Kie.ai workflows. Its discipline lives in one place: a single style sentence pasted verbatim onto all 41 image
+      prompts, and a single motion prompt applied to every clip. Repetition is the whole art direction.</p>
+    <div class="stats">
+      <div class="stat"><b>440</b><span>Words of narration</span></div>
+      <div class="stat"><b>36</b><span>Visual beats · 1 per 5s</span></div>
+      <div class="stat"><b>41</b><span>Images · one batch</span></div>
+      <div class="stat"><b><em>1</em></b><span>Universal motion prompt</span></div>
+      <div class="stat"><b>150</b><span>Words per minute</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE MOODBOARD ══════════ -->
+  <section>
+    <div class="kicker">The Look</div>
+    <h2>The mood board</h2>
+    <p class="lede">Muted vintage paper on a grainy cream ground — five colors, visible cut edges, offset shadows,
+      and 1910s poster type used as texture. Distilled here after the fact; enforced during production by the
+      style block itself.</p>
+    <div class="fullfig" style="margin-top:34px"><img src="ep14/moodboard.png" alt="Episode 14 mood board — palette of paper cream, mustard, brick red, teal and charcoal; four key frames; style pillars and motion grammar"></div>
+    <div class="figcap"><b>Fig. 1</b> — the film's DNA on one card: palette with jobs assigned ("brick red · drama &amp;
+      stamps"), the four tent-pole frames, and the motion grammar that animated them.</div>
+  </section>
+
+  <!-- ══════════ THE PIPELINE ══════════ -->
+  <section>
+    <div class="kicker">The Pipeline</div>
+    <h2>Step by step</h2>
+
+    <div class="step" style="margin-top:34px">
+      <div>
+        <div class="num">01</div>
+        <h3>The Research</h3>
+        <p>The brief was a topic, not a story: "why is Hollywood called Hollywood?" Web research surfaced the story
+          worth telling — the American film industry was born in New Jersey; Thomas Edison's patent trust sued
+          filmmakers until they fled 3,000 miles west; and the town they fled to was founded as an alcohol-free
+          religious utopia, named "Hollywood" by Daeida Wilcox because <em>holly brings good luck</em>. It had
+          banned movie theaters.</p>
+        <p>The research pass also collected the curiosities that give a Vox piece its texture: "cliffhanger" comes
+          from serials shot on the New Jersey Palisades; a "shot" is called that because early cameras were
+          hand-cranked like machine guns; the Hollywood sign was an 18-month real-estate billboard nobody took down.</p>
+        <span class="chip"><i></i>Hook-first research</span>
+        <span class="chip"><i></i>Sources cited &amp; kept</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep14/fig-edison.jpg" alt="Paper-cut Edison flanked by two lawyers holding LAWSUIT papers, looming over a small frightened filmmaker clutching a camera"></div>
+        <div class="figcap"><b>Fig. 2</b> — every documentary needs a villain. Edison and his lawyers, exactly as
+          beat 13 ordered them: "dramatic size contrast."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">02</div>
+        <h3>The Script</h3>
+        <p>Documentary voiceover runs ~150 words a minute, so a 3-minute film is a 440-word budget — stated up front
+          and spent deliberately. The draft went through two sizes: a 165-word cut that sacrificed every curiosity
+          to keep one spine, then the 3-minute version that wove the facts back in <b>where they belong
+          chronologically</b> — "cliffhanger" and "shot" anchored to the New Jersey act, the sign as the closer —
+          never as a trivia list.</p>
+        <p>Ellipses and line breaks were written as pause marks for the voiceover; the closing line rhymes with the
+          cold open. Names that text-to-speech would fumble shipped with phonetic respellings: Daeida reads as
+          <em>day-EE-da</em>.</p>
+        <span class="chip"><i></i>150 words / minute</span>
+        <span class="chip"><i></i>One spine, no trivia lists</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">The cold open &amp; the close</div>
+            <code>Hollywood... <b>wasn't supposed to exist.</b><br><br>The American film industry was born three
+              thousand miles away — in New Jersey. …<br><br>Hollywood was named for good luck. An accidental name,
+              an accidental sign, an accidental city... <b>that became the most famous place on Earth.</b></code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 3</b> — the frame of the 440 words: open by breaking an assumption, close by
+          rhyming with the opening.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">03</div>
+        <h3>The Beat Sheet</h3>
+        <p>The clip length dictates the shot list: 5-second generations mean <b>beats = runtime ÷ 5</b> — thirty-six
+          beats for three minutes, grouped into five acts. Each beat pairs one verbatim VO line with a one-sentence
+          image description, so the eventual CapCut timeline is just beats laid end to end.</p>
+        <p>Consistency was engineered in the writing, not the generation: a small recurring cast — Edison, Daeida,
+          the fleeing filmmakers — each described with the <b>exact same wording every time they appear</b>. With no
+          character-reference feature in the toolchain, identical words are the character model.</p>
+        <span class="chip"><i></i>36 beats · 5 acts</span>
+        <span class="chip"><i></i>Verbatim recurring cast</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep14/fig-daeida.jpg" alt="A paper-cut hand writing the word Hollywood in elegant cursive, framed by holly branches with red berries"></div>
+        <div class="figcap"><b>Fig. 4</b> — beat 20: "a woman's hand writing HOLLYWOOD in elegant cursive script,
+          holly branches framing the word." The answer to the whole video's question, in one frame.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">04</div>
+        <h3>The Images</h3>
+        <p>Every beat became one line of a plain .txt file: style block, a <code>---</code> separator, then the scene.
+          The style block — "Vox-style paper-cut collage illustration, layered construction paper with visible cut
+          edges… muted vintage palette… 16:9" — is <b>identical on all 41 lines</b>. ZappyFlow read the file and
+          drove Google Flow's nano banana through the whole batch unattended, saving frames to disk in beat order,
+          which means download order <em>is</em> edit order.</p>
+        <p>Forty-one prompts: the 36 beats, a cold open of a 1910s cameraman who turns his lens on the audience,
+          and four golden-age frames to thicken the boom-years montage.</p>
+        <span class="chip"><i></i>nano banana · 16:9</span>
+        <span class="chip"><i></i>One .txt, one batch</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">One line of the prompt file (beat 10)</div>
+            <code><b>Vox-style paper-cut collage illustration, layered construction paper with visible cut edges and
+              subtle drop shadows, muted vintage palette of cream, mustard yellow, brick red, teal and charcoal,
+              grainy cream paper background, documentary infographic aesthetic, 16:9</b> --- Split composition,
+              left side a hand-cranked film camera with film frames flying out like bullet casings, right side a
+              hand-cranked vintage Gatling machine gun, matching circular crank motion lines on both, visual comparison</code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 5</b> — the bolded half never changes. Forty-one repetitions of one sentence
+          is what makes forty-one generations one film.</div>
+        <div class="fullfig" style="margin-top:18px"><img src="ep14/fig-camera-gun.jpg" alt="Paper-cut split composition — a hand-cranked film camera firing film frames like bullet casings beside a hand-cranked Gatling gun"></div>
+        <div class="figcap"><b>Fig. 6</b> — what came back: why a "shot" is called a shot. The model even added its
+          own infographic labels, unprompted.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">05</div>
+        <h3>The Motion</h3>
+        <p>Every image was animated with the <b>same universal prompt</b>: slow push-in, paper layers drifting at
+          different speeds for parallax, small elements floating — then the guards, which are the part that actually
+          matters: <em>do not add, remove, morph or redraw anything; do not change any text or letters; no
+          zoom-out.</em> Video models love to "improve" a frame; the guards are what keep Edison being Edison.</p>
+        <p>Every third or fourth clip swapped the push-in for a pan (maps, panoramas) or an upward tilt (cliffs,
+          reveals) so thirty-seven clips don't share one heartbeat. The cold open got a custom action prompt —
+          the cameraman cranks, notices the viewer, and swings the lens to face us; the lens filling the frame is
+          the transition into the film.</p>
+        <span class="chip"><i></i>One universal prompt</span>
+        <span class="chip"><i></i>Guards over instructions</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox">
+            <div class="lbl">The universal motion prompt (abridged)</div>
+            <code>Animate this paper-cut collage illustration with subtle documentary-style motion: <b>slow gentle
+              camera push-in</b>… paper layers drifting at slightly different speeds for a <b>parallax depth
+              effect</b>… Keep every element exactly as it appears in the image — <b>do not add, remove, morph or
+              redraw anything, do not change any text or letters. No camera shake, no zoom-out, no scene change.</b>
+              Smooth, slow, minimal motion throughout. 5 seconds.</code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 7</b> — "no zoom-out" is deliberate: push-in hides the edges of the canvas,
+          zoom-out reveals there's nothing beyond them.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">06</div>
+        <h3>The Audio &amp; the Cut</h3>
+        <p>The clean script pasted into ElevenLabs unchanged — calm mid-register narrator, stability around 55%.
+          Suno delivered the bed from a one-line brief: <em>minimal documentary underscore, soft piano and strings,
+          slowly building curiosity and momentum, instrumental</em>. In CapCut, audio went down first — voiceover at
+          +6.7&nbsp;dB, music ducked beneath it — then the numbered clips dropped onto the timeline in file order and
+          were trimmed to their lines.</p>
+        <p>The first VO line starts over the final second of the cold open, so the sound pulls the viewer through
+          the cut. Transitions stayed subtle — slides and dips only — and the words the image model garbled were
+          replaced with real editor type, which is more Vox anyway.</p>
+        <span class="chip"><i></i>ElevenLabs · Suno</span>
+        <span class="chip"><i></i>Audio leads picture</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep14/fig-florence.jpg" alt="Paper-cut actress stepping through a torn newspaper page under a marquee reading Florence Lawrence"></div>
+        <div class="figcap"><b>Fig. 8</b> — beat 28, the birth of the movie star: Florence Lawrence steps through
+          her own faked obituary. The marquee text survived generation; the newspaper column type did not — and
+          never needed to.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE CUT ══════════ -->
+  <section>
+    <div class="kicker">The Cut</div>
+    <h2>A cold open and five acts</h2>
+    <p class="lede">The structure is the escape-story spine with the curiosities embedded where history put them —
+      vocabulary lessons in New Jersey, the name in the utopia act, the sign as the punchline.</p>
+    <table>
+      <tr><th>TC</th><th>Act</th><th>Beat</th><th>Beats</th><th>Dur.</th></tr>
+      <tr><td class="tc">0:00</td><td><b>Cold open</b></td><td>A cameraman cranks… then turns the lens on us</td><td><span class="sh">1</span></td><td>5s</td></tr>
+      <tr><td class="tc">0:05</td><td><b>Act I</b> · Born in New Jersey</td><td>Edison, Fort Lee, "cliffhanger," why a shot is a shot</td><td><span class="sh">2–10</span></td><td>45s</td></tr>
+      <tr><td class="tc">0:50</td><td><b>Act II</b> · The Trust &amp; the escape</td><td>Patents, lawsuits, the run west, Mexico exit route</td><td><span class="sh">11–17</span></td><td>35s</td></tr>
+      <tr><td class="tc">1:25</td><td><b>Act III</b> · The utopia &amp; the name</td><td>Daeida writes "Hollywood," the town that banned theaters</td><td><span class="sh">18–23</span></td><td>30s</td></tr>
+      <tr><td class="tc">1:55</td><td><b>Act IV</b> · The first star</td><td>The anonymous Biograph Girl, a faked death, Florence Lawrence</td><td><span class="sh">24–29</span></td><td>30s</td></tr>
+      <tr><td class="tc">2:25</td><td><b>Act V</b> · The payoff</td><td>The trust falls, the boom, HOLLYWOODLAND loses its LAND</td><td><span class="sh">30–36</span></td><td>35s</td></tr>
+    </table>
+    <div class="figcap" style="margin-top:14px"><b>The pacing argument</b> — the vocabulary curiosities ride inside
+      Act I where they support the thesis ("even our words come from New Jersey") instead of interrupting the chase.</div>
+  </section>
+
+  <!-- ══════════ THE FRAMES ══════════ -->
+  <section>
+    <div class="kicker">The Frames</div>
+    <h2>Straight out of the batch</h2>
+    <p class="lede">Ungraded nano banana frames, exactly as ZappyFlow saved them — one style sentence holding
+      thirty-seven scenes together across four decades of story.</p>
+    <div class="strip" style="margin-top:34px">
+      <div><div class="cell"><img src="ep14/fig-race.jpg" alt="Paper-cut filmmakers sprinting with cameras and tripods, film reels unspooling behind them"></div><div class="lbl">The escape · beat 14</div></div>
+      <div><div class="cell"><img src="ep14/fig-premiere.jpg" alt="Paper-cut 1930s movie premiere with searchlights, red carpet and vintage cars"></div><div class="lbl">Golden age · bonus frame</div></div>
+      <div><div class="cell"><img src="ep14/fig-spotlight.jpg" alt="Paper-cut globe with a golden spotlight beaming from Los Angeles into a starfield"></div><div class="lbl">The payoff · beat 36</div></div>
+    </div>
+    <div class="figcap" style="margin-top:14px"><b>Worth pausing on</b> — the model kept inventing editorial labels
+      ("THE RACE FOR THE SHOT") in the film's own typeface. Bonus art direction when it spells; editor type when it
+      doesn't.</div>
+  </section>
+
+  <!-- ══════════ BEHIND THE SCENES ══════════ -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>What we learned (and what nearly broke)</h2>
+    <p class="lede">The honest notes — six lessons this film paid for.</p>
+    <div class="notes">
+      <div class="note"><b>The model watermarked itself</b><p>Prompting "Vox-style" taught the model too well: one
+        cliffhanger frame came back with a small <em>Vox</em> logo in the corner, unprompted. Style names summon
+        brands. Crop it, regenerate it, or describe the aesthetic without the trademark — but check corners before
+        you cut.</p></div>
+      <div class="note"><b>Text is a coin flip</b><p>The same model that rendered FLORENCE LAWRENCE in perfect
+        marquee bulbs produced "HOLLYWOO D" on the sign and invented the caption "ANTICIPATION BUILDS" in dead-serious
+        poster caps. Rule kept from every episode: words the audience must read are editor type, never pixels.</p></div>
+      <div class="note"><b>Identical words are the character model</b><p>No reference images in this pipeline, so
+        Edison is "elderly white-haired man in a dark three-piece suit" in every single prompt, letter for letter.
+        Paraphrase the description once and you've cast a different actor.</p></div>
+      <div class="note"><b>One two-part action per film</b><p>The cold open — crank, notice, swing the lens — was
+        the only clip that needed retries. Sequential character actions are the hardest thing a video model does;
+        budget retries for one hero clip and keep every other beat ambient.</p></div>
+      <div class="note"><b>The clip length writes the shot list</b><p>Flow's clips run 5 seconds, so the beat
+        count is just runtime ÷ 5. Working backwards from the tool's constraint made the script, the prompt file
+        and the timeline agree before anything was generated.</p></div>
+      <div class="note"><b>Kill facts, don't compress them</b><p>The 1-minute draft proved the spine; the 3-minute
+        version re-admitted facts one at a time, each anchored to its place in the chronology. What still didn't
+        fit — orthochromatic makeup, the "trailer" — was cut whole rather than crammed. A trivia list is where
+        documentaries go to die.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ TOOLBOX ══════════ -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/claude.svg" alt=""><div><b>Claude Code</b><br><span>Research, script, beat sheet, every prompt — and this page</span></div></div><span class="free">THE WRITER</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/google.svg" alt=""><div><b>Google Flow</b><br><span>Image &amp; video generation home, 16:9 throughout</span></div></div><span class="free">THE STUDIO</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/googlegemini.svg" alt=""><div><b>Nano Banana</b><br><span>All 41 paper-cut frames from one prompt file</span></div></div><span class="free">IMAGES</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/google.svg" alt=""><div><b>ZappyFlow</b><br><span>Chrome extension: batch-fed the .txt through Flow unattended</span></div></div><span class="free">AUTOMATION</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/googlegemini.svg" alt=""><div><b>Flow video model</b><br><span>5-second parallax clips from one universal prompt</span></div></div><span class="free">MOTION</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/elevenlabs.svg" alt=""><div><b>ElevenLabs</b><br><span>The 440-word narration, one calm take</span></div></div><span class="free">VOICE</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/suno.svg" alt=""><div><b>Suno</b><br><span>Instrumental documentary underscore</span></div></div><span class="free">MUSIC</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/bytedance.svg" alt=""><div><b>CapCut</b><br><span>The edit: audio-first timeline, trims, dips, 1080p export</span></div></div><span class="free">THE CUT</span></div>
+    </div>
+
+    <div class="ctarow">
+      <a class="btn gold" href="#film">Back to the film ↑</a>
+      <a class="btn ghost" href="index.html#cases">All case studies →</a>
+    </div>
+  </section>
+</div>
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY · EPISODE 14 · NEW CASE STUDIES EVERY WEEK</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+</body>
+</html>

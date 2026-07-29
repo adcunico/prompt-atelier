@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EP14 Mood Board — Paper-Cut Hollywood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --ink:#1B1813;
+    --text-cream:#F6F0E4; --text-fog:#B5AC9C; --text-soft:#6B6355;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',sans-serif;
+    /* the film's palette */
+    --f-cream:#F1E8D2; --f-mustard:#D9A93B; --f-brick:#B9502E; --f-teal:#2E6E6A; --f-charcoal:#2B2B28;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1600px;height:1000px;overflow:hidden}
+  body{font-family:var(--sans);color:var(--text-cream);
+    background:
+      radial-gradient(50% 65% at 82% 18%, rgba(193,154,61,.28), transparent 60%),
+      radial-gradient(55% 70% at 8% 90%, rgba(51,98,92,.45), transparent 60%),
+      linear-gradient(155deg,#16130E,#2B2418);
+    padding:48px 56px;display:flex;flex-direction:column}
+  .glass{background:rgba(24,20,14,.46);border:1px solid rgba(255,255,255,.26);
+    backdrop-filter:blur(18px) saturate(140%);border-radius:20px}
+
+  /* header */
+  header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:30px}
+  .fig{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-bright);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:44px;margin-top:8px}
+  h1 em{font-style:italic;color:var(--gold-bright)}
+  .wm{font-family:var(--serif);font-size:20px;color:var(--text-fog)}
+  .wm em{font-style:italic;color:var(--gold-bright)}
+
+  /* grid */
+  .board{flex:1;display:grid;grid-template-columns:300px 1fr 330px;gap:22px;min-height:0}
+  .col{display:flex;flex-direction:column;gap:22px;min-height:0}
+  .lbl{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--text-fog);font-weight:600;margin-bottom:14px}
+
+  /* palette */
+  .pal{padding:24px 26px;flex:1}
+  .sw{display:flex;align-items:center;gap:14px;margin-bottom:13px}
+  .sw i{width:52px;height:52px;border-radius:12px;flex:none;border:1px solid rgba(255,255,255,.22);
+    box-shadow:0 6px 16px rgba(0,0,0,.35)}
+  .sw b{font-size:13.5px;font-weight:600;display:block}
+  .sw span{font-family:ui-monospace,monospace;font-size:11px;color:var(--text-fog)}
+  .texture{padding:24px 26px}
+  .texture p{font-size:12.5px;color:var(--text-fog);line-height:1.55}
+  .texture b{color:var(--text-cream);font-weight:600}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chip{font-size:10.5px;font-weight:600;letter-spacing:.08em;padding:6px 12px;border-radius:999px;
+    background:rgba(246,240,228,.10);border:1px solid rgba(255,255,255,.18)}
+
+  /* imagery */
+  .imgs{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;min-height:0}
+  .cell{border-radius:18px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.2);
+    box-shadow:0 14px 36px rgba(0,0,0,.4)}
+  .cell img{width:100%;height:100%;object-fit:cover;display:block}
+  .cell .tag{position:absolute;left:12px;bottom:12px;font-size:10px;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--text-cream);background:rgba(24,20,14,.62);
+    backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.22)}
+
+  /* right column */
+  .pillars{padding:24px 26px}
+  .pillars li{list-style:none;font-size:13.5px;line-height:1.5;padding-left:20px;position:relative;margin-bottom:12px;color:var(--text-cream)}
+  .pillars li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:var(--teal-bright)}
+  .pillars li b{font-weight:600}
+  .pillars li span{color:var(--text-fog)}
+  .type-panel{padding:22px 26px}
+  .type-big{font-family:var(--serif);font-weight:500;font-size:34px;letter-spacing:.06em;color:var(--f-cream);
+    text-shadow:3px 3px 0 rgba(185,80,46,.75)}
+  .type-script{font-family:var(--serif);font-style:italic;font-size:30px;color:var(--gold-bright);margin-top:4px}
+  .type-caps{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--text-fog);margin-top:10px}
+  .motion{padding:22px 26px}
+  .motion p{font-size:12.5px;color:var(--text-fog);line-height:1.55}
+  .motion b{color:var(--gold-bright);font-weight:600}
+</style>
+</head>
+<body>
+  <header>
+    <div>
+      <div class="fig">Mood Board · Episode 14</div>
+      <h1>Paper-Cut <em>Hollywood</em></h1>
+    </div>
+    <div class="wm">Prompt <em>Atelier</em></div>
+  </header>
+
+  <div class="board">
+    <!-- palette -->
+    <div class="col">
+      <div class="glass pal">
+        <div class="lbl">Palette · muted vintage</div>
+        <div class="sw"><i style="background:var(--f-cream)"></i><div><b>Paper Cream</b><span>#F1E8D2 · the ground</span></div></div>
+        <div class="sw"><i style="background:var(--f-mustard)"></i><div><b>Mustard</b><span>#D9A93B · sunshine &amp; hills</span></div></div>
+        <div class="sw"><i style="background:var(--f-brick)"></i><div><b>Brick Red</b><span>#B9502E · drama &amp; stamps</span></div></div>
+        <div class="sw"><i style="background:var(--f-teal)"></i><div><b>Teal</b><span>#2E6E6A · sky &amp; suits</span></div></div>
+        <div class="sw" style="margin-bottom:0"><i style="background:var(--f-charcoal)"></i><div><b>Charcoal</b><span>#2B2B28 · ink &amp; shadow</span></div></div>
+      </div>
+      <div class="glass texture">
+        <div class="lbl">Surface</div>
+        <p><b>Layered construction paper</b> — visible cut edges, soft offset drop shadows, a grainy cream ground on every frame.</p>
+        <div class="chip-row">
+          <span class="chip">CUT EDGES</span><span class="chip">PAPER GRAIN</span><span class="chip">FLAT 2D</span><span class="chip">16:9</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- imagery -->
+    <div class="col" style="min-height:0">
+      <div class="imgs" style="flex:1">
+        <div class="cell"><img src="hero-placeholder.jpg" alt=""><span class="tag">The Hook</span></div>
+        <div class="cell"><img src="fig-race.jpg" alt=""><span class="tag">The Escape</span></div>
+        <div class="cell"><img src="fig-daeida.jpg" alt=""><span class="tag">The Name</span></div>
+        <div class="cell"><img src="fig-spotlight.jpg" alt=""><span class="tag">The Payoff</span></div>
+      </div>
+    </div>
+
+    <!-- pillars -->
+    <div class="col">
+      <div class="glass pillars">
+        <div class="lbl">Style pillars</div>
+        <ul>
+          <li><b>One style block,</b> <span>pasted verbatim on all 41 prompts</span></li>
+          <li><b>Recurring cast,</b> <span>described identically every time</span></li>
+          <li><b>Motifs:</b> <span>question marks, dotted trails, maps, holly</span></li>
+          <li><b>Vintage type as texture</b> <span>— never as information</span></li>
+        </ul>
+      </div>
+      <div class="glass type-panel">
+        <div class="lbl">Type voice</div>
+        <div class="type-big">HOLLYWOOD</div>
+        <div class="type-script">holly brings good luck</div>
+        <div class="type-caps">Documentary Infographic · 1910s Poster Caps</div>
+      </div>
+      <div class="glass motion">
+        <div class="lbl">Motion grammar</div>
+        <p><b>Slow push-in</b> by default, pans on maps, tilts on reveals. Paper layers drift at different speeds — <b>parallax, never morph</b>. 5-second clips, one per beat.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
