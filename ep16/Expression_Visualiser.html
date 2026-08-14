@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expression visualiser - 28 AE expressions, live</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#12131A;color:#E6E7EE;font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;padding:22px}
+  h1{font-size:19px;font-weight:600;margin-bottom:4px}
+  .sub{color:#8A8DA3;font-size:13px;margin-bottom:18px;max-width:780px}
+  .sub code{background:#1E2029;padding:1px 6px;border-radius:4px;font-size:12px}
+  .sub b{color:#C8CBDA;font-weight:600}
+
+  .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px;
+           position:sticky;top:0;background:#12131A;padding:10px 0;z-index:5;border-bottom:1px solid #23252F}
+  button{font:inherit;font-size:13px;color:#E6E7EE;background:#1E2029;border:1px solid #2E3140;
+         border-radius:7px;padding:7px 15px;cursor:pointer}
+  button:hover{background:#262936;border-color:#3D4157}
+  button.on{background:#1B3A5C;border-color:#2E7FD4;color:#8FCBFF}
+  .toolbar label{font-size:12px;color:#8A8DA3;display:flex;align-items:center;gap:7px}
+  input[type=range]{accent-color:#2E7FD4}
+
+  .secthead{grid-column:1/-1;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+            color:#5A5E75;padding:14px 2px 2px;border-top:1px solid #23252F;margin-top:6px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(370px,1fr));gap:14px}
+  .card{background:#181A22;border:1px solid #23252F;border-radius:11px;overflow:hidden;display:flex;flex-direction:column}
+  .head{padding:12px 14px 9px;display:flex;align-items:baseline;gap:8px}
+  .num{color:#4A4E63;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+  .name{font-weight:600;font-size:14.5px}
+  .codebtn{margin-left:auto;font-size:11px;color:#6E7288;background:none;border:none;cursor:pointer;padding:2px 5px}
+  .codebtn:hover{color:#8FCBFF;background:none}
+  .desc{padding:0 14px 10px;font-size:12px;color:#8A8DA3;line-height:1.5}
+
+  .stage{position:relative;height:118px;background:#0E0F15;border-top:1px solid #23252F;
+         border-bottom:1px solid #23252F;overflow:hidden}
+  .stage .mid{position:absolute;left:0;right:0;top:50%;height:1px;background:#1E2029}
+  .dot{position:absolute;border-radius:50%;background:#2E7FD4}
+  .box{position:absolute;background:#2E7FD4;border-radius:3px}
+  .ghost{background:#2A3242}
+  .lbl{position:absolute;font-size:10px;color:#5A5E75;letter-spacing:.04em}
+
+  .params{padding:10px 14px 12px;display:flex;flex-direction:column;gap:6px}
+  .prow{display:flex;align-items:center;gap:9px}
+  .prow span.k{font-size:11.5px;color:#8A8DA3;width:76px;flex:none}
+  .prow input[type=range]{flex:1}
+  .prow span.v{font-size:11.5px;color:#C8CBDA;width:46px;text-align:right;
+               font-variant-numeric:tabular-nums;flex:none}
+  .prow select{background:#1E2029;color:#E6E7EE;border:1px solid #2E3140;border-radius:6px;
+               padding:4px 7px;font:inherit;font-size:12px;flex:1}
+  pre{display:none;margin:0;padding:11px 14px;background:#0E0F15;border-top:1px solid #23252F;
+      font:11.5px/1.6 ui-monospace,Menlo,Consolas,monospace;color:#9BE6B0;white-space:pre-wrap;overflow-x:auto}
+  pre.show{display:block}
+  .note{padding:0 14px 11px;font-size:11px;color:#6E7288;font-style:italic}
+</style>
+</head>
+<body>
+
+<h1>Expression visualiser - 28 expressions</h1>
+<p class="sub"><b>01-14</b> single-property modifiers &middot; <b>15-28</b> rigging, where layers read each other
+  or read the comp. The maths is reimplemented in JavaScript: <code>wiggle</code> uses smooth value noise like
+  AE's, <code>ease</code> uses a smoothstep, the bounce reads the real velocity of its demo keyframe, and the
+  auto-size box measures its text for real. Close enough to judge the feel before committing in After Effects.</p>
+
+<div class="toolbar">
+  <button id="playBtn" class="on">Pause</button>
+  <button id="resetBtn">Restart</button>
+  <label>Speed <input type="range" id="speed" min="0.15" max="2" step="0.05" value="1"><span id="speedVal">1.00x</span></label>
+  <label>Time <span id="clock" style="color:#C8CBDA;font-variant-numeric:tabular-nums">0.00s</span></label>
+  <button id="allCode">&lt;/&gt; Show all expressions</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+/* ================== shared maths ================== */
+
+/* deterministic hash noise, smoothed - stands in for AE's wiggle */
+function hash(i, seed) {
+  var x = Math.sin(i * 127.1 + seed * 311.7) * 43758.5453;
+  return (x - Math.floor(x)) * 2 - 1;
+}
+function noise1(t, seed) {
+  var i = Math.floor(t), f = t - i, u = f * f * (3 - 2 * f);
+  return hash(i, seed) * (1 - u) + hash(i + 1, seed) * u;
+}
+function wiggle(t, freq, amp, seed) { return amp * noise1(t * freq, seed || 1); }
+
+/* AE's ease() is eased at both ends; smoothstep is the honest stand-in */
+function smoothstep(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
+function linMap(v, a, b, c, d) {
+  if (b === a) return c;
+  var x = Math.max(0, Math.min(1, (v - a) / (b - a)));
+  return c + (d - c) * x;
+}
+function easeMap(v, a, b, c, d) {
+  if (b === a) return c;
+  return c + (d - c) * smoothstep((v - a) / (b - a));
+}
+function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+/* seeded, stable per index - mirrors seedRandom(index, true) */
+function seedRand(i, seed) {
+  var x = Math.sin(i * 12.9898 + (seed || 0) * 78.233) * 43758.5453;
+  return x - Math.floor(x);
+}
+
+/* A two-keyframe base animation: 0 to 100 linearly over KEY_DUR.
+   Linear on purpose - an eased keyframe arrives at ZERO velocity, and the
+   bounce expression reads that velocity, so an ease-out kills the bounce. */
+var KEY_DUR = 0.5;
+function baseKeys(t) { return t <= 0 ? 0 : (t >= KEY_DUR ? 100 : (t / KEY_DUR) * 100); }
+var KEY_VEL = 100 / KEY_DUR;
+
+function bounce(t, amp, freq, decay) {
+  if (t < KEY_DUR) return baseKeys(t);
+  var tt = t - KEY_DUR;
+  return 100 + KEY_VEL * amp * Math.sin(freq * tt * 2 * Math.PI) / Math.exp(decay * tt);
+}
+
+/* shared plotter for the linear / ease cards */
+function plotMap(el, t, p, fn) {
+  var W = el.stage.clientWidth, H = 118, pad = 16;
+  var pts = [], N = 48;
+  var lo = Math.min(p.inMin, p.inMax), hi = Math.max(p.inMin, p.inMax);
+  for (var i = 0; i <= N; i++) {
+    var v = lo + (hi - lo) * (i / N);
+    var o = fn(v, p.inMin, p.inMax, p.outMin, p.outMax);
+    pts.push((pad + (i / N) * (W - pad * 2)).toFixed(1) + "," + (H - 26 - (o / 100) * (H - 52)).toFixed(1));
+  }
+  el.curve.setAttribute("points", pts.join(" "));
+  var u = (Math.sin(t * 1.1) * 0.5 + 0.5);
+  var inV = lo + (hi - lo) * u;
+  var outV = fn(inV, p.inMin, p.inMax, p.outMin, p.outMax);
+  el.mk.setAttribute("cx", pad + u * (W - pad * 2));
+  el.mk.setAttribute("cy", H - 26 - (outV / 100) * (H - 52));
+  el.bar.style.width = Math.max(0, (outV / 100) * (W - 24)) + "px";
+}
+
+/* ================== the cards ================== */
+
+var CARDS = [
+
+{ n: 1, name: "Bounce", cycle: 3, tier: 1,
+  desc: "Overshoot after the keyframe. The dot scales up, then rings out.",
+  note: "Demo keyframe is linear - an ease-out arrives at zero velocity and the bounce vanishes.",
+  params: [ {k:"amp",  label:"Amp",   min:0,   max:0.6, step:0.01, val:0.1},
+            {k:"freq", label:"Freq",  min:0.1, max:8,   step:0.1,  val:3},
+            {k:"decay",label:"Decay", min:0.1, max:12,  step:0.1,  val:4} ],
+  code: function(p){ return "amp = "+p.amp+";\nfreq = "+p.freq+";\ndecay = "+p.decay+";\n\n"+
+    "n = 0;\nif (numKeys > 0) {\n  n = nearestKey(time).index;\n  if (key(n).time > time) n--;\n}\n\n"+
+    "if (n == 0) {\n  value;\n} else {\n  t = time - key(n).time;\n"+
+    "  v = velocityAtTime(key(n).time - thisComp.frameDuration/10);\n"+
+    "  value + v*amp*Math.sin(freq*t*2*Math.PI)/Math.exp(decay*t);\n}"; },
+  stage: '<div class="mid"></div><div class="dot" id="d" style="width:44px;height:44px;left:50%;top:50%;margin:-22px 0 0 -22px"></div>',
+  tick: function(el, t, p) {
+    var s = bounce(t % this.cycle, p.amp, p.freq, p.decay) / 100;
+    el.d.style.transform = "scale(" + Math.max(0, s) + ")";
+  } },
+
+{ n: 2, name: "Loop", cycle: 4, tier: 1,
+  desc: "Repeats the keyframed move. Cycle restarts, pingpong reverses, offset keeps travelling.",
+  params: [ {k:"type", label:"Type", opts:["cycle","pingpong","offset","continue"]} ],
+  code: function(p){ return p.type === "continue" ? 'loopOut("continue")' : 'loopOut("'+p.type+'", 0)'; },
+  stage: '<div class="mid"></div><div class="dot" id="d" style="width:26px;height:26px;top:50%;margin-top:-13px"></div>'+
+         '<div class="lbl" style="left:8px;bottom:6px">A</div><div class="lbl" style="right:8px;bottom:6px">B</div>',
+  tick: function(el, t, p) {
+    var D = 1.2, W = el.stage.clientWidth - 40, x;
+    if (p.type === "cycle")         x = (t % D) / D;
+    else if (p.type === "pingpong") { var u = (t % (2*D)) / D; x = u <= 1 ? u : 2 - u; }
+    else                            x = ((t / D) % 3) / 3;
+    el.d.style.left = (7 + x * W) + "px";
+  } },
+
+{ n: 3, name: "Wiggle", cycle: 8, tier: 1,
+  desc: "Organic drift. Two axes wiggling independently, as wiggle() does.",
+  params: [ {k:"freq", label:"Freq",   min:0.1, max:12,  step:0.1, val:2},
+            {k:"amp",  label:"Amount", min:0,   max:60,  step:1,   val:20} ],
+  code: function(p){ return "wiggle("+p.freq+", "+p.amp+")"; },
+  stage: '<div class="mid"></div><div class="dot" id="d" style="width:34px;height:34px;left:50%;top:50%;margin:-17px 0 0 -17px"></div>',
+  tick: function(el, t, p) {
+    el.d.style.transform = "translate(" + wiggle(t, p.freq, p.amp, 1) + "px," +
+                                          wiggle(t, p.freq, p.amp * 0.5, 9) + "px)";
+  } },
+
+{ n: 4, name: "Smooth", cycle: 8, tier: 1,
+  desc: "Averages the jitter out. Faint dot is the raw signal, solid is smoothed.",
+  params: [ {k:"width",  label:"Width",  min:0.01, max:1.2, step:0.01, val:0.2},
+            {k:"samples",label:"Samples",min:2,    max:24,  step:1,    val:5} ],
+  code: function(p){ return "smooth("+p.width+", "+p.samples+")"; },
+  stage: '<div class="mid"></div>'+
+         '<div class="dot ghost" id="raw" style="width:26px;height:26px;left:50%;top:50%;margin:-13px 0 0 -13px"></div>'+
+         '<div class="dot" id="d" style="width:26px;height:26px;left:50%;top:50%;margin:-13px 0 0 -13px"></div>',
+  tick: function(el, t, p) {
+    function sig(tt){ return wiggle(tt, 7, 34, 3); }
+    el.raw.style.transform = "translateX(" + sig(t) + "px)";
+    var n = Math.round(p.samples), sum = 0;
+    for (var i = 0; i < n; i++) sum += sig(t - p.width / 2 + p.width * (i / (n - 1 || 1)));
+    el.d.style.transform = "translateX(" + (sum / n) + "px)";
+  } },
+
+{ n: 5, name: "Posterize Time", cycle: 4, tier: 1,
+  desc: "Steps the motion to a lower frame rate. Faint dot runs smooth for comparison.",
+  params: [ {k:"fps", label:"FPS", min:1, max:30, step:1, val:12} ],
+  code: function(p){ return "posterizeTime("+p.fps+");\nvalue;"; },
+  stage: '<div class="mid"></div>'+
+         '<div class="dot ghost" id="raw" style="width:22px;height:22px;top:32%;margin-top:-11px"></div>'+
+         '<div class="dot" id="d" style="width:26px;height:26px;top:64%;margin-top:-13px"></div>',
+  tick: function(el, t, p) {
+    var W = el.stage.clientWidth - 40, D = 2;
+    var tp = Math.floor(t * p.fps) / p.fps;
+    el.raw.style.left = (9 + ((t % D) / D) * W) + "px";
+    el.d.style.left   = (7 + ((tp % D) / D) * W) + "px";
+  } },
+
+{ n: 6, name: "Random", cycle: 4, tier: 1,
+  desc: "Re-rolls every frame, so it flickers. Almost never what you want on its own.",
+  params: [ {k:"lo", label:"Min", min:0, max:100, step:1, val:20},
+            {k:"hi", label:"Max", min:0, max:100, step:1, val:100} ],
+  code: function(p){ return "random("+p.lo+", "+p.hi+")"; },
+  stage: '<div class="mid"></div><div class="box" id="d" style="width:56px;height:56px;left:50%;top:50%;margin:-28px 0 0 -28px"></div>',
+  tick: function(el, t, p) {
+    el.d.style.opacity = (p.lo + Math.random() * Math.max(0, p.hi - p.lo)) / 100;
+  } },
+
+{ n: 7, name: "Seed Random", cycle: 6, tier: 1,
+  desc: "One stable value per layer index. Twelve bars, each its own height, none flickering.",
+  params: [ {k:"lo",  label:"Min",    min:0, max:100, step:1, val:20},
+            {k:"hi",  label:"Max",    min:0, max:100, step:1, val:100},
+            {k:"seed",label:"Reseed", min:0, max:20,  step:1, val:0} ],
+  code: function(p){ return "seedRandom(index, true);\nrandom("+p.lo+", "+p.hi+")"; },
+  stage: '<div id="bars"></div>',
+  init: function(el) {
+    var h = "";
+    for (var i = 0; i < 12; i++) h += '<div class="box" style="width:20px;bottom:14px;left:'+(14+i*28)+'px"></div>';
+    el.bars.innerHTML = h;
+    el.barEls = el.bars.querySelectorAll(".box");
+  },
+  tick: function(el, t, p) {
+    for (var i = 0; i < el.barEls.length; i++) {
+      var v = p.lo + seedRand(i + 1, p.seed) * Math.max(0, p.hi - p.lo);
+      el.barEls[i].style.height = (v / 100 * 74) + "px";
+    }
+  } },
+
+{ n: 8, name: "Delay (follow layer above)", cycle: 4, tier: 1,
+  desc: "Each dot samples the one above it, a moment later. Free stagger.",
+  params: [ {k:"delay", label:"Delay s", min:0.01, max:0.6, step:0.01, val:0.1},
+            {k:"count", label:"Layers",  min:2,    max:8,   step:1,    val:6} ],
+  code: function(p){ return "delay = "+p.delay+";\nidx = index - 1;\n\n"+
+    "if (idx < 1) {\n  value;\n} else {\n  thisComp.layer(idx).transform.position.valueAtTime(time - delay);\n}"; },
+  stage: '<div id="row"></div>',
+  init: function(el) { el.row.innerHTML = ""; el.dots = []; },
+  tick: function(el, t, p) {
+    var n = Math.round(p.count);
+    if (el.dots.length !== n) {
+      var h = "";
+      for (var i = 0; i < n; i++) h += '<div class="dot" style="width:18px;height:18px;top:'+(16+i*13)+'px"></div>';
+      el.row.innerHTML = h;
+      el.dots = el.row.querySelectorAll(".dot");
+    }
+    var W = el.stage.clientWidth - 40, D = 1.6;
+    for (var i = 0; i < n; i++) {
+      var tt = t - i * p.delay;
+      var u  = tt <= 0 ? 0 : ((tt % (2*D)) / D);
+      el.dots[i].style.left = (11 + (u <= 1 ? u : 2 - u) * W) + "px";
+      el.dots[i].style.opacity = 1 - i * 0.09;
+    }
+  } },
+
+{ n: 9, name: "Time Remap Loop", cycle: 6, tier: 1,
+  desc: "Loops a clip's playhead. Frame strip shows which frame is live.",
+  params: [ {k:"type", label:"Type", opts:["cycle","pingpong","offset"]} ],
+  code: function(p){ return 'loopOut("'+p.type+'")'; },
+  stage: '<div id="strip"></div><div class="lbl" id="cap" style="left:10px;bottom:6px"></div>',
+  init: function(el) {
+    var h = "";
+    for (var i = 0; i < 10; i++) h += '<div class="box" style="width:26px;height:40px;top:30px;left:'+(12+i*34)+'px;background:#2A3242"></div>';
+    el.strip.innerHTML = h;
+    el.frames = el.strip.querySelectorAll(".box");
+  },
+  tick: function(el, t, p) {
+    var N = 10, D = 1.5, f;
+    if (p.type === "pingpong") { var u = (t % (2*D)) / D; f = Math.floor((u <= 1 ? u : 2 - u) * (N - 1)); }
+    else                         f = Math.floor(((t % D) / D) * N) % N;
+    for (var i = 0; i < N; i++) el.frames[i].style.background = (i === f) ? "#2E7FD4" : "#2A3242";
+    el.cap.textContent = "frame " + (f + 1) + " / " + N;
+  } },
+
+{ n: 10, name: "Auto-Orient to Motion", cycle: 8, tier: 1,
+  desc: "The arrow turns to face where it's going, sampled a moment back.",
+  params: [ {k:"d",    label:"Sample s", min:0.005, max:0.3, step:0.005, val:0.01},
+            {k:"flip", label:"Facing",   opts:["Forward","Flipped 180"]} ],
+  code: function(p){ return "d = "+p.d+";\np1 = position.valueAtTime(time - d);\np2 = position;\n"+
+    "radiansToDegrees(Math.atan2(p2[1] - p1[1], p2[0] - p1[0]))" + (p.flip === "Flipped 180" ? " + 180" : ""); },
+  stage: '<svg id="svg" width="100%" height="118" style="position:absolute;inset:0">'+
+         '<path id="path" fill="none" stroke="#23252F" stroke-width="1.5"/>'+
+         '<polygon id="arrow" points="14,0 -8,8 -8,-8" fill="#2E7FD4"/></svg>',
+  tick: function(el, t, p) {
+    var W = el.stage.clientWidth, cx = W / 2, cy = 59, rx = Math.min(W * 0.33, 130), ry = 34;
+    el.path.setAttribute("d", "M " + (cx - rx) + " " + cy +
+      " C " + (cx - rx) + " " + (cy - 70) + " " + cx + " " + (cy + 70) + " " + cx + " " + cy +
+      " C " + cx + " " + (cy - 70) + " " + (cx + rx) + " " + (cy + 70) + " " + (cx + rx) + " " + cy);
+    function pos(tt) { var a = tt * 1.5; return [cx + Math.sin(a) * rx, cy + Math.sin(a * 2) * ry]; }
+    var p2 = pos(t), p1 = pos(t - p.d);
+    var ang = Math.atan2(p2[1] - p1[1], p2[0] - p1[0]) * 180 / Math.PI + (p.flip === "Flipped 180" ? 180 : 0);
+    el.arrow.setAttribute("transform", "translate(" + p2[0] + "," + p2[1] + ") rotate(" + ang + ")");
+  } },
+
+{ n: 11, name: "Slider Control link", cycle: 5, tier: 1,
+  desc: "One slider driving scale, opacity and rotation at once - the reusable-rig idea.",
+  params: [ {k:"manual", label:"Drive", opts:["Animate the slider","Hold at value"]},
+            {k:"hold",   label:"Value", min:0, max:100, step:1, val:60} ],
+  code: function(){ return 'effect("Master")("Slider")'; },
+  stage: '<div class="mid"></div><div class="box" id="d" style="width:52px;height:52px;left:50%;top:50%;margin:-26px 0 0 -26px"></div>'+
+         '<div class="lbl" id="cap" style="left:10px;bottom:6px"></div>',
+  tick: function(el, t, p) {
+    var v = (p.manual === "Hold at value") ? p.hold : (Math.sin(t * 1.3) * 0.5 + 0.5) * 100;
+    el.d.style.transform = "scale(" + (0.4 + v / 100 * 0.9) + ") rotate(" + (v * 1.8) + "deg)";
+    el.d.style.opacity = 0.25 + v / 100 * 0.75;
+    el.cap.textContent = "slider = " + v.toFixed(0);
+  } },
+
+{ n: 12, name: "Linear map", cycle: 5, tier: 1,
+  desc: "Straight-line remap. Marker rides the curve, bar shows the output.",
+  params: [ {k:"inMin", label:"In min",  min:-100, max:200, step:1, val:0},
+            {k:"inMax", label:"In max",  min:-100, max:200, step:1, val:100},
+            {k:"outMin",label:"Out min", min:0,    max:100, step:1, val:0},
+            {k:"outMax",label:"Out max", min:0,    max:100, step:1, val:100} ],
+  code: function(p){ return "linear(value, "+p.inMin+", "+p.inMax+", "+p.outMin+", "+p.outMax+")"; },
+  stage: '<svg id="svg" width="100%" height="118" style="position:absolute;inset:0">'+
+         '<polyline id="curve" fill="none" stroke="#2E7FD4" stroke-width="2"/>'+
+         '<circle id="mk" r="4.5" fill="#8FCBFF"/></svg>'+
+         '<div class="box" id="bar" style="height:8px;left:12px;bottom:9px"></div>',
+  tick: function(el, t, p) { plotMap(el, t, p, linMap); } },
+
+{ n: 13, name: "Ease map", cycle: 5, tier: 1,
+  desc: "Same remap, eased at both ends. Compare the curve shape with Linear map.",
+  params: [ {k:"inMin", label:"In min",  min:-100, max:200, step:1, val:0},
+            {k:"inMax", label:"In max",  min:-100, max:200, step:1, val:100},
+            {k:"outMin",label:"Out min", min:0,    max:100, step:1, val:0},
+            {k:"outMax",label:"Out max", min:0,    max:100, step:1, val:100} ],
+  code: function(p){ return "ease(value, "+p.inMin+", "+p.inMax+", "+p.outMin+", "+p.outMax+")"; },
+  stage: '<svg id="svg" width="100%" height="118" style="position:absolute;inset:0">'+
+         '<polyline id="curve" fill="none" stroke="#9BE6B0" stroke-width="2"/>'+
+         '<circle id="mk" r="4.5" fill="#C8F5D4"/></svg>'+
+         '<div class="box" id="bar" style="height:8px;left:12px;bottom:9px;background:#4BAE6A"></div>',
+  tick: function(el, t, p) { plotMap(el, t, p, easeMap); } },
+
+{ n: 14, name: "Clamp", cycle: 5, tier: 1,
+  desc: "Input swings past the limits; output is pinned. Faint dot is unclamped.",
+  params: [ {k:"lo", label:"Min", min:0, max:100, step:1, val:25},
+            {k:"hi", label:"Max", min:0, max:100, step:1, val:75} ],
+  code: function(p){ return "clamp(value, "+p.lo+", "+p.hi+")"; },
+  stage: '<div class="mid"></div>'+
+         '<div class="box" id="band" style="left:0;right:0;background:#1B2430;border-radius:0"></div>'+
+         '<div class="dot ghost" id="raw" style="width:20px;height:20px;left:32%;margin-left:-10px"></div>'+
+         '<div class="dot" id="d" style="width:26px;height:26px;left:62%;margin-left:-13px"></div>'+
+         '<div class="lbl" id="cap" style="left:10px;bottom:6px"></div>',
+  tick: function(el, t, p) {
+    var H = 118, pad = 14, span = H - pad * 2;
+    function yFor(v){ return H - pad - (v / 100) * span; }
+    var lo = Math.min(p.lo, p.hi), hi = Math.max(p.lo, p.hi);
+    el.band.style.top = yFor(hi) + "px";
+    el.band.style.height = Math.max(1, yFor(lo) - yFor(hi)) + "px";
+    var raw = 50 + Math.sin(t * 1.6) * 60, cl = clamp(raw, lo, hi);
+    el.raw.style.top = (yFor(raw) - 10) + "px";
+    el.d.style.top   = (yFor(cl)  - 13) + "px";
+    el.cap.textContent = "in " + raw.toFixed(0) + "  ->  out " + cl.toFixed(0);
+  } },
+
+/* ========== 15-28 rigging: layers that read each other ========== */
+
+{ n: 15, name: "Auto-size box behind text", cycle: 7.2, tier: 2,
+  desc: "The box measures the text and resizes to fit. Copy changes; nothing else has to.",
+  note: "Measured from the text's real width - the same thing sourceRectAtTime() reads in AE.",
+  params: [ {k:"padX", label:"Pad X", min:0, max:80, step:1, val:22},
+            {k:"padY", label:"Pad Y", min:0, max:40, step:1, val:12} ],
+  code: function(p){ return 't = thisComp.layer("TEXT");\nr = t.sourceRectAtTime(time, false);\n\n'+
+    "[r.width + "+p.padX+"*2, r.height + "+p.padY+"*2]"; },
+  stage: '<div class="mid"></div>'+
+         '<div id="box" style="position:absolute;left:50%;top:50%;background:#1B3A5C;border:1px solid #2E7FD4;border-radius:5px"></div>'+
+         '<div id="txt" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:600;font-size:15px;color:#DCEBFF"></div>',
+  tick: function(el, t, p) {
+    var words = ["Clarity", "Backing your future", "Data", "Where strategy meets opportunity"];
+    el.txt.textContent = words[Math.floor((t % this.cycle) / 1.8) % words.length];
+    var w = el.txt.offsetWidth, h = el.txt.offsetHeight;
+    el.box.style.width  = (w + p.padX * 2) + "px";
+    el.box.style.height = (h + p.padY * 2) + "px";
+    el.box.style.marginLeft = -(w / 2 + p.padX) + "px";
+    el.box.style.marginTop  = -(h / 2 + p.padY) + "px";
+  } },
+
+{ n: 16, name: "Number counter", cycle: 6, tier: 2,
+  desc: "A slider counting up, formatted. Separators, decimals, zero padding, prefix.",
+  params: [ {k:"dec", label:"Decimals",   min:0, max:3, step:1, val:0},
+            {k:"pad", label:"Min digits", min:0, max:8, step:1, val:0},
+            {k:"sep", label:"Separator",  opts:["Comma","Space","None"]},
+            {k:"pre", label:"Prefix",     opts:["","$","+"]} ],
+  code: function(p){ return 'v = effect("Counter")("Slider");\n// group, pad, prefix ...\n'+
+    '(neg ? "-" : "") + "'+p.pre+'" + out'; },
+  stage: '<div id="n" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;'+
+         'font:600 30px ui-monospace,Menlo,Consolas,monospace;color:#8FCBFF"></div>',
+  tick: function(el, t, p) {
+    var v = smoothstep(Math.min(1, (t % this.cycle) / 4)) * 1234567.89;
+    var sep = p.sep === "Comma" ? "," : (p.sep === "Space" ? " " : "");
+    var s = Math.abs(v).toFixed(p.dec), parts = s.split("."), w = parts[0];
+    while (w.length < p.pad) w = "0" + w;
+    var out = "";
+    while (w.length > 3 && sep !== "") { out = sep + w.substr(w.length - 3) + out; w = w.substr(0, w.length - 3); }
+    out = w + out;
+    if (parts.length > 1) out += "." + parts[1];
+    el.n.textContent = p.pre + out;
+  } },
+
+{ n: 17, name: "Connector line (A to B)", cycle: 9, tier: 2,
+  desc: "A bar that stretches and rotates to join two layers. Move either end, it stays attached.",
+  params: [ {k:"speed", label:"Drift",     min:0.1, max:2.5, step:0.05, val:0.7},
+            {k:"thick", label:"Thickness", min:1,   max:12,  step:1,    val:3} ],
+  code: function(){ return 'a = thisComp.layer("A");\nb = thisComp.layer("B");\n'+
+    "p1 = a.toComp(a.anchorPoint);\np2 = b.toComp(b.anchorPoint);\n\n"+
+    "// Rotation\nradiansToDegrees(Math.atan2(p2[1]-p1[1], p2[0]-p1[0]))\n\n"+
+    "// Scale\n[length(p1,p2) / thisLayer.sourceRectAtTime().width * 100, value[1]]"; },
+  stage: '<svg id="svg" width="100%" height="118" style="position:absolute;inset:0">'+
+         '<line id="ln" stroke="#2E7FD4"/>'+
+         '<circle id="ca" r="13" fill="#1B3A5C" stroke="#2E7FD4" stroke-width="2"/>'+
+         '<circle id="cb" r="13" fill="#1B3A5C" stroke="#2E7FD4" stroke-width="2"/>'+
+         '<text id="ta" fill="#8FCBFF" font-size="11" text-anchor="middle" dy="4">A</text>'+
+         '<text id="tb" fill="#8FCBFF" font-size="11" text-anchor="middle" dy="4">B</text></svg>',
+  tick: function(el, t, p) {
+    var W = el.stage.clientWidth, s = t * p.speed;
+    var ax = W * 0.26 + Math.sin(s) * W * 0.11,       ay = 59 + Math.cos(s * 1.3) * 30;
+    var bx = W * 0.74 + Math.cos(s * 0.8) * W * 0.11, by = 59 + Math.sin(s * 1.1) * 30;
+    el.ln.setAttribute("x1", ax); el.ln.setAttribute("y1", ay);
+    el.ln.setAttribute("x2", bx); el.ln.setAttribute("y2", by);
+    el.ln.setAttribute("stroke-width", p.thick);
+    el.ca.setAttribute("cx", ax); el.ca.setAttribute("cy", ay);
+    el.cb.setAttribute("cx", bx); el.cb.setAttribute("cy", by);
+    el.ta.setAttribute("x", ax);  el.ta.setAttribute("y", ay);
+    el.tb.setAttribute("x", bx);  el.tb.setAttribute("y", by);
+  } },
+
+{ n: 18, name: "Inertia (velocity spring)", cycle: 3, tier: 2,
+  desc: "Springs past the keyframe and settles. Amplitude scales with the incoming curve.",
+  note: "Compare with card 01 - amplitude divided by w, so Freq no longer changes how far it overshoots.",
+  params: [ {k:"freq",  label:"Freq",  min:0.2, max:8,  step:0.1, val:3},
+            {k:"decay", label:"Decay", min:0.5, max:20, step:0.1, val:5} ],
+  code: function(p){ return "freq = "+p.freq+";\ndecay = "+p.decay+";\n\n"+
+    "t = time - key(n).time;\namp = velocityAtTime(key(n).time - thisComp.frameDuration/10);\n"+
+    "w = freq*Math.PI*2;\nvalue + amp*(Math.sin(t*w)/Math.exp(decay*t)/w);"; },
+  stage: '<div class="mid"></div><div class="dot" id="d" style="width:40px;height:40px;top:50%;margin-top:-20px"></div>'+
+         '<div class="lbl" id="cap" style="left:10px;bottom:6px"></div>',
+  tick: function(el, t, p) {
+    var W = el.stage.clientWidth - 60, tt = t % this.cycle, v;
+    if (tt < KEY_DUR) v = baseKeys(tt);
+    else {
+      var x = tt - KEY_DUR, w = p.freq * Math.PI * 2;
+      v = 100 + KEY_VEL * (Math.sin(x * w) / Math.exp(p.decay * x) / w);
+    }
+    el.d.style.left = (10 + (v / 100) * W) + "px";
+    el.cap.textContent = v.toFixed(1);
+  } },
+
+{ n: 19, name: "Wiggle (axis + gate)", cycle: 8, tier: 2,
+  desc: "Wiggle one axis only, and only inside a time window. Plain wiggle() can't do either.",
+  params: [ {k:"freq", label:"Freq",    min:0.1, max:14, step:0.1, val:3},
+            {k:"amp",  label:"Amount",  min:0,   max:60, step:1,   val:26},
+            {k:"t0",   label:"Start s", min:0,   max:8,  step:0.1, val:2},
+            {k:"t1",   label:"End s",   min:0,   max:8,  step:0.1, val:6},
+            {k:"axis", label:"Axis",    opts:["Both","X only","Y only"]} ],
+  code: function(p){ return "if (time < "+p.t0+" || time > "+p.t1+") {\n  value;\n} else {\n"+
+    "  w = wiggle("+p.freq+", "+p.amp+");\n  "+
+    (p.axis==="X only"?"[w[0], value[1]];":p.axis==="Y only"?"[value[0], w[1]];":"w;")+"\n}"; },
+  stage: '<div class="mid"></div>'+
+         '<div class="box" id="gate" style="top:0;bottom:0;background:#16202B;border-radius:0"></div>'+
+         '<div class="dot" id="d" style="width:32px;height:32px;left:50%;top:50%;margin:-16px 0 0 -16px"></div>'+
+         '<div class="lbl" id="cap" style="left:10px;bottom:6px"></div>',
+  tick: function(el, t, p) {
+    var tt = t % this.cycle, W = el.stage.clientWidth;
+    el.gate.style.left  = (p.t0 / this.cycle * W) + "px";
+    el.gate.style.width = (Math.max(0, p.t1 - p.t0) / this.cycle * W) + "px";
+    var on = (tt >= p.t0 && tt <= p.t1);
+    var x = on && p.axis !== "Y only" ? wiggle(tt, p.freq, p.amp, 1) : 0;
+    var y = on && p.axis !== "X only" ? wiggle(tt, p.freq, p.amp, 9) : 0;
+    el.d.style.transform = "translate(" + x + "px," + y + "px)";
+    el.cap.textContent = (on ? "wiggling - " : "held - ") + tt.toFixed(1) + "s";
+  } },
+
+{ n: 20, name: "Checkbox toggle", cycle: 3, tier: 2,
+  desc: "A Checkbox Control switching between two values. The simplest template control.",
+  params: [ {k:"on",  label:"When on",  min:0, max:100, step:1, val:100},
+            {k:"off", label:"When off", min:0, max:100, step:1, val:15} ],
+  code: function(p){ return 'on = effect("Toggle")("Checkbox");\n\non == 1 ? '+p.on+' : '+p.off; },
+  stage: '<div class="mid"></div><div class="box" id="d" style="width:54px;height:54px;left:50%;top:50%;margin:-27px 0 0 -27px"></div>'+
+         '<div class="lbl" id="cap" style="left:10px;bottom:6px"></div>',
+  tick: function(el, t, p) {
+    var on = Math.floor(t / 1.5) % 2 === 0, v = on ? p.on : p.off;
+    el.d.style.opacity = v / 100;
+    el.d.style.transform = "scale(" + (0.55 + v / 100 * 0.45) + ")";
+    el.cap.textContent = (on ? "[x] on" : "[ ] off") + "  ->  " + v;
+  } },
+
+{ n: 21, name: "Dropdown switch", cycle: 4.5, tier: 2,
+  desc: "A Dropdown Menu Control picking between states. How a template gets its variants.",
+  params: [ {k:"v1", label:"Item 1", min:0, max:100, step:1, val:100},
+            {k:"v2", label:"Item 2", min:0, max:100, step:1, val:55},
+            {k:"v3", label:"Item 3", min:0, max:100, step:1, val:20} ],
+  code: function(p){ return 'm = effect("Mode")("Menu");\n\nif (m == 1) '+p.v1+
+    '\nelse if (m == 2) '+p.v2+'\nelse '+p.v3; },
+  stage: '<div class="mid"></div><div class="box" id="d" style="width:54px;height:54px;left:50%;top:50%;margin:-27px 0 0 -27px"></div>'+
+         '<div class="lbl" id="cap" style="left:10px;bottom:6px"></div>',
+  tick: function(el, t, p) {
+    var m = Math.floor(t / 1.5) % 3, v = [p.v1, p.v2, p.v3][m];
+    el.d.style.opacity = 0.15 + v / 100 * 0.85;
+    el.d.style.transform = "scale(" + (0.45 + v / 100 * 0.55) + ")";
+    el.cap.textContent = "item " + (m + 1) + "  ->  " + v;
+  } },
+
+{ n: 22, name: "Attach to 3D layer (toComp)", cycle: 8, tier: 2,
+  desc: "A flat label pinned to a moving point, so callouts follow objects through a camera move.",
+  params: [ {k:"ox", label:"Offset X", min:-120, max:120, step:1, val:52},
+            {k:"oy", label:"Offset Y", min:-60,  max:60,  step:1, val:-26} ],
+  code: function(p){ return 't = thisComp.layer("3D OBJECT");\np = t.toComp(t.anchorPoint);\n\n'+
+    "[p[0] + "+p.ox+", p[1] + "+p.oy+"]"; },
+  stage: '<svg id="svg" width="100%" height="118" style="position:absolute;inset:0">'+
+         '<line id="ln" stroke="#2E3140" stroke-width="1" stroke-dasharray="3 3"/>'+
+         '<ellipse id="orb" rx="15" ry="15" fill="#2E7FD4"/></svg>'+
+         '<div id="tag" style="position:absolute;background:#1B3A5C;border:1px solid #2E7FD4;border-radius:4px;'+
+         'padding:2px 8px;font-size:11px;color:#DCEBFF;white-space:nowrap">callout</div>',
+  tick: function(el, t, p) {
+    var W = el.stage.clientWidth, a = t * 0.8;
+    var depth = (Math.cos(a) + 1) / 2;
+    var x = W / 2 + Math.sin(a) * W * 0.3, y = 62 + Math.cos(a) * 14, r = 9 + depth * 9;
+    el.orb.setAttribute("cx", x); el.orb.setAttribute("cy", y);
+    el.orb.setAttribute("rx", r); el.orb.setAttribute("ry", r);
+    el.orb.setAttribute("opacity", 0.45 + depth * 0.55);
+    el.tag.style.left = (x + p.ox) + "px";
+    el.tag.style.top  = (y + p.oy) + "px";
+    el.ln.setAttribute("x1", x); el.ln.setAttribute("y1", y);
+    el.ln.setAttribute("x2", x + p.ox); el.ln.setAttribute("y2", y + p.oy + 8);
+  } },
+
+{ n: 23, name: "Time offset by index", cycle: 5, tier: 2,
+  desc: "Each layer plays the same animation, late by its index. Survives reordering.",
+  params: [ {k:"delay", label:"Delay s", min:0.02, max:0.5, step:0.01, val:0.12},
+            {k:"count", label:"Layers",  min:2,    max:9,   step:1,    val:7},
+            {k:"dir",   label:"Order",   opts:["Top down","Bottom up"]} ],
+  code: function(p){ return "delay = "+p.delay+";\noff = "+
+    (p.dir==="Bottom up"?"(thisComp.numLayers - index)":"(index - 1)")+" * delay;\n\nvalueAtTime(time - off)"; },
+  stage: '<div id="row"></div>',
+  init: function(el) { el.row.innerHTML = ""; el.bars = []; },
+  tick: function(el, t, p) {
+    var n = Math.round(p.count);
+    if (el.bars.length !== n) {
+      var h = "";
+      for (var i = 0; i < n; i++) h += '<div class="box" style="width:22px;bottom:18px;left:'+(16+i*30)+'px"></div>';
+      el.row.innerHTML = h;
+      el.bars = el.row.querySelectorAll(".box");
+    }
+    for (var i = 0; i < n; i++) {
+      var k = (p.dir === "Bottom up") ? (n - 1 - i) : i;
+      var tt = t - k * p.delay;
+      var u = tt <= 0 ? 0 : (Math.sin((tt % 2) / 2 * Math.PI * 2) * 0.5 + 0.5);
+      el.bars[i].style.height = (10 + u * 62) + "px";
+    }
+  } },
+
+{ n: 24, name: "Audio amplitude driver", cycle: 6, tier: 2,
+  desc: "Amplitude keyframes driving a property. Music-led graphics.",
+  note: "Run Convert Audio to Keyframes on the audio layer first - the expression reads those keys.",
+  params: [ {k:"inMax",  label:"Amp max", min:5, max:60,  step:1, val:30},
+            {k:"outMin", label:"Out min", min:0, max:200, step:1, val:100},
+            {k:"outMax", label:"Out max", min:0, max:250, step:1, val:150} ],
+  code: function(p){ return 'a = thisComp.layer("Audio Amplitude").effect("Both Channels")("Slider");\n\n'+
+    "s = linear(a, 0, "+p.inMax+", "+p.outMin+", "+p.outMax+");\n[s, s]"; },
+  stage: '<div id="bars"></div><div class="dot" id="d" style="width:40px;height:40px;right:34px;top:50%;margin-top:-20px"></div>',
+  init: function(el) {
+    var h = "";
+    for (var i = 0; i < 22; i++) h += '<div class="box" style="width:5px;bottom:14px;left:'+(14+i*10)+'px;background:#2A3242"></div>';
+    el.bars.innerHTML = h;
+    el.bEls = el.bars.querySelectorAll(".box");
+  },
+  tick: function(el, t, p) {
+    var amp = 0;
+    for (var i = 0; i < el.bEls.length; i++) {
+      var a = Math.abs(Math.sin(t * 5 + i * 0.6) * 0.6 + noise1(t * 6 + i, i) * 0.5) * p.inMax;
+      el.bEls[i].style.height = (2 + a) + "px";
+      if (i === 11) amp = a;
+    }
+    el.d.style.transform = "scale(" + (linMap(amp, 0, p.inMax, p.outMin, p.outMax) / 100) + ")";
+  } },
+
+{ n: 25, name: "Snap to increments", cycle: 6, tier: 2,
+  desc: "Quantises to a step. Grid-aligned motion, stepped counters.",
+  params: [ {k:"step", label:"Step", min:1, max:80, step:1, val:24} ],
+  code: function(p){ return "step = "+p.step+";\n\nMath.round(value/step)*step"; },
+  stage: '<div class="mid"></div>'+
+         '<div class="dot ghost" id="raw" style="width:20px;height:20px;top:32%;margin-top:-10px"></div>'+
+         '<div class="dot" id="d" style="width:26px;height:26px;top:66%;margin-top:-13px"></div>'+
+         '<div class="lbl" id="cap" style="left:10px;bottom:6px"></div>',
+  tick: function(el, t, p) {
+    var W = el.stage.clientWidth - 40;
+    var x = (Math.sin(t * 0.9) * 0.5 + 0.5) * W, sx = Math.round(x / p.step) * p.step;
+    el.raw.style.left = (10 + x) + "px";
+    el.d.style.left   = (7 + sx) + "px";
+    el.cap.textContent = x.toFixed(0) + "  ->  " + sx.toFixed(0);
+  } },
+
+{ n: 26, name: "Timecode / countdown", cycle: 12, tier: 2,
+  desc: "Live clock, elapsed timer or countdown, written into a text layer.",
+  params: [ {k:"dur",  label:"From s", min:5, max:180, step:1, val:60},
+            {k:"mode", label:"Mode",   opts:["Countdown mm:ss","Elapsed mm:ss","Seconds only","Timecode"]} ],
+  code: function(p){ return p.mode==="Timecode" ? "timeToTimecode(time, 0, false)" :
+    "dur = "+p.dur+";\nr = Math.max(0, dur - time);\nm = Math.floor(r/60);\ns = Math.floor(r%60);\n\n"+
+    'm + ":" + (s < 10 ? "0" + s : "" + s)'; },
+  stage: '<div id="n" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;'+
+         'font:600 34px ui-monospace,Menlo,Consolas,monospace;color:#9BE6B0"></div>',
+  tick: function(el, t, p) {
+    var out;
+    if (p.mode === "Timecode") {
+      var f = Math.floor((t % 1) * 25), s2 = Math.floor(t % 60), m2 = Math.floor(t / 60) % 60;
+      out = ("0"+m2).slice(-2) + ":" + ("0"+s2).slice(-2) + ":" + ("0"+f).slice(-2);
+    } else if (p.mode === "Seconds only") {
+      out = Math.max(0, p.dur - t).toFixed(0);
+    } else {
+      var r = (p.mode === "Countdown mm:ss") ? Math.max(0, p.dur - t) : t;
+      var m = Math.floor(r / 60), s = Math.floor(r % 60);
+      out = m + ":" + (s < 10 ? "0" + s : "" + s);
+    }
+    el.n.textContent = out;
+  } },
+
+{ n: 27, name: "Sample colour (sampleImage)", cycle: 8, tier: 2,
+  desc: "Reads a pixel from another layer and uses it as a colour. Data-driven fills.",
+  params: [ {k:"speed", label:"Probe", min:0.1, max:2, step:0.05, val:0.5} ],
+  code: function(){ return 's = thisComp.layer("SOURCE");\np = thisLayer.toComp(thisLayer.anchorPoint);\n\n'+
+    "s.sampleImage(p, [2,2], true, time)"; },
+  stage: '<svg id="svg" width="100%" height="118" style="position:absolute;inset:0">'+
+         '<defs><linearGradient id="g27"><stop offset="0" stop-color="#00AEEF"/>'+
+         '<stop offset="0.4" stop-color="#9BE6B0"/><stop offset="0.7" stop-color="#FFCB05"/>'+
+         '<stop offset="1" stop-color="#E3000F"/></linearGradient></defs>'+
+         '<rect id="strip" x="12" y="18" height="30" rx="4" fill="url(#g27)"/>'+
+         '<circle id="probe" r="7" fill="none" stroke="#fff" stroke-width="2"/>'+
+         '<rect id="sw" x="12" y="66" width="70" height="34" rx="5"/></svg>'+
+         '<div class="lbl" id="cap" style="right:12px;bottom:14px"></div>',
+  tick: function(el, t, p) {
+    var W = el.stage.clientWidth - 24;
+    el.strip.setAttribute("width", W);
+    var u = (Math.sin(t * p.speed) * 0.5 + 0.5);
+    el.probe.setAttribute("cx", 12 + u * W);
+    el.probe.setAttribute("cy", 33);
+    var stops = [[0,[0,174,239]],[0.4,[155,230,176]],[0.7,[255,203,5]],[1,[227,0,15]]];
+    var c = [0,0,0];
+    for (var i = 0; i < stops.length - 1; i++) {
+      if (u >= stops[i][0] && u <= stops[i+1][0]) {
+        var f = (u - stops[i][0]) / (stops[i+1][0] - stops[i][0]);
+        for (var j = 0; j < 3; j++) c[j] = Math.round(stops[i][1][j] + (stops[i+1][1][j] - stops[i][1][j]) * f);
+        break;
+      }
+    }
+    var hx = "#" + c.map(function(x){ return ("0"+x.toString(16)).slice(-2); }).join("");
+    el.sw.setAttribute("fill", hx);
+    el.cap.textContent = hx.toUpperCase();
+  } },
+
+{ n: 28, name: "Text bounce per character", cycle: 4, tier: 2,
+  desc: "Each character springs in on its own delay, measured from the layer's in point.",
+  note: "Above 100 the amount overshoots so far the character starts mirrored - 100 is the useful ceiling.",
+  params: [ {k:"delay", label:"Per char s", min:0.005, max:0.25, step:0.005, val:0.05},
+            {k:"a",     label:"Amount",     min:10,    max:200,  step:5,     val:100},
+            {k:"f",     label:"Freq",       min:0.2,   max:8,    step:0.1,   val:2.1},
+            {k:"d",     label:"Decay",      min:1,     max:24,   step:0.5,   val:8},
+            {k:"prop",  label:"Animate",    opts:["Scale","Position","Opacity"]} ],
+  code: function(p){ return "delay = "+p.delay+";\nt = time - inPoint - textIndex*delay;\n\n"+
+    "if (t < 0) {\n  value;\n} else {\n  a = "+p.a+";\n  f = "+p.f+";\n  d = "+p.d+";\n"+
+    "  s = a*Math.cos(f*t*2*Math.PI)/Math.exp(d*t);\n  [s, s];\n}"; },
+  stage: '<div id="tx" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:1px"></div>',
+  init: function(el) {
+    var word = "BOUNCE", h = "";
+    for (var i = 0; i < word.length; i++)
+      h += '<span style="display:inline-block;font:700 30px -apple-system,Segoe UI,sans-serif;color:#8FCBFF">' + word[i] + '</span>';
+    el.tx.innerHTML = h;
+    el.chars = el.tx.querySelectorAll("span");
+  },
+  tick: function(el, t, p) {
+    var tt = t % this.cycle;
+    for (var i = 0; i < el.chars.length; i++) {
+      var ct = tt - i * p.delay, s;
+      if (ct < 0) s = p.a;
+      else s = p.a * Math.cos(p.f * ct * 2 * Math.PI) / Math.exp(p.d * ct);
+      var c = el.chars[i];
+      if (p.prop === "Position")     { c.style.transform = "translateY(" + (-s * 0.6) + "px)"; c.style.opacity = 1; }
+      else if (p.prop === "Opacity") { c.style.transform = "none"; c.style.opacity = Math.max(0, Math.min(1, 1 - s / 100)); }
+      else                           { c.style.transform = "scale(" + Math.max(0, 1 - s / 100) + ")"; c.style.opacity = 1; }
+    }
+  } }
+
+];
+
+/* ================== build the page ================== */
+
+var grid = document.getElementById("grid");
+var live = [];
+var lastTier = 0;
+
+CARDS.forEach(function (c) {
+  if (c.tier !== lastTier) {
+    lastTier = c.tier;
+    var hd = document.createElement("div");
+    hd.className = "secthead";
+    hd.textContent = (c.tier === 1)
+      ? "01-14   single-property modifiers"
+      : "15-28   rigging: layers that read each other";
+    grid.appendChild(hd);
+  }
+
+  var card = document.createElement("div");
+  card.className = "card";
+
+  var prows = c.params.map(function (pr) {
+    if (pr.opts) {
+      return '<div class="prow"><span class="k">' + pr.label + '</span>' +
+             '<select data-k="' + pr.k + '">' +
+             pr.opts.map(function (o) { return '<option>' + o + '</option>'; }).join("") +
+             '</select></div>';
+    }
+    return '<div class="prow"><span class="k">' + pr.label + '</span>' +
+           '<input type="range" data-k="' + pr.k + '" min="' + pr.min + '" max="' + pr.max +
+           '" step="' + pr.step + '" value="' + pr.val + '">' +
+           '<span class="v">' + pr.val + '</span></div>';
+  }).join("");
+
+  card.innerHTML =
+    '<div class="head"><span class="num">' + (c.n < 10 ? "0" : "") + c.n + '</span>' +
+    '<span class="name">' + c.name + '</span>' +
+    '<button class="codebtn">&lt;/&gt;</button></div>' +
+    '<div class="desc">' + c.desc + '</div>' +
+    '<div class="stage">' + c.stage + '</div>' +
+    (c.note ? '<div class="note">' + c.note + '</div>' : "") +
+    '<div class="params">' + prows + '</div>' +
+    '<pre></pre>';
+
+  grid.appendChild(card);
+
+  /* collect elements by id, then strip the ids so they stay unique
+     across twenty-eight copies of the page */
+  var el = { stage: card.querySelector(".stage") };
+  card.querySelectorAll("[id]").forEach(function (n) { el[n.id] = n; n.removeAttribute("id"); });
+
+  var state = {};
+  c.params.forEach(function (pr) { state[pr.k] = pr.opts ? pr.opts[0] : pr.val; });
+
+  var pre = card.querySelector("pre");
+  function refreshCode() { pre.textContent = c.code ? c.code(state) : ""; }
+
+  card.querySelectorAll("input[type=range]").forEach(function (inp) {
+    inp.addEventListener("input", function () {
+      state[inp.dataset.k] = parseFloat(inp.value);
+      inp.parentNode.querySelector(".v").textContent = inp.value;
+      refreshCode();
+    });
+  });
+  card.querySelectorAll("select").forEach(function (sel) {
+    sel.addEventListener("change", function () { state[sel.dataset.k] = sel.value; refreshCode(); });
+  });
+  card.querySelector(".codebtn").addEventListener("click", function () { pre.classList.toggle("show"); });
+
+  if (c.init) c.init(el, state);
+  refreshCode();
+  live.push({ c: c, el: el, state: state });
+});
+
+/* ================== clock ================== */
+
+var playing = true, speed = 1, T = 0, last = performance.now();
+var playBtn = document.getElementById("playBtn"), clock = document.getElementById("clock");
+
+document.getElementById("speed").addEventListener("input", function () {
+  speed = parseFloat(this.value);
+  document.getElementById("speedVal").textContent = speed.toFixed(2) + "x";
+});
+playBtn.addEventListener("click", function () {
+  playing = !playing;
+  playBtn.textContent = playing ? "Pause" : "Play";
+  playBtn.classList.toggle("on", playing);
+});
+document.getElementById("resetBtn").addEventListener("click", function () { T = 0; });
+document.getElementById("allCode").addEventListener("click", function () {
+  var any = document.querySelector("pre:not(.show)");
+  document.querySelectorAll("pre").forEach(function (p) { p.classList.toggle("show", !!any); });
+  this.innerHTML = any ? "&lt;/&gt; Hide all expressions" : "&lt;/&gt; Show all expressions";
+});
+
+function frame(now) {
+  var dt = Math.min(0.1, (now - last) / 1000);
+  last = now;
+  if (playing) T += dt * speed;
+  clock.textContent = T.toFixed(2) + "s";
+  for (var i = 0; i < live.length; i++) {
+    try { live[i].c.tick(live[i].el, T, live[i].state); } catch (e) {}
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

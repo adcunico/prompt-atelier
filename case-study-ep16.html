@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 16 &mdash; TWENTY-EIGHT EXPRESSIONS: building an After Effects panel with Claude Code &middot; Prompt Atelier</title>
+<meta property="og:title" content="TWENTY-EIGHT EXPRESSIONS &mdash; building an After Effects expression panel with Claude Code">
+<meta property="og:description" content="A dockable ScriptUI panel holding 28 motion-design expressions, each with editable parameters, plus a browser visualiser that runs all of them live. The story of four bugs that only surface inside After Effects.">
+<meta property="og:image" content="ep16/fig-run-script.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --glass-dark:rgba(24,20,14,.46); --glass-dark-b:rgba(255,255,255,.26);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+  .glass{backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+    border-radius:20px;box-shadow:0 12px 40px rgba(15,12,6,.28)}
+  .g-dark{background:var(--glass-dark);border:1px solid var(--glass-dark-b);color:var(--text-cream)}
+
+  /* nav */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  /* hero */
+  .hero{padding:56px 0 40px;text-align:left;background:
+    radial-gradient(55% 70% at 85% 0%,rgba(193,154,61,.10),transparent 60%),
+    radial-gradient(40% 55% at 5% 30%,rgba(51,98,92,.07),transparent 60%)}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:58px;line-height:1.12;margin:18px 0 20px;max-width:880px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:12px;letter-spacing:.04em}
+  .figcap b{color:var(--gold-deep)}
+
+  /* sections */
+  section{padding:72px 0 8px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  .lede{color:var(--text-soft);max-width:660px;margin-bottom:8px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 26px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block;color:var(--text-ink)}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  .step{display:grid;grid-template-columns:330px 1fr;gap:40px;padding:44px 0;border-top:1px solid var(--linen);align-items:start}
+  @media(max-width:840px){.step{grid-template-columns:1fr}}
+  .step .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:64px;line-height:1;color:var(--gold-deep)}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:12px 0 10px}
+  .step p{font-size:15.5px;color:var(--text-soft)}
+  .step p + p{margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:9px;margin-top:16px;margin-right:8px;padding:8px 18px;border-radius:999px;
+    background:var(--ivory);border:1px solid var(--linen);font-size:12.5px;font-weight:600;letter-spacing:.06em}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+
+  .fig{border-radius:24px;overflow:hidden;position:relative;padding:26px;
+    display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;
+    background:radial-gradient(50% 65% at 82% 18%,rgba(193,154,61,.24) 0%,transparent 60%),
+      radial-gradient(60% 75% at 8% 90%,rgba(51,98,92,.4) 0%,transparent 60%),
+      linear-gradient(155deg,#16130E,#2B2418);box-shadow:0 18px 50px rgba(20,16,8,.22)}
+  .fullfig{border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(20,16,8,.22);border:1px solid var(--linen)}
+  .fullfig img{width:100%;display:block}
+  .promptbox{max-width:460px;padding:26px 30px;flex:1 1 320px}
+  .promptbox .lbl{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--text-fog);font-weight:600;margin-bottom:12px}
+  .promptbox code{font-family:ui-monospace,monospace;font-size:13.5px;line-height:1.6;color:var(--text-cream);display:block}
+  .promptbox code b{color:var(--gold-bright);font-weight:400}
+
+  /* ---- live demo surfaces ---- */
+  .demo{background:#14120E;border:1px solid #2B2618;border-radius:20px;overflow:hidden;
+        box-shadow:0 18px 50px rgba(20,16,8,.24)}
+  .demo .bar{display:flex;align-items:baseline;gap:10px;padding:13px 18px 10px;border-bottom:1px solid #2B2618}
+  .demo .bar b{font-size:13px;font-weight:600;color:var(--text-cream)}
+  .demo .bar span{font-size:11.5px;color:#8A8168}
+  .demo .stage{position:relative;height:150px;overflow:hidden}
+  .demo .mid{position:absolute;left:0;right:0;top:50%;height:1px;background:#241F14}
+  .demo .lbl{position:absolute;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6E6650}
+  .dot{position:absolute;border-radius:50%;background:var(--gold-bright)}
+  .dot.alt{background:var(--teal-bright)}
+  .bx{position:absolute;background:var(--gold-bright);border-radius:3px}
+  .bx.alt{background:var(--teal-bright)}
+  .demogrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-top:34px}
+  .hero-demo{margin:44px 0 0;border-radius:26px;overflow:hidden;background:#14120E;
+             border:1px solid #2B2618;box-shadow:0 24px 70px rgba(20,16,8,.28);
+             height:280px;position:relative;display:flex;align-items:center;justify-content:center}
+
+  /* panel diagram */
+  .panelmock{background:#2E2A22;border:1px solid #3E382C;border-radius:12px;padding:12px;
+             font-family:var(--sans);font-size:11.5px;color:#D9D2C2;max-width:280px}
+  .panelmock .sec{background:#39332A;border:1px solid #4A4335;border-radius:7px;padding:9px 10px;margin-bottom:7px}
+  .panelmock .sec h4{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#9C9077;margin-bottom:6px;font-weight:600}
+  .panelmock .r{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+  .panelmock .r span{width:56px;color:#9C9077;font-size:10.5px}
+  .panelmock .track{flex:1;height:4px;background:#4A4335;border-radius:3px;position:relative}
+  .panelmock .track i{position:absolute;top:-3px;width:10px;height:10px;border-radius:50%;background:var(--gold-bright)}
+  .panelmock .dd{flex:1;background:#4A4335;border-radius:4px;padding:3px 7px;font-size:10.5px}
+  .panelmock .btn{background:#5A5140;border-radius:5px;padding:5px;text-align:center;font-size:10.5px;margin-top:2px}
+
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--linen);border-radius:16px;overflow:hidden;margin-top:34px}
+  th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-soft);text-align:left;padding:14px 18px;background:var(--ivory)}
+  td{padding:12px 18px;border-top:1px solid var(--linen);vertical-align:middle}
+  td.tc{font-family:ui-monospace,monospace;font-size:12.5px;color:var(--text-soft);white-space:nowrap}
+  td b{font-weight:600}
+  td .sh{color:var(--gold-deep);font-weight:600;font-size:12px;letter-spacing:.08em}
+
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note p + p{margin-top:10px}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 8px;border-radius:6px;font-family:ui-monospace,monospace}
+
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px;gap:14px}
+  .tool .tid{display:flex;align-items:center;gap:14px}
+  .tool .tid img{width:26px;height:26px;flex:none}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool .paid{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  .ctarow{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:999px;font-weight:600;font-size:14px;letter-spacing:.03em;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .btn.gold{background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 14px 40px rgba(193,154,61,.32)}
+  .btn.ghost{border:1px solid var(--linen);color:var(--text-ink);background:#fff}
+  .btn:hover{transform:translateY(-2px)}
+
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+<link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+      <span class="nav-soc"><a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study &middot; Episode 16 &middot; Expression Library</div>
+    <h1>TWENTY-EIGHT EXPRESSIONS: <em>a panel that writes the maths for you</em></h1>
+    <p class="standfirst">After Effects expressions are the difference between animating something and
+      <em>rigging</em> it &mdash; but nobody remembers the syntax, and the useful ones are twenty lines long.
+      This episode builds a dockable panel holding twenty-eight of them, each with editable parameters and
+      live preview, plus a browser page that runs every one so you can judge the motion before touching
+      After Effects. The interesting part is not the panel. It is the four bugs that only appear once the
+      code reaches AE &mdash; and the verification habit that catches them.</p>
+    <div class="meta">
+      <div><b>Medium</b>ScriptUI panel &middot; ExtendScript</div>
+      <div><b>Library</b>28 expressions, parameterised</div>
+      <div><b>Tested</b>88 variants &middot; 336 demo runs</div>
+      <div><b>Bugs found</b>4, none by reading</div>
+      <div><b>Built with</b>Claude Code</div>
+    </div>
+
+    <div class="hero-demo" id="heroDemo"></div>
+    <div class="figcap"><b>Running live</b> &mdash; per-character bounce, expression 28. Every character springs
+      in on its own delay, measured from the layer's in point. No keyframes involved.</div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section>
+    <div class="kicker">Overview</div>
+    <h2>A registry, not a pile of snippets</h2>
+    <p class="lede">The naive version of this is a text file of expressions you copy and paste. The useful
+      version is a data structure: every expression declares its own parameters, and the panel reshapes its
+      controls to match whichever one you pick. Adding a twenty-ninth is one object literal, not a new tab.</p>
+    <div class="stats">
+      <div class="stat"><b>28</b><span>Expressions</span></div>
+      <div class="stat"><b>88</b><span>Variants generated</span></div>
+      <div class="stat"><b>336</b><span>Demo runs verified</span></div>
+      <div class="stat"><b><em>4</em></b><span>Bugs only AE sees</span></div>
+      <div class="stat"><b>0</b><span>Found by reading code</span></div>
+    </div>
+  </section>
+
+  <!-- THE PANEL -->
+  <section>
+    <div class="kicker">The Panel</div>
+    <h2>One dropdown, twenty-eight shapes of control</h2>
+    <p class="lede">Pick Bounce and you get amp, freq and decay sliders. Pick Loop and those vanish, replaced
+      by a type and direction dropdown. Pick Connector line and two <em>layer pickers</em> appear, because that
+      expression needs to know which layers to join. The controls are generated from each entry's declaration.</p>
+
+    <div class="fig" style="margin-top:34px">
+      <div class="panelmock">
+        <div class="sec">
+          <h4>Expression</h4>
+          <div class="r"><div class="dd">01&nbsp; Bounce</div></div>
+        </div>
+        <div class="sec">
+          <h4>Parameters</h4>
+          <div class="r"><span>Amp</span><div class="track"><i style="left:22%"></i></div></div>
+          <div class="r"><span>Freq</span><div class="track"><i style="left:44%"></i></div></div>
+          <div class="r"><span>Decay</span><div class="track"><i style="left:36%"></i></div></div>
+        </div>
+        <div class="sec">
+          <h4>Apply to</h4>
+          <div class="r"><div class="dd">Scale</div></div>
+        </div>
+        <div class="sec">
+          <h4>Expression</h4>
+          <div style="font-family:ui-monospace,monospace;font-size:9.5px;line-height:1.55;color:#9BE6B0">
+            amp = effect("Bounce Amp")("Slider");<br>
+            n = 0;<br>
+            if (numKeys &gt; 0) {<br>
+            &nbsp;&nbsp;n = nearestKey(time).index;<br>
+            ...
+          </div>
+        </div>
+        <div class="btn">Apply</div>
+      </div>
+      <div class="glass g-dark promptbox">
+        <div class="lbl">One entry in the registry</div>
+        <code>{ name: <b>"Bounce"</b>,<br>
+          &nbsp;&nbsp;nums: [ {k:"amp", min:0, max:0.6, def:0.1},<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{k:"freq", min:0.1, max:8, def:3},<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{k:"decay", min:0.1, max:12, def:4} ],<br>
+          &nbsp;&nbsp;presets: [ &hellip;five ],<br>
+          &nbsp;&nbsp;<b>linkable</b>: true,&nbsp;&nbsp;<b>needsKeys</b>: true,<br>
+          &nbsp;&nbsp;target: "Scale",<br>
+          &nbsp;&nbsp;build: function (v, linked) { &hellip; }<br>
+          }</code>
+      </div>
+    </div>
+    <div class="figcap"><b>Fig. 1</b> &mdash; layout diagram of the panel beside the declaration that generates it.
+      <em>linkable</em> means the parameters can live on Slider Controls instead of being baked into the text;
+      <em>needsKeys</em> makes the panel warn you when the target property has no keyframes, which is the
+      difference between "it did nothing" and "it did nothing and told you why".</div>
+  </section>
+
+  <!-- LIVE DEMOS -->
+  <section>
+    <div class="kicker">The Library</div>
+    <h2>Judge the motion before you commit</h2>
+    <p class="lede">Expressions are hard to shop for because a name tells you nothing about how something feels.
+      So every one got a demo. These four are running the real maths &mdash; the same formulas the panel writes
+      into After Effects.</p>
+
+    <div class="demogrid">
+      <div class="demo">
+        <div class="bar"><b>01 Bounce</b><span>overshoot after the keyframe</span></div>
+        <div class="stage" id="d1"><div class="mid"></div></div>
+      </div>
+      <div class="demo">
+        <div class="bar"><b>18 Inertia</b><span>the same idea, better behaved</span></div>
+        <div class="stage" id="d2"><div class="mid"></div></div>
+      </div>
+      <div class="demo">
+        <div class="bar"><b>23 Time offset by index</b><span>free stagger</span></div>
+        <div class="stage" id="d3"></div>
+      </div>
+      <div class="demo">
+        <div class="bar"><b>15 Auto-size box</b><span>reads the text, resizes itself</span></div>
+        <div class="stage" id="d4"></div>
+      </div>
+    </div>
+    <div class="figcap" style="margin-top:14px"><b>Fig. 2</b> &mdash; four of the twenty-eight, live.
+      Bounce and Inertia look similar until you change Freq: Bounce's overshoot distance changes with it,
+      Inertia's does not, because its amplitude is divided by the angular frequency. That is the whole
+      argument for having both.</div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section>
+    <div class="kicker">The Build</div>
+    <h2>Step by step</h2>
+
+    <div class="step" style="margin-top:34px">
+      <div>
+        <div class="num">01</div>
+        <h3>The Registry</h3>
+        <p>The first version had one expression and a hard-coded set of three sliders. That does not scale to
+          twenty-eight, so the shape changed early: every expression became an object declaring its numeric
+          params, its dropdowns, its free-text fields, its layer pickers, and a <code>build()</code> function
+          that assembles the string.</p>
+        <p>The panel holds a fixed pool of controls and shows, hides and relabels them per entry. That is the
+          only way ScriptUI handles a variable interface without rebuilding the window, which a docked panel
+          cannot do.</p>
+        <span class="chip"><i></i>Data, not branches</span>
+        <span class="chip"><i></i>Adding one is one object</span>
+      </div>
+      <div>
+        <div class="fig">
+          <div class="glass g-dark promptbox" style="max-width:100%">
+            <div class="lbl">Two kinds of expression</div>
+            <code><b>01&ndash;14</b> single-property modifiers<br>
+              &nbsp;&nbsp;take a value, change it<br>
+              &nbsp;&nbsp;<span style="color:#B5AC9C">bounce, loop, wiggle, smooth, clamp&hellip;</span><br><br>
+              <b>15&ndash;28</b> rigging<br>
+              &nbsp;&nbsp;layers that read each other, or read the comp<br>
+              &nbsp;&nbsp;<span style="color:#B5AC9C">auto-size box, connector line, counter,<br>
+              &nbsp;&nbsp;toComp attach, audio driver, per-char bounce&hellip;</span></code>
+          </div>
+        </div>
+        <div class="figcap"><b>Fig. 3</b> &mdash; the split that matters. The first fourteen are what people
+          mean by "expressions". The second fourteen are what makes a rig.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">02</div>
+        <h3>The Visualiser</h3>
+        <p>Reading <code>value + v*amp*Math.sin(freq*t*2*Math.PI)/Math.exp(decay*t)</code> tells you nothing
+          about whether it feels right. So the maths was reimplemented in JavaScript and given a demo card
+          each &mdash; twenty-eight of them, with the same sliders as the panel and the generated expression
+          text one click away.</p>
+        <p>It doubles as a test harness. Every card's <code>tick()</code> can be run headlessly against a
+          stubbed DOM, which is how 336 frames across 28 cards and every dropdown option were checked without
+          opening a browser.</p>
+        <span class="chip"><i></i>Feel before syntax</span>
+        <span class="chip"><i></i>Also the test rig</span>
+      </div>
+      <div>
+        <div class="demo">
+          <div class="bar"><b>19 Wiggle, gated</b><span>only inside the shaded window</span></div>
+          <div class="stage" id="d5"><div class="mid"></div></div>
+        </div>
+        <div class="figcap"><b>Fig. 4</b> &mdash; plain <code>wiggle()</code> runs forever on every axis.
+          The two things people actually ask for &mdash; one axis, and only between two times &mdash; need a
+          wrapper, so that became its own entry.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">03</div>
+        <h3>The Handoff</h3>
+        <p>The panel installs like any other: run it once from <b>File &rsaquo; Scripts &rsaquo; Run Script
+          File</b> for a floating palette, or drop it in the <code>ScriptUI Panels</code> folder and it becomes
+          a real dockable panel under the Window menu. The same file handles both, which is a four-line
+          conditional at the top.</p>
+        <p>Where it matters, parameters go onto Slider Controls on the layer rather than being baked into the
+          expression text &mdash; so after applying you keep tweaking in Effect Controls, and you can keyframe
+          the sliders themselves.</p>
+        <span class="chip"><i></i>Floating or docked</span>
+        <span class="chip"><i></i>Sliders over literals</span>
+      </div>
+      <div>
+        <div class="fullfig"><img src="ep16/fig-run-script.png" alt="The After Effects File menu open on Scripts, with Run Script File highlighted"></div>
+        <div class="figcap"><b>Fig. 5</b> &mdash; the entire installation process.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE BUGS -->
+  <section>
+    <div class="kicker">What Broke</div>
+    <h2>Four bugs that only exist inside After Effects</h2>
+    <p class="lede">None of these were found by reading the code. All four passed a syntax check. Three of them
+      produced no error at all &mdash; they just silently did the wrong thing, which is the expensive kind.</p>
+
+    <div class="demo" style="margin-top:34px">
+      <div class="bar"><b>The invisible one</b><span>identical code, one line apart</span></div>
+      <div class="stage" style="height:170px" id="d6">
+        <div class="lbl" style="left:16px;top:14px">eases set, interpolation left linear</div>
+        <div class="lbl" style="left:16px;top:92px">eases set, interpolation forced to Bezier</div>
+      </div>
+    </div>
+    <div class="figcap"><b>Fig. 6</b> &mdash; both rows have a <code>KeyframeEase</code> applied.
+      <code>setValueAtTime()</code> creates <em>linear</em> keyframes, and <code>setTemporalEaseAtKey()</code>
+      does not change a keyframe's interpolation type &mdash; it only writes the handles. Without
+      <code>setInterpolationTypeAtKey(i, BEZIER, BEZIER)</code> the ease is stored and ignored. The code reads
+      as though it is eased. The timeline shows keyframes. The motion is flat.</div>
+
+    <div class="notes">
+      <div class="note"><b>An ease that does nothing</b><p>The one above. It appeared in three separate
+        scripts before it was understood, because nothing errors and the keyframes look correct in the
+        timeline. The tell is the graph editor, not the code.</p></div>
+
+      <div class="note"><b>A reserved word from 1999</b><p>The panel refused to load: <code>Expected :</code>
+        at line 55. The line declared <code>function int(n)</code>. <code>int</code> is a FutureReservedWord in
+        ECMAScript 3 &mdash; the spec ExtendScript still implements &mdash; so it cannot be a function name or
+        an object key.</p><p>Node's parser does not reserve it, so <code>node --check</code> had passed
+        thirteen times. The fix took a minute; the lesson took longer.</p></div>
+
+      <div class="note"><b>A shared ease that bulged</b><p>Applying one <code>KeyframeEase</code> to a
+        multi-dimensional property hands <em>every</em> dimension that velocity. On a rectangle's Size, the
+        height was given 1262 px/s while its value never changed &mdash; so it swelled and settled on every
+        transition. Fixed by building one ease per dimension, with unchanged dimensions getting speed zero.</p></div>
+
+      <div class="note"><b>A random number that was not</b><p>A seeded generator used a multiplier whose
+        intermediate exceeds 2<sup>53</sup>, so the result depended on floating-point rounding. Both engines
+        were self-consistent, but the browser preview and After Effects produced <em>different</em> results
+        from the same seed &mdash; which defeats the point of having a preview. Park&ndash;Miller keeps every
+        intermediate inside a double's exact range.</p></div>
+    </div>
+
+    <p class="lede" style="margin-top:34px;max-width:760px">The pattern is the same in all four: the code was
+      correct JavaScript and wrong ExtendScript. So the verification changed shape. Instead of reading the
+      script, the registry gets extracted and executed &mdash; 88 expression variants generated across every
+      dropdown combination, checked for <code>undefined</code> and <code>NaN</code> leaking into output. And
+      after the reserved-word failure, a linter that strips comments and strings and flags all thirty-one ES3
+      future-reserved words used as identifiers, keys or properties.</p>
+
+    <div class="fig" style="margin-top:26px">
+      <div class="glass g-dark promptbox" style="max-width:100%">
+        <div class="lbl">The check that would have caught it</div>
+        <code>OK&nbsp;&nbsp; AE_Inspect.jsx<br>
+          OK&nbsp;&nbsp; Diagram_3Step_Curved.jsx<br>
+          OK&nbsp;&nbsp; Diagram_5Step_Icons.jsx<br>
+          OK&nbsp;&nbsp; Expression_Library_Panel.jsx<br>
+          OK&nbsp;&nbsp; Glassmorphism_Panel.jsx<br>
+          OK&nbsp;&nbsp; Infographic_4Step_Builder.jsx<br>
+          OK&nbsp;&nbsp; Logo_Reveal_3D.jsx<br>
+          OK&nbsp;&nbsp; PIP_Studio_Panel.jsx<br><br>
+          <b>No ES3 reserved-word problems.</b></code>
+      </div>
+    </div>
+    <div class="figcap"><b>Fig. 7</b> &mdash; run across every script in the project after the fix. One had the
+      problem; the rest were clean. Words worth avoiding: <code>int</code>, <code>char</code>,
+      <code>float</code>, <code>double</code>, <code>class</code>, <code>final</code>, <code>static</code>,
+      <code>super</code>, <code>enum</code>, <code>import</code>, <code>export</code>.</div>
+  </section>
+
+  <!-- THE LIBRARY TABLE -->
+  <section>
+    <div class="kicker">The Contents</div>
+    <h2>What is in the panel</h2>
+    <p class="lede">Twenty-eight, split by whether they change one property or make layers aware of each other.</p>
+    <table>
+      <tr><th>#</th><th>Expression</th><th>What it does</th><th>Needs keys</th></tr>
+      <tr><td class="tc">01</td><td><b>Bounce</b></td><td>Overshoot after each keyframe</td><td><span class="sh">yes</span></td></tr>
+      <tr><td class="tc">02</td><td><b>Loop</b></td><td>cycle, pingpong, offset, continue</td><td><span class="sh">yes</span></td></tr>
+      <tr><td class="tc">03&ndash;07</td><td><b>Wiggle, Smooth, Posterize, Random, Seed Random</b></td><td>Noise, stepping and randomness</td><td>&mdash;</td></tr>
+      <tr><td class="tc">08&ndash;14</td><td><b>Delay, Time Remap, Auto-Orient, Slider link, Linear, Ease, Clamp</b></td><td>Following, mapping and limiting</td><td>partly</td></tr>
+      <tr><td class="tc">15</td><td><b>Auto-size box behind text</b></td><td>A shape that fits its own copy</td><td>&mdash;</td></tr>
+      <tr><td class="tc">16</td><td><b>Number counter</b></td><td>Separators, decimals, padding, prefix</td><td>&mdash;</td></tr>
+      <tr><td class="tc">17</td><td><b>Connector line</b></td><td>Joins two layers, writes three properties</td><td>&mdash;</td></tr>
+      <tr><td class="tc">18&ndash;23</td><td><b>Inertia, gated Wiggle, Checkbox, Dropdown, toComp, Index offset</b></td><td>Springs, states and staggers</td><td>partly</td></tr>
+      <tr><td class="tc">24&ndash;28</td><td><b>Audio driver, Snap, Timecode, sampleImage, Per-char bounce</b></td><td>Reading the world outside the layer</td><td>&mdash;</td></tr>
+    </table>
+    <div class="figcap" style="margin-top:14px"><b>The "needs keys" column</b> is doing real work. Bounce, Loop,
+      Smooth and Time Remap all read keyframe data and do nothing without it &mdash; applying successfully and
+      changing nothing is the most confusing failure mode an expression has.</div>
+  </section>
+
+  <!-- TOOLBOX -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/claude.svg" alt=""><div><b>Claude Code</b><br><span>Wrote the panel, the visualiser, the tests &mdash; and this page</span></div></div><span class="free">THE BUILDER</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/aftereffects.svg" alt=""><div><b>After Effects</b><br><span>Hosted the panel and found every real bug</span></div></div><span class="free paid">THE TRUTH</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/extendscript.svg" alt=""><div><b>ExtendScript</b><br><span>ECMAScript 3, reserved words and all</span></div></div><span class="free">THE API</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/github.svg" alt=""><div><b>HTML visualiser</b><br><span>28 live demos, doubling as the test harness</span></div></div><span class="free">THE FAST LOOP</span></div>
+    </div>
+
+    <div class="ctarow">
+      <a class="btn gold" href="ep16/Expression_Visualiser.html">Open the visualiser &rarr;</a>
+      <a class="btn ghost" href="ep16/Expression_Library_Panel.jsx" download>Download the panel &darr;</a>
+      <a class="btn ghost" href="index.html#cases">All case studies &rarr;</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY &middot; EPISODE 16 &middot; NEW CASE STUDIES EVERY WEEK</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+
+<script>
+/* ================= live demos: the real formulas ================= */
+var KEY_DUR = 0.5, KEY_VEL = 100 / KEY_DUR;
+function baseKeys(t){ return t<=0?0:(t>=KEY_DUR?100:(t/KEY_DUR)*100); }
+function hash(i,s){ var x=Math.sin(i*127.1+s*311.7)*43758.5453; return (x-Math.floor(x))*2-1; }
+function noise1(t,s){ var i=Math.floor(t),f=t-i,u=f*f*(3-2*f); return hash(i,s)*(1-u)+hash(i+1,s)*u; }
+function wig(t,f,a,s){ return a*noise1(t*f,s||1); }
+function cubic(x1,y1,x2,y2){
+  function A(a,b){return 1-3*b+3*a} function B(a,b){return 3*b-6*a} function C(a){return 3*a}
+  function cal(t,a,b){return ((A(a,b)*t+B(a,b))*t+C(a))*t}
+  function slo(t,a,b){return 3*A(a,b)*t*t+2*B(a,b)*t+C(a)}
+  return function(x){ if(x1===y1&&x2===y2)return x; var t=x;
+    for(var i=0;i<8;i++){var s=slo(t,x1,x2); if(!s)break; t-=(cal(t,x1,x2)-x)/s;}
+    return cal(Math.max(0,Math.min(1,t)),y1,y2); };
+}
+var LAND = cubic(0.16,0.84,0.3,1);
+
+function el(tag,cls,style){ var n=document.createElement(tag); if(cls)n.className=cls;
+  if(style)n.setAttribute("style",style); return n; }
+
+/* ---- hero: per-character bounce ---- */
+var heroChars = (function(){
+  var host=document.getElementById("heroDemo");
+  var box=el("div",null,"display:flex;gap:2px");
+  var word="EXPRESSIONS", out=[];
+  for(var i=0;i<word.length;i++){
+    var s=el("span",null,"display:inline-block;font-family:'Fraunces',Georgia,serif;font-weight:500;"+
+      "font-size:52px;color:#DCBC69;line-height:1");
+    s.textContent=word[i]; box.appendChild(s); out.push(s);
+  }
+  host.appendChild(box); return out;
+})();
+
+/* ---- d1 bounce, d2 inertia ---- */
+function mkDot(id,cls){ var st=document.getElementById(id);
+  var d=el("div","dot"+(cls?" "+cls:""),"width:34px;height:34px;top:50%;margin-top:-17px;left:0");
+  st.appendChild(d); return d; }
+var dot1=mkDot("d1"), dot2=mkDot("d2","alt");
+
+/* ---- d3 stagger bars ---- */
+var bars3=(function(){ var st=document.getElementById("d3"), a=[];
+  for(var i=0;i<8;i++){ var b=el("div","bx","width:20px;bottom:24px;left:"+(20+i*34)+"px;height:10px");
+    st.appendChild(b); a.push(b);} return a; })();
+
+/* ---- d4 auto-size box ---- */
+var d4=(function(){ var st=document.getElementById("d4");
+  var box=el("div",null,"position:absolute;left:50%;top:50%;background:rgba(220,188,105,.16);"+
+    "border:1px solid #DCBC69;border-radius:6px");
+  var txt=el("div",null,"position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);"+
+    "white-space:nowrap;font-size:16px;font-weight:600;color:#F6F0E4");
+  st.appendChild(box); st.appendChild(txt); return {box:box,txt:txt}; })();
+
+/* ---- d5 gated wiggle ---- */
+var d5=(function(){ var st=document.getElementById("d5");
+  var gate=el("div",null,"position:absolute;top:0;bottom:0;background:#221E14");
+  var dot=el("div","dot","width:26px;height:26px;left:50%;top:50%;margin:-13px 0 0 -13px");
+  var cap=el("div","lbl","left:14px;bottom:10px");
+  st.insertBefore(gate,st.firstChild); st.appendChild(dot); st.appendChild(cap);
+  return {gate:gate,dot:dot,cap:cap}; })();
+
+/* ---- d6 linear vs eased ---- */
+var d6=(function(){ var st=document.getElementById("d6");
+  var a=el("div","dot","width:26px;height:26px;top:40px;left:0");
+  var b=el("div","dot alt","width:26px;height:26px;top:118px;left:0");
+  st.appendChild(a); st.appendChild(b); return {a:a,b:b}; })();
+
+/* ================= one loop drives everything ================= */
+(function loop(now){
+  var t = now/1000;
+
+  /* hero */
+  var hc=4, ht=t%hc;
+  for(var i=0;i<heroChars.length;i++){
+    var ct=ht-i*0.05, s;
+    if(ct<0) s=100; else s=100*Math.cos(2.1*ct*2*Math.PI)/Math.exp(8*ct);
+    heroChars[i].style.transform="scale("+Math.max(0,1-s/100).toFixed(3)+")";
+  }
+
+  /* bounce vs inertia */
+  var w1=(document.getElementById("d1").clientWidth||300)-60;
+  var b1=t%3, v1;
+  if(b1<KEY_DUR) v1=baseKeys(b1);
+  else { var x=b1-KEY_DUR; v1=100+KEY_VEL*0.1*Math.sin(3*x*2*Math.PI)/Math.exp(4*x); }
+  dot1.style.left=(12+(v1/100)*w1)+"px";
+
+  var b2=t%3, v2;
+  if(b2<KEY_DUR) v2=baseKeys(b2);
+  else { var x2=b2-KEY_DUR, wv=3*Math.PI*2;
+         v2=100+KEY_VEL*(Math.sin(x2*wv)/Math.exp(5*x2)/wv); }
+  dot2.style.left=(12+(v2/100)*w1)+"px";
+
+  /* stagger */
+  for(var j=0;j<bars3.length;j++){
+    var tt=t-j*0.12, u=tt<=0?0:(Math.sin((tt%2)/2*Math.PI*2)*0.5+0.5);
+    bars3[j].style.height=(10+u*82)+"px";
+  }
+
+  /* auto-size box */
+  var words=["Clarity","Backing your future","Data","Where strategy meets opportunity"];
+  d4.txt.textContent=words[Math.floor((t%7.2)/1.8)%words.length];
+  var tw=d4.txt.offsetWidth, th=d4.txt.offsetHeight, px=24, py=14;
+  d4.box.style.width=(tw+px*2)+"px"; d4.box.style.height=(th+py*2)+"px";
+  d4.box.style.marginLeft=-(tw/2+px)+"px"; d4.box.style.marginTop=-(th/2+py)+"px";
+
+  /* gated wiggle */
+  var W5=document.getElementById("d5").clientWidth||300, c5=8, t5=t%c5, g0=2, g1=6;
+  d5.gate.style.left=(g0/c5*W5)+"px"; d5.gate.style.width=((g1-g0)/c5*W5)+"px";
+  var on=(t5>=g0&&t5<=g1);
+  d5.dot.style.transform="translate("+(on?wig(t5,3,30,1):0)+"px,"+(on?wig(t5,3,14,9):0)+"px)";
+  d5.cap.textContent=(on?"wiggling":"held")+"  "+t5.toFixed(1)+"s";
+
+  /* linear vs eased */
+  var W6=(document.getElementById("d6").clientWidth||300)-60;
+  var c6=2.4, u6=(t%c6)/1.2; if(u6>1)u6=1;
+  d6.a.style.left=(16+u6*W6)+"px";
+  d6.b.style.left=(16+LAND(u6)*W6)+"px";
+
+  requestAnimationFrame(loop);
+})(performance.now());
+</script>
+</body>
+</html>
