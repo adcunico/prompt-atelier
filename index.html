@@ -107,6 +107,17 @@
   h2 em{font-style:italic;color:var(--gold-deep)}
   .lede{color:var(--text-soft);max-width:640px;font-size:17px}
 
+  /* ═══════ SHOWREEL ═══════ */
+  .reel-shell{margin-top:44px;aspect-ratio:16/9;border-radius:28px;overflow:hidden;background:#0d0b09;
+    border:1px solid var(--linen);box-shadow:0 28px 80px rgba(20,16,8,.30)}
+  .reel-shell video{width:100%;height:100%;object-fit:cover;display:block}
+  .reel-foot{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap;margin-top:30px}
+  .reel-stats{display:flex;gap:38px;flex-wrap:wrap}
+  .reel-stats span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+  .reel-stats b{display:block;font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.1;
+    letter-spacing:0;text-transform:none;color:var(--text-ink);margin-bottom:3px}
+  @media(max-width:640px){.reel-stats{gap:24px}.reel-stats b{font-size:24px}}
+
   /* ═══════ CRAFT GRID ═══════ */
   .craft{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:22px;margin-top:56px}
   .card{background:#fff;border:1px solid var(--linen);border-radius:24px;padding:36px 36px 32px;position:relative;overflow:hidden;
@@ -226,6 +237,7 @@
     <nav>
       <div class="wm">Prompt <em>Atelier</em></div>
       <div class="links">
+        <a href="#reel">Showreel</a>
         <a href="#craft">The Craft</a>
         <a href="#cases">Case Studies</a>
         <a href="about.html">About</a>
@@ -293,6 +305,32 @@
     </div>
   </div>
 </div>
+
+<!-- ═══════════ SHOWREEL ═══════════ -->
+<section id="reel">
+  <div class="wrap">
+    <div class="kicker">The Showreel</div>
+    <h2>Sixty-six seconds, <em>no visible seam</em></h2>
+    <p class="lede">Twenty-one shots cut to an AI-written score. Ten of them were generated, eight were built
+      by hand, three are both &mdash; and the reel doesn't tell you which is which.</p>
+
+    <div class="reel-shell">
+      <video controls loop playsinline preload="metadata" poster="ep17/poster.jpg">
+        <source src="ep17/prompt-atelier-ep17.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="reel-foot">
+      <div class="reel-stats">
+        <span><b>66.4s</b>Runtime</span>
+        <span><b>21</b>Shots</span>
+        <span><b>2.4s</b>Median shot</span>
+        <span><b>10 &middot; 8 &middot; 3</b>Generated &middot; hand-built &middot; both</span>
+      </div>
+      <a class="btn gold" href="case-study-ep17.html">See the full cut list &rarr;</a>
+    </div>
+  </div>
+</section>
 
 <!-- ═══════════ THE CRAFT ═══════════ -->
 <section id="craft">
@@ -369,6 +407,15 @@
     <p class="lede">Each project ships with the full story — the tools, the prompts, the failures and the fixes. Follow along and make your own.</p>
 
     <div class="cases">
+      <a class="case" href="case-study-ep17.html">
+        <div class="thumb"><img src="ep17/hero.jpg" alt="Episode 17 — nine frames from the showreel as a contact sheet: kinetic type, a cloud mascot, a swimmer, a ronin, a rooftop"></div>
+        <div class="body">
+          <div class="ep">Episode 17 · Showreel</div>
+          <h3>THE SHOWREEL: sixty-six seconds, no visible seam</h3>
+          <p>Twenty-one shots cut to a Suno score — ten generated, eight built by hand in After Effects, three that are both. The reel refuses to say which is which; this page does, with the timecodes. The tell turns out not to be quality: every shot you <em>read</em> was built by hand, every shot you just <em>look at</em> was generated.</p>
+          <div class="read">Read the case study →</div>
+        </div>
+      </a>
       <a class="case" href="case-study-ep16.html">
         <div class="thumb"><img src="ep16/hero.png" alt="Episode 16 — the After Effects and Claude marks side by side above the words After Effects + Claude Code"></div>
         <div class="body">

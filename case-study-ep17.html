@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 17 &mdash; THE SHOWREEL: sixty-six seconds, no visible seam &middot; Prompt Atelier</title>
+<meta property="og:title" content="THE SHOWREEL &mdash; sixty-six seconds, no visible seam">
+<meta property="og:description" content="Twenty-one shots cut to a Suno score: ten generated, eight built by hand in After Effects, three that are both. The full cut list, with the method on every row.">
+<meta property="og:image" content="ep17/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --glass-dark:rgba(24,20,14,.46); --glass-dark-b:rgba(255,255,255,.26);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+
+  /* nav */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  /* hero */
+  .hero{padding:56px 0 40px;text-align:left;background:
+    radial-gradient(55% 70% at 85% 0%,rgba(193,154,61,.10),transparent 60%),
+    radial-gradient(40% 55% at 5% 30%,rgba(51,98,92,.07),transparent 60%)}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:58px;line-height:1.12;margin:18px 0 20px;max-width:880px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  .video-shell{margin:44px 0 0;aspect-ratio:16/9;border-radius:26px;position:relative;overflow:hidden;box-shadow:0 24px 70px rgba(20,16,8,.28);background:#0d0b09;display:block}
+  .video-shell img,.video-shell video{width:100%;height:100%;object-fit:cover;display:block}
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:12px;letter-spacing:.04em}
+  .figcap b{color:var(--gold-deep)}
+
+  /* sections */
+  section{padding:72px 0 8px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  .lede{color:var(--text-soft);max-width:660px;margin-bottom:8px}
+  .body-p{max-width:660px;margin-top:16px;color:var(--text-soft);font-size:15.5px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 26px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block;color:var(--text-ink)}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  .step{display:grid;grid-template-columns:330px 1fr;gap:40px;padding:44px 0;border-top:1px solid var(--linen);align-items:start}
+  @media(max-width:840px){.step{grid-template-columns:1fr}}
+  .step .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:64px;line-height:1;color:var(--gold-deep)}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:12px 0 10px}
+  .step p{font-size:15.5px;color:var(--text-soft)}
+  .step p + p{margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:9px;margin-top:16px;margin-right:8px;padding:8px 18px;border-radius:999px;
+    background:var(--ivory);border:1px solid var(--linen);font-size:12.5px;font-weight:600;letter-spacing:.06em}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+  .step .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .step .cell img{width:100%;display:block}
+
+  /* ---- the guess-the-method gallery ---- */
+  .guessbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:34px}
+  .guessbar .hint{font-size:12.5px;color:var(--text-soft);letter-spacing:.04em}
+  .guess{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+  @media(max-width:900px){.guess{grid-template-columns:repeat(2,1fr)}}
+  .gcell{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--linen);
+         box-shadow:0 10px 30px rgba(20,16,8,.16);background:#0d0b09}
+  .gcell img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}
+  .gcell .tc{position:absolute;right:9px;top:9px;font-family:ui-monospace,monospace;font-size:10.5px;
+             color:var(--text-cream);background:rgba(13,11,9,.55);padding:3px 8px;border-radius:6px;letter-spacing:.04em}
+  .gcell .tag{position:absolute;left:9px;bottom:9px;font-size:10px;font-weight:700;letter-spacing:.16em;
+              text-transform:uppercase;padding:6px 12px;border-radius:999px;color:#fff;
+              opacity:0;transform:translateY(7px);transition:opacity .4s ease,transform .4s ease}
+  .gcell .tag.ai{background:rgba(51,98,92,.94)}
+  .gcell .tag.ae{background:rgba(138,106,36,.94)}
+  .gcell .tag.mix{background:rgba(27,24,19,.92)}
+  .guess.revealed .tag{opacity:1;transform:none}
+  .legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--text-soft)}
+  .legend span{display:inline-flex;align-items:center;gap:8px}
+  .legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .legend i.ai{background:var(--teal)} .legend i.ae{background:var(--gold-deep)} .legend i.mix{background:var(--ink)}
+
+  /* film strip */
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+  @media(max-width:720px){.strip{grid-template-columns:1fr}}
+  .strip .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .strip .cell img{width:100%;display:block}
+  .strip .lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-soft);margin:9px 0 18px;text-align:center}
+
+  /* the cut table */
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--linen);border-radius:16px;overflow:hidden;margin-top:34px}
+  th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-soft);text-align:left;padding:14px 18px;background:var(--ivory)}
+  td{padding:12px 18px;border-top:1px solid var(--linen);vertical-align:middle}
+  td.tc{font-family:ui-monospace,monospace;font-size:12.5px;color:var(--text-soft);white-space:nowrap}
+  td b{font-weight:600}
+  td a{color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(138,106,36,.32)}
+  td a:hover{border-bottom-color:var(--gold-deep)}
+  .m{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 11px;border-radius:999px;white-space:nowrap;color:#fff}
+  .m.ai{background:var(--teal)} .m.ae{background:var(--gold-deep)} .m.mix{background:var(--ink)}
+  .tablewrap{overflow-x:auto}
+
+  /* behind the scenes */
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note p + p{margin-top:10px}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 8px;border-radius:6px;font-family:ui-monospace,monospace}
+
+  /* four cards, so two roomy columns rather than three cramped ones */
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px;gap:14px}
+  .tool .tid{display:flex;align-items:center;gap:14px}
+  .tool .tid img{width:26px;height:26px;flex:none;filter:brightness(0);opacity:.78}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool .paid{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  .ctarow{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:999px;font-weight:600;font-size:14px;letter-spacing:.03em;text-decoration:none;transition:transform .25s,box-shadow .25s;cursor:pointer;border:0;font-family:var(--sans)}
+  .btn.gold{background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 14px 40px rgba(193,154,61,.32)}
+  .btn.ghost{border:1px solid var(--linen);color:var(--text-ink);background:#fff}
+  .btn:hover{transform:translateY(-2px)}
+
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+</style>
+<link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+      <span class="nav-soc"><a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Case Study &middot; Episode 17 &middot; Showreel</div>
+    <h1>THE SHOWREEL: <em>sixty-six seconds, no visible seam</em></h1>
+    <p class="standfirst">Twenty-one shots, cut to a score that did not exist a week ago. Ten of them were
+      generated. Eight were built by hand in After Effects. Three are both. The reel does not tell you which
+      is which, and that is the entire argument &mdash; but this page does, shot by shot, with the timecodes.
+      What emerges is not a quality line. It is a much more useful one: <em>generated footage owns anything
+      organic; After Effects owns anything with a letterform, a number or an interface in it.</em></p>
+    <div class="meta">
+      <div><b>Runtime</b>66.4s &middot; 1080p25 &middot; 1,660 frames</div>
+      <div><b>Shots</b>21 &middot; median 2.4s</div>
+      <div><b>Split</b>10 generated &middot; 8 hand-built &middot; 3 both</div>
+      <div><b>Score</b>Suno, cut to picture</div>
+      <div><b>Finished in</b>After Effects</div>
+    </div>
+
+    <div class="video-shell" id="film">
+      <video controls loop preload="metadata" poster="ep17/poster.jpg" playsinline>
+        <source src="ep17/prompt-atelier-ep17.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="figcap"><b>The reel, whole</b> &mdash; watch it once without the cut list. Then scroll down and
+      find out how badly you did.</div>
+  </div>
+
+  <!-- THE PREMISE -->
+  <section>
+    <div class="kicker">The Premise</div>
+    <h2>A reel is an argument, not an archive</h2>
+    <p class="lede">Sixteen episodes of this series produced a lot of footage. A reel is not a place to put all
+      of it &mdash; it is a place to make one claim and defend it for a minute.</p>
+    <p class="body-p">The claim here is that the method is no longer legible from the frame. Not that AI is as
+      good as hand work, and not that hand work is obsolete. Something narrower and more practical: that on a
+      timeline, cut to music, at two and a half seconds a shot, a viewer cannot separate the generated shots
+      from the built ones &mdash; so the only question worth asking about a tool is which shots it is
+      <em>fastest</em> at, not which shots it is <em>allowed</em> to make.</p>
+    <p class="body-p">That claim is falsifiable, which is what makes it worth putting on a reel. So the cut
+      list is published below with the method on every row. Watch first, guess, then check.</p>
+
+    <div class="stats">
+      <div class="stat"><b>66.4<em>s</em></b><span>Runtime</span></div>
+      <div class="stat"><b>21</b><span>Shots</span></div>
+      <div class="stat"><b>2.4<em>s</em></b><span>Median shot</span></div>
+      <div class="stat"><b>0.8<em>s</em></b><span>Shortest</span></div>
+      <div class="stat"><b>10<em>s</em></b><span>Longest</span></div>
+    </div>
+    <div class="figcap" style="margin-top:14px"><b>The spread is the point</b> &mdash; a 0.8-second flash and a
+      ten-second hold in the same minute. Which of those a shot can survive turns out to depend on how it was
+      made. More on that below.</div>
+  </section>
+
+  <!-- THE TEST -->
+  <section>
+    <div class="kicker">The Test</div>
+    <h2>Twelve frames. Which ones are generated?</h2>
+    <p class="lede">Pulled straight from the reel, in order, with their timecodes. Five were built by hand in
+      After Effects, five were generated, two are a generated plate finished by hand. Decide before you press
+      the button.</p>
+
+    <div class="guessbar">
+      <button class="btn gold" id="revealBtn" type="button">Reveal the methods &rarr;</button>
+      <span class="hint">No scoring, no cheating &mdash; the answers are in the cut list further down anyway.</span>
+    </div>
+
+    <div class="guess" id="guessGrid">
+      <div class="gcell"><img src="ep17/fig-counter.jpg" alt="A percentage counting upward over a soft violet gradient plate"><span class="tc">00:01</span><span class="tag ae">After Effects</span></div>
+      <div class="gcell"><img src="ep17/fig-grid.jpg" alt="A grid of app screens and photo cards flying into place on white"><span class="tc">00:02</span><span class="tag ae">After Effects</span></div>
+      <div class="gcell"><img src="ep17/fig-liquidity.jpg" alt="The word LIQUIDITY in outlined capitals on black"><span class="tc">00:05</span><span class="tag ae">After Effects</span></div>
+      <div class="gcell"><img src="ep17/fig-card.jpg" alt="A black metal payment card catching raking light"><span class="tc">00:08</span><span class="tag ai">Generated</span></div>
+      <div class="gcell"><img src="ep17/fig-torus.jpg" alt="A clay-pink torus threaded through with oversized cursor arrows"><span class="tc">00:11</span><span class="tag ai">Generated</span></div>
+      <div class="gcell"><img src="ep17/fig-watchface.jpg" alt="A watch face opening onto a glowing circuit core"><span class="tc">00:13</span><span class="tag ai">Generated</span></div>
+      <div class="gcell"><img src="ep17/fig-telemetry.jpg" alt="A TELEMETRY panel of live waveforms and dials over a blurred lab"><span class="tc">00:16</span><span class="tag mix">Generated + AE</span></div>
+      <div class="gcell"><img src="ep17/fig-mascot.jpg" alt="A fluffy cloud mascot in red boots surrounded by floating dashboard cards"><span class="tc">00:20</span><span class="tag ai">Generated</span></div>
+      <div class="gcell"><img src="ep17/fig-mesh.jpg" alt="A pale grid of connected nodes lit by travelling blue pulses"><span class="tc">00:31</span><span class="tag ai">Generated</span></div>
+      <div class="gcell"><img src="ep17/fig-tower.jpg" alt="Three clay cylinders stacked inside a thin orbiting ring, slated TOWER_MOD"><span class="tc">00:35</span><span class="tag mix">Generated + AE</span></div>
+      <div class="gcell"><img src="ep17/fig-anthem.jpg" alt="The word ANTHEM in extruded copper letters, slated FINAL_RESOLVE"><span class="tc">00:37</span><span class="tag ae">After Effects</span></div>
+      <div class="gcell"><img src="ep17/fig-promptbar.jpg" alt="A rounded prompt bar with Daily, Gym and Run tags and a scatter of photographs"><span class="tc">01:03</span><span class="tag ae">After Effects</span></div>
+    </div>
+
+    <div class="legend">
+      <span><i class="ae"></i> Built in After Effects</span>
+      <span><i class="ai"></i> Generated video</span>
+      <span><i class="mix"></i> Generated plate, finished in After Effects</span>
+    </div>
+
+    <div class="figcap" style="margin-top:16px"><b>If you got it right</b>, you almost certainly used the rule
+      the next section is about &mdash; and not anything to do with render quality.</div>
+  </section>
+
+  <!-- THE SEAM -->
+  <section>
+    <div class="kicker">The Seam</div>
+    <h2>Where the line actually falls</h2>
+    <p class="lede">It is not photoreal versus stylised, and it is not expensive versus cheap. Sort the
+      twenty-one shots by method and one property separates them cleanly: whether the frame has to hold
+      something with a <em>correct</em> shape.</p>
+
+    <div class="strip">
+      <div>
+        <div class="cell"><img src="ep17/fig-liquidgrid.jpg" alt="LIQUIDITY set three times on a fine grid, letterforms crisp"></div>
+        <div class="lbl">00:06 &middot; type &middot; After Effects</div>
+      </div>
+      <div>
+        <div class="cell"><img src="ep17/fig-telemetry.jpg" alt="TELEMETRY panel with labelled axes, dials and readouts"></div>
+        <div class="lbl">00:16 &middot; interface &middot; AE over a plate</div>
+      </div>
+      <div>
+        <div class="cell"><img src="ep17/fig-orb.jpg" alt="The cloud mascot cradling a faceted gold orb against a sky of soft clouds"></div>
+        <div class="lbl">00:22 &middot; a world &middot; generated</div>
+      </div>
+    </div>
+
+    <p class="body-p">A letterform is correct or it is wrong; there is no near miss. The same is true of a
+      dial that has to read <code style="font-size:12px;background:var(--ivory);padding:2px 8px;border-radius:6px;font-family:ui-monospace,monospace">094</code>,
+      a chart whose line has to match a number, a brand mark, a UI that has to look like software a person
+      could actually use. Generative video is probabilistic about shape, which is exactly the wrong property
+      for anything a viewer will <em>read</em>. Every shot in this reel that you read rather than look at was
+      built in After Effects: the counting percentage, the services menu, LIQUIDITY, the telemetry overlay,
+      ANTHEM, the prompt bar, the end card.</p>
+
+    <p class="body-p">Everything else &mdash; the card in raking light, the clay torus, the watch core, the
+      cloud mascot and its ten seconds of dashboards, the neural burst, the node field, the painted street,
+      the ronin, the rooftop &mdash; is a <em>world</em>. Worlds have no correct answer. A shadow can fall
+      anywhere and still be right, which is precisely where a generative model stops guessing and starts
+      performing. Those shots were generated, and generating them took hours where building them would have
+      taken weeks.</p>
+
+    <p class="body-p">The three hybrid shots are where the rule earns its keep. The telemetry panel, the
+      TUNNEL_SEQ and TOWER_MOD cards: a generated environment underneath, and every readable element &mdash;
+      the slate labels, the axis numbers, the dial readouts &mdash; laid over the top by hand. Neither tool
+      could have finished those alone, and the seam between them is the least visible thing in the reel.</p>
+
+    <div class="strip">
+      <div>
+        <div class="cell"><img src="ep17/fig-samurai.jpg" alt="A ronin in a wide hat silhouetted against a full moon, blossoms drifting past"></div>
+        <div class="lbl"><a href="case-study-ep07.html" style="color:var(--text-soft);text-decoration:none">00:45 &middot; Episode 07</a></div>
+      </div>
+      <div>
+        <div class="cell"><img src="ep17/fig-watchparts.jpg" alt="A watch movement exploded into gears and bridges against black"></div>
+        <div class="lbl"><a href="case-study-ep08.html" style="color:var(--text-soft);text-decoration:none">00:50 &middot; Episode 08</a></div>
+      </div>
+      <div>
+        <div class="cell"><img src="ep17/fig-rooftop.jpg" alt="A boy on a favela rooftop at dusk with the city spread out behind him"></div>
+        <div class="lbl"><a href="case-study-ep10.html" style="color:var(--text-soft);text-decoration:none">00:54 &middot; Episode 10</a></div>
+      </div>
+    </div>
+    <div class="figcap" style="margin-top:6px"><b>The one place the reel does hold a single method</b> &mdash;
+      shots 14 to 19 run 19.5 seconds of generated film without a hand-built frame between them. It is the
+      longest unbroken run in the cut, and it is deliberate: this is the stretch where the reel stops arguing
+      and simply plays. Every shot in it has its own case study on this site.</div>
+  </section>
+
+  <!-- HOW IT WAS CUT -->
+  <section>
+    <div class="kicker">The Build</div>
+    <h2>How sixty-six seconds got assembled</h2>
+
+    <div class="step">
+      <div>
+        <div class="num">01</div>
+        <div class="cell"><img src="ep17/hero.jpg" alt="Nine frames from the reel arranged as a contact sheet"></div>
+      </div>
+      <div>
+        <h3>Select on the strongest four seconds, not the best project</h3>
+        <p>A reel is judged frame by frame, so a beloved project with one great second loses to a minor one
+          that holds up for four. Every candidate got cut down to its strongest continuous stretch first, and
+          only then compared. Several finished films did not make it; several one-off tests did.</p>
+        <p>The archive going in spanned everything on this site &mdash; the ronin title from
+          <a href="case-study-ep07.html" style="color:var(--gold-deep)">Episode 07</a>, the watch from
+          <a href="case-study-ep08.html" style="color:var(--gold-deep)">Episode 08</a>, the rooftop from
+          <a href="case-study-ep10.html" style="color:var(--gold-deep)">Episode 10</a>, the painted street from
+          <a href="case-study-ep11.html" style="color:var(--gold-deep)">Episode 11</a>, the swimmer from
+          <a href="case-study-ep13.html" style="color:var(--gold-deep)">Episode 13</a> &mdash; alongside the
+          motion-design work that never had an episode of its own.</p>
+        <span class="chip"><i></i>Longest survivor: 10.0s</span>
+        <span class="chip"><i></i>Shortest: 0.8s</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">02</div>
+        <div class="cell"><img src="ep17/fig-card.jpg" alt="A black metal payment card catching raking light"></div>
+      </div>
+      <div>
+        <h3>Sort by method, then destroy the sort</h3>
+        <p>The first assembly grouped the shots by how they were made &mdash; all the After Effects work, then
+          all the generated work. It played like two reels taped together, and it made exactly the argument
+          the reel is trying to refute: <em>here is the hand-made half, here is the AI half.</em></p>
+        <p>So the sort got shuffled deliberately. Hand-built type opens; three generated product shots follow
+          inside the first twelve seconds; the reel's only ten-second hold is generated; the last full shot
+          before the end card is hand-built interface. Nowhere does the reel run more than about twenty
+          seconds without switching methods, and it never announces the switch.</p>
+        <span class="chip"><i></i>Longest single-method run: ~20s</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">03</div>
+        <div class="cell"><img src="ep17/fig-swimmer.jpg" alt="An illustrated swimmer pulling through turquoise water under an orange sky"></div>
+      </div>
+      <div>
+        <h3>Cut to the track, and let the track decide the pacing</h3>
+        <p>The score is a Suno generation, made for this edit rather than found and forced onto it &mdash; the
+          same approach as <a href="case-study-ep13.html" style="color:var(--gold-deep)">Episode 13</a> and
+          <a href="case-study-ep14.html" style="color:var(--gold-deep)">Episode 14</a>. Because the music was
+          written after the shot list existed, its structure could be asked for: a fast top, a long open
+          middle, a hard button at the end.</p>
+        <p>That middle is why the mascot sequence gets ten seconds and the LIQUIDITY cards get 1.3. The median
+          shot lands at 2.4 seconds, but the median is a bad description of this reel &mdash; the interesting
+          number is the spread, and the spread came from the track.</p>
+        <span class="chip"><i></i>Score written to picture</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">04</div>
+        <div class="cell"><img src="ep17/fig-tunnel.jpg" alt="A receding wireframe tunnel with a clay sphere at its centre, slated TUNNEL_SEQ"></div>
+      </div>
+      <div>
+        <h3>Slate the hybrid shots so the joins read as intent</h3>
+        <p>The three cards in the mid-thirties &mdash; TUNNEL_SEQ, TOWER_MOD, FINAL_RESOLVE &mdash; carry
+          corner slates in the reel itself. That was not decoration. Dropping type onto a generated plate can
+          look like a mistake unless the type is <em>obviously</em> deliberate, so the labels are set flush to
+          the frame edge, twice, in a mono voice that says <em>this is a build card, not a finished shot</em>.</p>
+        <p>It buys two things: the hybrid shots stop looking like failed composites, and the reel gets three
+          beats of visual punctuation right before it hands over to the film work.</p>
+        <span class="chip"><i></i>3 slated shots</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div>
+        <div class="num">05</div>
+        <div class="cell"><img src="ep17/fig-sting.jpg" alt="BRAND / CREATE NOW in white on black behind a magenta light sweep"></div>
+      </div>
+      <div>
+        <h3>Land it in 2.2 seconds and stop</h3>
+        <p>The end card runs 2.2 seconds &mdash; long enough to read, short enough that nobody reaches for the
+          scrub bar. It is the last hand-built shot in the reel, and it is hand-built for the reason the whole
+          seam section is about: it is a mark and two words, and both have to be exactly right.</p>
+        <p>The master came out at 1920&times;1080, 25fps, 124&nbsp;MB. The file embedded at the top of this page
+          is the same 66.4 seconds re-encoded with FFmpeg at CRF&nbsp;24 &mdash; 27&nbsp;MB, faststart, so it
+          begins playing before it finishes downloading.</p>
+        <span class="chip"><i></i>124 MB &rarr; 27 MB</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE CUT LIST -->
+  <section>
+    <div class="kicker">The Cut List</div>
+    <h2>Every shot, with its method</h2>
+    <p class="lede">Twenty-one shots. Timecodes are from the graded master; durations are measured, not
+      estimated. Where a shot comes from an episode on this site, the row links to it.</p>
+    <div class="tablewrap">
+    <table>
+      <tr><th>#</th><th>In</th><th>Dur</th><th>Shot</th><th>Method</th></tr>
+      <tr><td class="tc">01</td><td class="tc">00:00.0</td><td class="tc">1.2s</td><td><b>Percentage counter</b> over a violet gradient plate</td><td><span class="m ae">After Effects</span></td></tr>
+      <tr><td class="tc">02</td><td class="tc">00:01.2</td><td class="tc">1.3s</td><td><b>Studio work grid</b> &mdash; screens and photo cards flying in</td><td><span class="m ae">After Effects</span></td></tr>
+      <tr><td class="tc">03</td><td class="tc">00:02.5</td><td class="tc">2.2s</td><td><b>Services menu</b> &mdash; animation / motion graphics / brand strategy</td><td><span class="m ae">After Effects</span></td></tr>
+      <tr><td class="tc">04</td><td class="tc">00:04.8</td><td class="tc">1.3s</td><td><b>LIQUIDITY</b>, single outlined line</td><td><span class="m ae">After Effects</span></td></tr>
+      <tr><td class="tc">05</td><td class="tc">00:06.0</td><td class="tc">1.3s</td><td><b>LIQUIDITY</b> stacked three deep on the grid</td><td><span class="m ae">After Effects</span></td></tr>
+      <tr><td class="tc">06</td><td class="tc">00:07.4</td><td class="tc">1.9s</td><td><b>Black metal card</b> in raking light</td><td><span class="m ai">Generated</span></td></tr>
+      <tr><td class="tc">07</td><td class="tc">00:09.2</td><td class="tc">2.8s</td><td><b>Clay torus</b> threaded with oversized cursors</td><td><span class="m ai">Generated</span></td></tr>
+      <tr><td class="tc">08</td><td class="tc">00:12.0</td><td class="tc">5.1s</td><td><b>Watch core &rarr; TELEMETRY panel</b> &mdash; dials, waveforms, readouts</td><td><span class="m mix">Generated + AE</span></td></tr>
+      <tr><td class="tc">09</td><td class="tc">00:17.1</td><td class="tc">10.0s</td><td><b>The cloud mascot</b> &mdash; dashboards, halo, gold orb</td><td><span class="m ai">Generated</span></td></tr>
+      <tr><td class="tc">10</td><td class="tc">00:27.1</td><td class="tc">6.7s</td><td><b>Neural burst &rarr; node field &rarr; glass dashboards</b></td><td><span class="m ai">Generated</span></td></tr>
+      <tr><td class="tc">11</td><td class="tc">00:33.8</td><td class="tc">0.8s</td><td><b>TUNNEL_SEQ</b> &mdash; wireframe tunnel, clay sphere</td><td><span class="m mix">Generated + AE</span></td></tr>
+      <tr><td class="tc">12</td><td class="tc">00:34.6</td><td class="tc">3.1s</td><td><b>TOWER_MOD</b> &mdash; stacked cylinders in an orbiting ring</td><td><span class="m mix">Generated + AE</span></td></tr>
+      <tr><td class="tc">13</td><td class="tc">00:37.8</td><td class="tc">1.2s</td><td><b>FINAL_RESOLVE</b> &mdash; ANTHEM in extruded copper</td><td><span class="m ae">After Effects</span></td></tr>
+      <tr><td class="tc">14</td><td class="tc">00:38.9</td><td class="tc">2.4s</td><td><b>The swimmer</b>, open water &mdash; <a href="case-study-ep13.html">Episode 13</a></td><td><span class="m ai">Generated</span></td></tr>
+      <tr><td class="tc">15</td><td class="tc">00:41.4</td><td class="tc">1.0s</td><td><b>Kite over the painted street</b> &mdash; <a href="case-study-ep11.html">Episode 11</a></td><td><span class="m ai">Generated</span></td></tr>
+      <tr><td class="tc">16</td><td class="tc">00:42.3</td><td class="tc">3.5s</td><td><b>The street</b>, laundry lines at golden hour &mdash; <a href="case-study-ep11.html">Episode 11</a></td><td><span class="m ai">Generated</span></td></tr>
+      <tr><td class="tc">17</td><td class="tc">00:45.8</td><td class="tc">4.8s</td><td><b>The ronin</b> under the moon &mdash; <a href="case-study-ep07.html">Episode 07</a></td><td><span class="m ai">Generated</span></td></tr>
+      <tr><td class="tc">18</td><td class="tc">00:50.6</td><td class="tc">3.8s</td><td><b>The movement, exploded</b> &mdash; <a href="case-study-ep08.html">Episode 08</a></td><td><span class="m ai">Generated</span></td></tr>
+      <tr><td class="tc">19</td><td class="tc">00:54.4</td><td class="tc">4.0s</td><td><b>Rooftop, kite, city behind</b> &mdash; <a href="case-study-ep10.html">Episode 10</a></td><td><span class="m ai">Generated</span></td></tr>
+      <tr><td class="tc">20</td><td class="tc">00:58.4</td><td class="tc">5.8s</td><td><b>Prompt bar</b> &mdash; tags, query, photo scatter</td><td><span class="m ae">After Effects</span></td></tr>
+      <tr><td class="tc">21</td><td class="tc">01:04.2</td><td class="tc">2.2s</td><td><b>BRAND / CREATE NOW</b> end card</td><td><span class="m ae">After Effects</span></td></tr>
+    </table>
+    </div>
+    <div class="figcap" style="margin-top:14px"><b>Read the Method column downward</b> and the shuffle from
+      step 02 is visible as a pattern: five, two, one, two, two, one, six, two. No run of one method long
+      enough to become a section.</div>
+  </section>
+
+  <!-- BEHIND THE SCENES -->
+  <section>
+    <div class="kicker">Behind the Scenes</div>
+    <h2>What a minute of this teaches</h2>
+    <div class="notes">
+      <div class="note">
+        <b>Generated footage can hold a ten-second shot</b>
+        <p>The mascot sequence runs 10.0 seconds against a 2.4-second median &mdash; four times the reel's
+          normal patience. It survives because generated motion has no keyframe seams to defend and no render
+          budget punishing a longer take.</p>
+        <p>Hand-built shots in this reel top out around 5.8 seconds, and not by accident: every extra second of
+          built animation is another second somebody has to animate.</p>
+      </div>
+      <div class="note">
+        <b>The 0.8-second shot is the honest one</b>
+        <p>TUNNEL_SEQ gets 0.8 seconds &mdash; twenty frames. It is in the reel because it is a beautiful
+          twenty frames and out of the reel by the twenty-first, because the shot has nowhere to go after the
+          camera arrives.</p>
+        <p>Knowing which of your shots are twenty-frame shots is most of what cutting a reel is.</p>
+      </div>
+      <div class="note">
+        <b>The type is the giveaway, so use it</b>
+        <p>If you want a viewer to be unable to place a shot, take the words out of it. If you want them
+          <em>certain</em> a human made it, put words in. Both moves are available on the same timeline, which
+          is what the mid-thirties slate cards are doing.</p>
+      </div>
+      <div class="note">
+        <b>Group by method and the reel argues against you</b>
+        <p>The first assembly was sorted by tool and it read as two portfolios stapled together &mdash; a
+          before and an after. Interleaving is not a stylistic preference here; it is the difference between a
+          reel that says <em>look what AI can do now</em> and one that says <em>look at the work</em>.</p>
+      </div>
+      <div class="note">
+        <b>Write the music after the shot list</b>
+        <p>A found track forces the edit into somebody else's structure. Generating the score once the shots
+          were chosen meant the brief could include the shape &mdash; fast top, open middle, hard button
+          &mdash; and the ten-second hold became possible instead of merely desirable.</p>
+      </div>
+      <div class="note">
+        <b>27 MB is a design decision</b>
+        <p>The 124&nbsp;MB master is the wrong file to put on a web page. <code>-crf 24</code> with
+          <code>+faststart</code> gets it to 27&nbsp;MB with no visible loss at this size, and starts playing
+          before the download finishes. A reel nobody waits for is a reel nobody watches.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLBOX -->
+  <section>
+    <div class="kicker">Toolbox</div>
+    <h2>Everything used, and what it did</h2>
+    <div class="tools">
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/aftereffects.svg" alt=""><div><b>After Effects</b><br><span>Type, data, interface &mdash; and the cut itself</span></div></div><span class="free paid">THE FINISH</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/kie.svg" alt=""><div><b>Kie.ai &amp; friends</b><br><span>Ten generated shots: the worlds, the mascot, the films</span></div></div><span class="free paid">THE WORLDS</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/suno.svg" alt=""><div><b>Suno</b><br><span>Written to the shot list, not found</span></div></div><span class="free">THE SPINE</span></div>
+      <div class="tool"><div class="tid"><img src="assets/icons/tech/ffmpeg.svg" alt=""><div><b>FFmpeg</b><br><span>124 MB master &rarr; 27 MB, faststart</span></div></div><span class="free">THE DELIVERY</span></div>
+    </div>
+
+    <div class="ctarow">
+      <a class="btn gold" href="ep17/prompt-atelier-ep17.mp4" download>Download the reel &darr;</a>
+      <a class="btn ghost" href="#film">Watch it again &uarr;</a>
+      <a class="btn ghost" href="index.html#cases">All case studies &rarr;</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>CASE STUDY &middot; EPISODE 17 &middot; NEW CASE STUDIES EVERY WEEK</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var grid = document.getElementById("guessGrid"),
+      btn  = document.getElementById("revealBtn");
+  if(!grid || !btn) return;
+  btn.addEventListener("click", function(){
+    var on = grid.classList.toggle("revealed");
+    btn.textContent = on ? "Hide the methods ↑" : "Reveal the methods →";
+    btn.className = on ? "btn ghost" : "btn gold";
+  });
+})();
+</script>
+</body>
+</html>
