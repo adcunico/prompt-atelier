@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to make a beat-synced motion reel with Claude &middot; Prompt Atelier</title>
+<meta name="description" content="A step-by-step guide to making a 30-second, 1080p/60 motion graphics reel with Claude Code, with every prompt, command and fix: style guide, music edit, storyboard, animatic and a frame-checked final render.">
+<meta property="og:title" content="How to make a beat-synced motion reel with Claude">
+<meta property="og:description" content="A step-by-step guide to making a 30-second, 1080p/60 motion graphics reel with Claude Code, with every prompt, command and fix: style guide, music edit, storyboard, animatic and a frame-checked final render.">
+<meta property="og:image" content="tutorial-claude-motion-reel/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#FBF8F2; --ivory:#F2ECE1; --linen:#E9E1D2;
+    --ink:#1B1813; --espresso:#26221A; --umber:#3A3428;
+    --text-ink:#211D15; --text-soft:#6B6355; --text-cream:#F6F0E4; --text-fog:#B5AC9C;
+    --gold:#C19A3D; --gold-deep:#8A6A24; --gold-bright:#DCBC69;
+    --teal:#33625C; --teal-bright:#8FC2BA; --stone:#A99D88;
+    --glass-dark:rgba(24,20,14,.46); --glass-dark-b:rgba(255,255,255,.26);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--porcelain);color:var(--text-ink);line-height:1.65}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+
+  /* nav */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+  .wm{font-family:var(--serif);font-size:24px}
+  .wm em{font-style:italic;color:var(--gold-deep)}
+  nav .wm-link{text-decoration:none;color:var(--text-ink)}
+  nav .links{display:flex;gap:34px;align-items:center}
+  nav .links a{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;transition:color .25s}
+  nav .links a:hover,nav .links a.active{color:var(--gold-deep)}
+  .nav-soc{display:flex;gap:18px;align-items:center;margin-left:6px}
+  .nav-soc a{display:flex}
+  .nav-soc svg{height:19px;width:auto;fill:var(--text-soft);transition:fill .25s}
+  .nav-soc a:hover svg{fill:var(--gold-deep)}
+
+  /* hero */
+  .hero{padding:56px 0 40px;text-align:left;background:
+    radial-gradient(55% 70% at 85% 0%,rgba(193,154,61,.10),transparent 60%),
+    radial-gradient(40% 55% at 5% 30%,rgba(51,98,92,.07),transparent 60%)}
+  .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:58px;line-height:1.12;margin:18px 0 20px;max-width:880px}
+  h1 em{font-style:italic;color:var(--gold-deep)}
+  .standfirst{font-size:19px;color:var(--text-soft);max-width:700px}
+  .meta{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+  .meta div{font-size:13px}
+  .meta b{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:3px;font-weight:600}
+
+  .video-shell{margin:44px 0 0;aspect-ratio:16/9;border-radius:26px;position:relative;overflow:hidden;box-shadow:0 24px 70px rgba(20,16,8,.28);background:#0d0b09;display:block}
+  .video-shell img,.video-shell video{width:100%;height:100%;object-fit:cover;display:block}
+  .figcap{font-size:12.5px;color:var(--text-soft);margin-top:12px;letter-spacing:.04em}
+  .figcap b{color:var(--gold-deep)}
+
+  /* sections */
+  section{padding:72px 0 8px}
+  h2{font-family:var(--serif);font-weight:400;font-size:36px;margin:8px 0 14px}
+  .lede{color:var(--text-soft);max-width:660px;margin-bottom:8px}
+  .body-p{max-width:660px;margin-top:16px;color:var(--text-soft);font-size:15.5px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin:36px 0 10px}
+  .stat{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:26px 26px 22px}
+  .stat b{font-family:var(--serif);font-weight:500;font-size:38px;display:block;color:var(--text-ink)}
+  .stat b em{font-style:italic;color:var(--gold-deep)}
+  .stat span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  .step{display:grid;grid-template-columns:330px 1fr;gap:40px;padding:44px 0;border-top:1px solid var(--linen);align-items:start}
+  @media(max-width:840px){.step{grid-template-columns:1fr}}
+  .step .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:64px;line-height:1;color:var(--gold-deep)}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:12px 0 10px}
+  .step p{font-size:15.5px;color:var(--text-soft)}
+  .step p + p{margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:9px;margin-top:16px;margin-right:8px;padding:8px 18px;border-radius:999px;
+    background:var(--ivory);border:1px solid var(--linen);font-size:12.5px;font-weight:600;letter-spacing:.06em}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+  .step .cell{border-radius:16px;overflow:hidden;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.18)}
+  .step .cell img{width:100%;display:block}
+
+  /* the cut table */
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--linen);border-radius:16px;overflow:hidden;margin-top:34px}
+  th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-soft);text-align:left;padding:14px 18px;background:var(--ivory)}
+  td{padding:12px 18px;border-top:1px solid var(--linen);vertical-align:middle}
+  td.tc{font-family:ui-monospace,monospace;font-size:12.5px;color:var(--text-soft);white-space:nowrap}
+  td b{font-weight:600}
+  td a{color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(138,106,36,.32)}
+  td a:hover{border-bottom-color:var(--gold-deep)}
+  .m{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 11px;border-radius:999px;white-space:nowrap;color:#fff}
+  .m.ai{background:var(--teal)} .m.ae{background:var(--gold-deep)} .m.mix{background:var(--ink)}
+  .tablewrap{overflow-x:auto}
+
+  /* behind the scenes */
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+  .note{background:#fff;border:1px solid var(--linen);border-radius:18px;padding:24px 26px}
+  .note b{font-family:var(--serif);font-size:19px;font-weight:500;display:block;margin-bottom:8px}
+  .note p{font-size:14px;color:var(--text-soft)}
+  .note p + p{margin-top:10px}
+  .note code{font-size:12px;background:var(--ivory);padding:2px 8px;border-radius:6px;font-family:ui-monospace,monospace}
+
+  /* four cards, so two roomy columns rather than three cramped ones */
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px;margin-top:34px}
+  .tool{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--linen);border-radius:16px;padding:20px 24px;gap:14px}
+  .tool .tid{display:flex;align-items:center;gap:14px}
+  .tool .tid img{width:26px;height:26px;flex:none;filter:brightness(0);opacity:.78}
+  .tool b{font-size:15px}
+  .tool span{font-size:12.5px;color:var(--text-soft)}
+  .tool .free{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .tool .paid{color:var(--gold-deep);border-color:var(--gold-deep)}
+
+  .ctarow{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:999px;font-weight:600;font-size:14px;letter-spacing:.03em;text-decoration:none;transition:transform .25s,box-shadow .25s;cursor:pointer;border:0;font-family:var(--sans)}
+  .btn.gold{background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:0 14px 40px rgba(193,154,61,.32)}
+  .btn.ghost{border:1px solid var(--linen);color:var(--text-ink);background:#fff}
+  .btn:hover{transform:translateY(-2px)}
+
+  footer{margin-top:90px;padding:70px 0;text-align:center;color:var(--text-cream);background:
+    radial-gradient(55% 70% at 50% 0%,rgba(193,154,61,.25),transparent 65%),linear-gradient(165deg,#17140F,#292216)}
+  footer .wm{font-size:38px}
+  footer .wm em{color:var(--gold-bright)}
+  footer p{font-size:13px;color:var(--text-fog);letter-spacing:.14em;margin-top:14px}
+  .socials-x{display:flex;justify-content:center;gap:22px;margin-top:28px}
+  .socials-x a svg{height:24px;width:auto;fill:var(--text-fog);transition:fill .25s}
+  .socials-x a:hover svg{fill:var(--gold-bright)}
+
+  /* ---- tutorial: long-form prose, steps, prompts and code ---- */
+  .prose p{max-width:720px;margin-top:16px;color:var(--text-soft);font-size:16px}
+  .prose p strong,.prose li strong{color:var(--text-ink);font-weight:600}
+  .prose a{color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(138,106,36,.32)}
+  .prose a:hover{border-bottom-color:var(--gold-deep)}
+  .prose ul,.prose ol{max-width:720px;margin:14px 0 0 22px;color:var(--text-soft);font-size:16px}
+  .prose li{margin-top:7px} .prose li ul{margin-top:4px}
+  .prose code{font-size:.86em;background:var(--ivory);padding:2px 7px;border-radius:6px;font-family:ui-monospace,Consolas,monospace;color:var(--text-ink)}
+  .prose p.fix{font-size:14.5px;border-left:2px solid var(--linen);padding-left:14px}
+  .stephead{display:flex;align-items:baseline;gap:18px;margin-top:66px;padding-top:34px;border-top:1px solid var(--linen)}
+  .stephead .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:58px;line-height:1;color:var(--gold-deep)}
+  .stephead h3{font-family:var(--serif);font-weight:500;font-size:28px;line-height:1.2}
+  h3.sub{font-family:var(--serif);font-weight:500;font-size:24px;margin-top:44px}
+  .promptbox,.codebox{position:relative;border-radius:14px;margin-top:24px;max-width:860px}
+  .promptbox{background:#fff;border:1px solid var(--linen);border-left:3px solid var(--gold);box-shadow:0 8px 26px rgba(20,16,8,.06)}
+  .codebox{background:var(--ink)}
+  .promptbox pre,.codebox pre{font-family:ui-monospace,Consolas,monospace;font-size:13.2px;line-height:1.7;padding:24px 26px 22px;overflow-x:auto}
+  .promptbox pre{color:var(--text-ink);white-space:pre-wrap}
+  .codebox pre{color:var(--text-cream);white-space:pre}
+  .lbl{position:absolute;top:-11px;left:18px;font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:3px 11px;border-radius:999px}
+  .promptbox .lbl{background:var(--porcelain);color:var(--gold-deep);border:1px solid var(--linen)}
+  .codebox .lbl{background:var(--espresso);color:var(--gold-bright)}
+  .copy{position:absolute;top:-13px;right:16px;font:600 10.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;border-radius:999px;padding:6px 13px;cursor:pointer;transition:background .2s,color .2s}
+  .promptbox .copy{border:1px solid var(--linen);background:var(--porcelain);color:var(--text-soft)}
+  .promptbox .copy:hover{color:var(--gold-deep);border-color:var(--gold)}
+  .codebox .copy{border:1px solid rgba(255,255,255,.16);background:var(--espresso);color:var(--text-fog)}
+  .codebox .copy:hover{color:var(--gold-bright)}
+  .fig{margin:32px 0 0}
+  .fig img{width:100%;display:block;border-radius:16px;border:1px solid var(--linen);box-shadow:0 12px 36px rgba(20,16,8,.14);background:#fff}
+  .fig figcaption{font-size:12.5px;color:var(--text-soft);margin-top:11px;letter-spacing:.03em;max-width:760px}
+  .prose .tablewrap table{margin-top:24px}
+  @media(max-width:640px){.stephead .num{font-size:44px}.stephead h3{font-size:23px}.promptbox pre,.codebox pre{font-size:12.2px;padding:22px 18px 18px}}
+</style>
+<link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="wm-link" href="index.html"><div class="wm">Prompt <em>Atelier</em></div></a>
+    <div class="links">
+      <a href="index.html#craft">The Craft</a>
+      <a href="index.html#cases">Case Studies</a>
+      <a href="about.html">About</a>
+      <span class="nav-soc"><a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></span>
+    </div>
+  </nav>
+  <div class="hero">
+    <div class="kicker">Tutorial &middot; Claude Code &middot; Motion Design</div>
+    <h1>How to make a beat-synced motion reel <em>with Claude</em></h1>
+    <p class="standfirst">Every prompt, command and fix for making a 30-second, 60&nbsp;fps motion reel in Claude Code: style guide, music edit, storyboard, animatic, and a final render checked frame by frame.</p>
+    <div class="meta">
+      <div><b>Runtime</b>30s &middot; 1080p60 &middot; 1,800 frames</div>
+      <div><b>Shots</b>9 &middot; a new technique each</div>
+      <div><b>Music</b>Suno, cut on bar lines</div>
+      <div><b>Made in</b>Claude Code &middot; Opus 5.5</div>
+      <div><b>Frames</b>every one written in code</div>
+    </div>
+    <div class="video-shell" id="film">
+      <video controls loop preload="metadata" poster="tutorial-claude-motion-reel/poster.jpg" playsinline>
+        <source src="tutorial-claude-motion-reel/motion-reel.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="figcap"><b>The finished film</b> &mdash; thirty seconds, with sound. Everything below is how to make your own.</div>
+  </div>
+  <section class="prose">
+    <div class="kicker">The result</div>
+    <h2>What you'll make</h2>
+    <p>A 30-second showreel in nine shots. Each shot uses a different motion technique: kinetic type, a lit 3D object, a shader, a paper fold into 3D, a camera flight, an editorial grid, a UI morph, a type crescendo and an end card. One clay-coloured shape carries through every cut, from the O of "MOTION" to a gyroscope ring, a dot grid, a cube face, a button, a full stop, and finally the aperture that reveals the Claude logo. The edit is cut to a real music track, starts on its drop, lands the logo on its final hit, and loops without a seam. It's delivered as a 1920×1080, 60 fps H.264 MP4 with AAC audio at −14 LUFS (the loudness streaming platforms normalise to). There's no video model and no editing software: every frame is drawn by code that Claude writes.</p>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/nine-shots.jpg" alt="one key frame from each of the nine shots" loading="lazy"><figcaption>One key frame from each of the nine shots</figcaption></figure>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/s03-field.jpg" alt="S03 in motion: the rings as a halftone, marbled into one eye, re-screened by a print head into an even dot grid" loading="lazy"><figcaption>S03 in motion: the rings as a halftone, marbled into one eye, re-screened by a print head into an even dot grid</figcaption></figure>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/s04-fold.jpg" alt="S04 in motion: the printed sheet is scored, tilts into perspective and folds into a cube" loading="lazy"><figcaption>S04 in motion: the printed sheet is scored, tilts into perspective and folds into a cube</figcaption></figure>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/s09-endcard.jpg" alt="S09 in motion: the full stop pulses rings on the build, then opens onto the logo on the final hit" loading="lazy"><figcaption>S09 in motion: the full stop pulses rings on the build, then opens onto the logo on the final hit</figcaption></figure>
+  </section>
+  <section class="prose">
+    <div class="kicker">Before you start</div>
+    <h2>What you need</h2>
+    <p><strong>Claude</strong></p>
+    <ul><li>A <strong>Claude Pro</strong> plan. That's what this project used.</li><li><strong>Claude Code</strong>, in the Claude desktop app's <strong>Code</strong> tab, with your project folder open. (The terminal version works too.)</li><li><strong>Opus 5.5</strong> as the model. Set effort to <strong>max</strong>: I switched to max when the storyboard began, and I'd start there next time.</li></ul>
+    <p><strong>Software</strong> (the versions this project ran on, on Windows 11)</p>
+    <div class="tablewrap"><table><thead><tr><th>Tool</th><th>Version</th><th>What it does here</th></tr></thead><tbody><tr><td>Node.js</td><td>22.18.0</td><td>Runs the render and the local preview server</td></tr><tr><td>Python</td><td>3.12.6</td><td>Analyses the music and builds the review sheets</td></tr><tr><td>ffmpeg</td><td>8.1.1</td><td>Encodes the frames into an MP4, cuts and masters the audio</td></tr><tr><td>Playwright</td><td>1.63.0</td><td>Drives a <strong>headless browser</strong>, a copy of Chrome with no window, frame by frame</td></tr><tr><td>three.js</td><td>0.186.1</td><td>The 3D shots (a JavaScript library for WebGL, the browser's 3D graphics)</td></tr><tr><td>numpy, scipy, librosa, soundfile, Pillow</td><td>2.1.1, 1.16.1, 1.0.0, 0.14.0, 11.3.0</td><td>Beat detection, motion measurement, contact sheets</td></tr></tbody></table></div>
+    <p>Install once:</p>
+    <div class="codebox"><span class="lbl">Terminal</span><button class="copy" type="button">Copy</button><pre># Windows (winget): Node, Python and ffmpeg
+winget install OpenJS.NodeJS.LTS
+winget install Python.Python.3.12
+winget install Gyan.FFmpeg
+
+# macOS (Homebrew)
+brew install node python ffmpeg
+
+# then, in your project folder, on either system
+npm init -y &amp;&amp; npm pkg set type=module
+npm i -D playwright three
+npx playwright install chromium
+pip install numpy scipy librosa soundfile pillow</pre></div>
+    <p><strong>Your own inputs</strong></p>
+    <ul><li>Your logo files, ideally SVG or large PNG. Use the official files; don't let Claude redraw a logo.</li><li>Your name or credit line.</li><li>A music track. Mine was made in Suno (the prompt is in Step 5). The music is the one thing in this project not made in Claude; if you want Claude to do literally everything, ask it to compose a score in code instead.</li><li>Optionally, a reference for the level of polish you want. I used <a href="https://whatships.com/" target="_blank" rel="noopener">whatships.com</a>, a directory of product launch films.</li></ul>
+    <p><strong>Time:</strong> plan for a long session with pauses for your review. Rendering is the slowest part, and its speed depends on your computer's graphics, so I won't give a number.</p>
+  </section>
+  <section class="prose">
+    <div class="kicker">How it works</div>
+    <h2>The one idea to understand first</h2>
+    <p>Claude can't output a video file, but it can write a web page. In this workflow, the film <em>is</em> a web page with one function, <code>seek(t)</code>, that paints the exact picture for any moment <code>t</code>. A script then asks a headless browser for frame after frame, photographs each one, and hands the photos to ffmpeg, a free command-line video tool, which encodes them into an MP4. Because every frame is computed from <code>t</code> alone, the same frame always comes out identical. That lets you re-render one shot without touching the rest.</p>
+    <p>The idea of a film as a function of time, captured frame by frame, comes from Movez's <a href="https://x.com/0xMovez/article/2104216919033192746" target="_blank" rel="noopener">How to build motion design studio with Opus 5.5</a>, and this project's starter scripts came from it. This article is about what I changed on top of it.</p>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/pipeline.png" alt="this project&#x27;s pipeline: index.html → render.mjs → averaging → ffmpeg → final.mp4, with the music joining at the encode" loading="lazy"><figcaption>This project's pipeline: index.html → render.mjs → averaging → ffmpeg → final.mp4, with the music joining at the encode</figcaption></figure>
+    <p>The heart of it is the <code>draw</code> function in <code>index.html</code>:</p>
+    <div class="codebox"><span class="lbl">JavaScript</span><button class="copy" type="button">Copy</button><pre>// index.html (simplified). t: the instant to paint. tf: the start of the frame it belongs to.
+function draw(t, tf = t) {
+  for (const s of SCENES) {
+    const on = tf &gt;= s.from &amp;&amp; tf &lt; s.to;          // the frame's start decides which shot is on
+    if (s.root) s.root.style.display = on ? 'block' : 'none';
+    if (on) s.draw(t - s.from, ctx, t, tf);        // each shot draws itself from its own local time
+  }
+}
+window.seek = (t, tf) =&gt; { draw(t, tf ?? t); return true; };</pre></div>
+    <p>The <code>tf</code> part came late, from a bug in the final render. Step 11 explains why it matters.</p>
+  </section>
+  <section class="prose">
+    <div class="kicker">The build</div>
+    <h2>The build, step by step</h2>
+    <p>Every step below has the same four parts: the goal, the prompt to paste, what you should get back and how to check it, and the most likely problem with a fix prompt.</p>
+    <div class="stephead"><span class="num">1</span><h3>Set up the folder and the tools</h3></div>
+    <p><strong>Goal:</strong> a folder where Claude can build, render and check its own work.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Set up this folder for a motion graphics project made entirely in code. Check what's installed on this [Windows / Mac] machine: Node 22 or newer, Python 3.11 or newer, ffmpeg, and Chromium for Playwright. Install whatever is missing (npm: playwright and three; pip: numpy, scipy, librosa, soundfile and pillow), create the folders assets/, audio/, refs/, docs/, generated/ and out/, and tell me exactly what you installed and which versions you found. Don't write any animation yet.</pre></div>
+    <p><strong>What you should get:</strong> a short report with version numbers, a <code>package.json</code>, a <code>node_modules</code> folder, and the empty folders. <strong>Check:</strong> run <code>node -v</code>, <code>ffmpeg -version</code> and <code>python -c "import librosa; print(librosa.__version__)"</code> yourself.</p>
+    <p><strong>Likely problem:</strong> setup instructions written for a Mac, using Homebrew, on a Windows machine. That happened here: the starter folder's setup script only knew <code>brew</code>.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The setup script uses Homebrew, which I don't have. Do the same steps with the tools on this machine (winget, npm and pip), then prove each one runs by printing its version.</pre></div>
+    <div class="stephead"><span class="num">2</span><h3>Write the project rules and prove the engine works</h3></div>
+    <p><strong>Goal:</strong> a rules file Claude reads every session, and a two-second test that renders identically twice.</p>
+    <p>Claude Code reads a file called <code>CLAUDE.md</code> at the start of every session, so rules you put there apply to every scene without you repeating them. Movez's article has a longer rules file; these are the rules that mattered in this build, in my words.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Create CLAUDE.md with the rules every scene in this project must follow:
+- The film is a function of time: window.seek(t) draws the frame at time t completely, on its own. No timers, no CSS transitions, no requestAnimationFrame, nothing carried over from the last frame.
+- Randomness only from a seeded generator, so a frame renders the same every time.
+- Motion uses closed-form springs (a formula that gives the position at any moment), with at most a tiny overshoot. No bouncy easing.
+- Fonts are loaded before the first frame. Logos are used as supplied, never redrawn.
+- Looks to avoid: titles centred on a gradient, fades used as transitions, text parked in corners, glow on interface elements, dead time.
+- Stop and wait for me after the style guide and shot list, after the storyboard, after the animatic, and before the final render.
+- Before showing me anything, check your work on review sheets: a contact sheet and a phone-size sheet.
+
+Then build the smallest working engine: index.html with one placeholder scene and window.seek(t); tools/render.mjs, which steps through time in headless Chromium with Playwright and pipes frames to ffmpeg (H.264, yuv420p, CRF 16), with optional motion blur from several samples per frame; and tools/beats.py, which measures a track's tempo, beats and downbeats with librosa into docs/beats.json. Render the same 2 seconds twice and show me that the two files are identical.</pre></div>
+    <p><strong>What you should get:</strong> <code>CLAUDE.md</code>, <code>index.html</code>, <code>tools/render.mjs</code>, <code>tools/beats.py</code>, a spring helper, and two identical test renders. <strong>Check:</strong> open <code>index.html</code> in a browser and you should see the placeholder animating; the two test files should have the same hash.</p>
+    <p><strong>Likely problem:</strong> ES modules and 3D code refuse to load from a file opened straight from disk (<code>file://</code>), so the render hangs or the page is blank.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The page doesn't load when opened from disk. Add a tiny local web server to tools/ and make the renderer and my previews use it instead of file:// paths.</pre></div>
+    <div class="stephead"><span class="num">3</span><h3>Brief Claude and set the stop points</h3></div>
+    <p><strong>Goal:</strong> a written look and a timed plan before a single animation exists.</p>
+    <p>This is where I departed most from the one-prompt showreels. The RoboNuggets guide (<a href="https://www.youtube.com/watch?v=YKFpSe28mlg" target="_blank" rel="noopener">The 3 Levels of AI Motion Graphics</a>) shows how far a single line gets you, and why storyboarding and directing take you further. I went straight to the directed route, with four stops where I could say no.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>You're the designer, animator and render engineer on a [30]-second, 16:9 motion piece that [shows what I can do as a motion designer / launches my product, name and one line]. It ends on "[end card text]" with [my name or credit line] underneath, using the logo files in ./assets as supplied.
+
+Format: 1920×1080, 60 fps, H.264 MP4 with the music, rendered with motion blur. Shots: [8 to 10] shots, each a different technique ([list them: e.g. kinetic type, a lit 3D object, a shader, a 2D-to-3D fold, a camera move through space, an editorial grid, a UI morph]), 2 to 4 seconds each, cutting on the beat. The first 2 seconds must be the strongest image; the last frame must lead back into the first so it loops.
+
+Start with docs/style_guide.md (palette in hex, fonts, spring settings, how text enters and exits, which transitions are allowed) and docs/shotlist.md (for every shot: frames, technique, camera, text, the beat it lands on). Then stop and show me both, with a list of anything you need from me.</pre></div>
+    <p><strong>What you should get:</strong> two documents. The style guide in this project named a concept, "One Mark": one clay-coloured shape that becomes something new in every shot, joined by <strong>match cuts</strong> (cuts where a shape in the outgoing shot lines up with a shape in the incoming one). The shot list gave every shot a start frame, an end frame, a technique and a beat.</p>
+    <p><strong>Check:</strong></p>
+    <ul><li>Every colour is a hex value, not a word.</li><li>Every shot starts and ends on a beat.</li><li>Every transition is named.</li><li>There's a reason given for each choice.</li></ul>
+    <p><strong>Likely problem:</strong> a shot list full of defaults, with fades between shots and a title centred on a gradient.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>This shot list relies on fades and a centred title. Rewrite it so every transition is a match cut, a morph, a whip or a hard cut on a beat, and tell me the shape that carries across each cut.</pre></div>
+    <div class="stephead"><span class="num">4</span><h3>Choose a palette built around the logo</h3></div>
+    <p><strong>Goal:</strong> a palette that makes the logo look like the destination, not an add-on.</p>
+    <p>Claude's first proposal was dark: ink, paper and the logo's clay. It was tasteful but heavy. I wanted the film bright and beautiful while still ending on the Claude logo, whose colour can't change, so I asked for options built around that constraint.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The end card uses [brand] logo in its own colour, [hex, e.g. clay #D97757], which can't change. I want the film to feel [bright and beautiful]. Suggest three palettes built around the logo's colour. For each: 5 to 6 hex values with the role of each one, the pairs that must never touch, and a small mock-up showing where the logo lands. Recommend one and say why.</pre></div>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/palette-options.png" alt="the three palettes Claude proposed; A, &quot;Sunlit studio&quot;, was chosen" loading="lazy"><figcaption>The three palettes Claude proposed; A, "Sunlit studio", was chosen</figcaption></figure>
+    <p><strong>What changed in the result:</strong> palette A puts electric cobalt (<code>#2E3BFF</code>) next to the logo's clay (<code>#D97757</code>). Cobalt is clay's complementary colour, so every time the clay shape lands on it, it glows without being altered. The rule that made it work: clay is reserved for the protagonist and the logo, and nothing else in the film is that colour.</p>
+    <p><strong>Check:</strong> ask for the "never together" pairs to be written into the style guide. In this project that meant butter on cream (too little contrast) and small clay text on cobalt (it vibrates).</p>
+    <p><strong>Likely problem:</strong> the palette lands in the style guide but the scenes keep old colours.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Put the palette in one place (a single tokens object every scene imports), remove every hard-coded colour from the scenes, and re-render one still per shot so I can see it applied.</pre></div>
+    <div class="stephead"><span class="num">5</span><h3>Make the music, then let it set the clock</h3></div>
+    <p><strong>Goal:</strong> a track with energy, and a 30-second edit of it that every cut obeys.</p>
+    <p>My first two Suno tracks were wrong: one cartoony, one techno. The words in the prompt were the problem. Marimba and "playful" pull towards children's television; "sub pulses" and "clockwork percussion" pull towards a club. For a reel, name a genre with live drums and a riff, and push the tempo up. This is the Suno prompt that made the final track, used as written:</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Style:
+Instrumental high-energy big beat, 130 BPM, huge live breakbeat drums, fuzzy distorted bass riff, gritty electric guitar power chords, bright brass stabs, hand claps, crowd-hype energy, bold and swaggering, punchy and loud, stadium energy from the first second, no intro
+
+Exclude:
+vocals, lyrics, techno, house, minimal, ambient, pads, cartoon, children, kalimba, ukulele, orchestral trailer, slow intro, fade in, lo-fi
+
+Structure (with Instrumental on):
+[Instrumental]
+[Intro: full band hits immediately]
+[Main riff]
+[Build: drum fill, rising energy]
+[Drop: biggest riff, full power]
+[Break: sudden stop]
+[Outro: one final big hit, ring out]</pre></div>
+    <p>Suno returned a three-minute song. The <strong>drop</strong> (the moment the full band crashes back in) came more than two minutes in, so Claude had to find the best 30 seconds and cut them without damaging the music.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The music is audio/[track].wav. Measure its tempo, beats and bars, and find the biggest drop and the final big hit. Build a [30]-second edit without changing the music itself: cut only on bar lines, with short crossfades so the splices don't click. Start the film on the drop and land the logo on the final hit. Make the last beat lead back into the first so the loop is seamless. Master it to −14 LUFS, save the beat grid to docs/beats.json, and re-time the shot list to it.</pre></div>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/song-map.png" alt="the whole track with the used sections in cobalt, and the 30-second edit with its bar grid and the loudness under each shot" loading="lazy"><figcaption>The whole track with the used sections in cobalt, and the 30-second edit with its bar grid and the loudness under each shot</figcaption></figure>
+    <p><strong>What you should get:</strong> <code>audio/edit.wav</code> (exactly 30.000 s), a mastered copy, <code>docs/beats.json</code> and a re-timed shot list. This track measured 132.6 <strong>BPM</strong> (beats per minute), so one bar of four beats lasts 1.81 seconds, and every shot became 1, 1.5 or 2 bars long. The edit plays 13 bars from the drop, splices into the bar before the song's final hit (which lands at 0:25.34, on the logo), and ends on the song's own lead-in to the drop.</p>
+    <p>The edit is a few lines of Python:</p>
+    <div class="codebox"><span class="lbl">Python</span><button class="copy" type="button">Copy</button><pre># tools/cut_track.py (simplified). P = one beat in seconds, fitted over the part of the song used.
+BAR = 4 * P
+put(film_t=0.0,        song_t=DROP,       length=13 * BAR)   # 0:00 is the drop, for 13 bars
+put(film_t=13 * BAR,   song_t=HIT - BAR,  length=rest)       # then the bar before the final hit
+put(film_t=30.0 - P,   song_t=DROP - P,   length=P)          # last beat = the song's lead-in: seamless loop</pre></div>
+    <p><strong>Check:</strong></p>
+    <ul><li>Play the edit and listen at each splice.</li><li>Check the logo moment in the shot list matches the final hit.</li><li>Confirm loudness with <code>ffmpeg -i audio/master.wav -af ebur128 -f null -</code> (look for <code>I: -14.0 LUFS</code>, give or take a tenth).</li></ul>
+    <p><strong>Likely problem:</strong> the beat tracker's tempo is slightly off over three minutes, so cuts drift away from the drums.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The cuts drift off the drums. Fit the beat period only over the section of the song the edit uses, check that the drop and the final hit fall on the grid to within one frame, and rebuild the edit.</pre></div>
+    <div class="stephead"><span class="num">6</span><h3>Storyboard from real code</h3></div>
+    <p><strong>Goal:</strong> see every shot in its final look before anything moves, and comment on it precisely.</p>
+    <p>The idea of a storyboard you comment on by clicking the frame comes from the RoboNuggets guide. My addition was to build every still from the film's real scene code, not a mock-up, so what I approved was what would move.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Next stop: the storyboard. Build every shot as real scene code in its final look, and render one still per shot at 1920×1080. No animation yet. Put the stills in order on storyboard.html, each with its shot number, start and end time, technique, and two sentences on what moves. Let me click anywhere on a still to pin a note that records the shot, the time and where I clicked (as % across and % down), and give me one button that copies every note as a single list. Make the page work when I double-click it: embed the images and fonts in the file. Critique the stills yourself for three rounds before you show me, and log the scores in docs/review_log.md.</pre></div>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/storyboard-page.jpg" alt="the storyboard page with notes pinned to the S01 still (recreated from the notes I gave in chat)" loading="lazy"><figcaption>The storyboard page with notes pinned to the S01 still (recreated from the notes I gave in chat)</figcaption></figure>
+    <p><strong>What you should get:</strong> one self-contained <code>storyboard.html</code> and a review log. Copy all produces lines like this:</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>S01 (0:00.00–0:01.81) · pin 1 at 48% across, 42% down: Keep MOTION on the hook, but make the slice far more violent</pre></div>
+    <p>The three self-critique rounds do real work. Here's what they did to the opening shot alone:</p>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/hook-evolution.jpg" alt="the hook in three versions: seven bands (read as a glitch), three slices (ghosted letters), one cut with a blade line (final)" loading="lazy"><figcaption>The hook in three versions: seven bands (read as a glitch), three slices (ghosted letters), one cut with a blade line (final)</figcaption></figure>
+    <p>In the 3D shot, the first rings looked like a baby's stacking toy. They became machined, lacquered washers in a gyroscope pose.</p>
+    <p><strong>Check:</strong></p>
+    <ul><li>The page opens offline.</li><li>A pin records its position.</li><li>The copied list names the shot and time for every note.</li><li><code>docs/review_log.md</code> shows scores and the three worst problems per round.</li></ul>
+    <p><strong>Likely problem:</strong> the page opened from disk shows the wrong fonts, because browsers block font files loaded from <code>file://</code>.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The storyboard shows fallback fonts when I double-click it. Inline the font files and the stills into storyboard.html as data, so it works from disk and can be shared as one file.</pre></div>
+    <div class="stephead"><span class="num">7</span><h3>Ask for a critic, not an approval</h3></div>
+    <p><strong>Goal:</strong> find what separates "good" from agency-level before you polish the wrong thing.</p>
+    <p>The storyboard looked good, and that's the danger point. Instead of approving it, I asked Claude to review it as a senior motion designer. This was my addition to the workflow, and it changed more than any other prompt.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Act as a senior motion designer reviewing this storyboard for a top studio. Be specific and unsentimental: what stops this from being an agency-level reel? Measure the music under each shot and check that the energy of the picture matches it. Look for transitions that repeat, anything that talks about itself too much, a hook that's too polite, and anything that will break on a phone or after compression (thin lines, fine patterns, thin type on saturated colour). Score it, rank the fixes, and don't change anything yet.</pre></div>
+    <p><strong>What came back here:</strong></p>
+    <ul><li><strong>Pacing:</strong> it scored the board about 7 out of 10, and its sharpest note was measured, not a matter of taste. The busiest shot, a sequence of whip pans through a wall of panels, sat on the song's breakdown, where the kick drum drops out (−19.0 dB against about −16.5 dB elsewhere; see the song map above).</li><li><strong>Repetition:</strong> three push-in transitions in a row.</li><li><strong>Self-reference:</strong> four shots that talked about the film itself.</li><li><strong>The hook:</strong> a hook that was too polite for a big-beat drop.</li><li><strong>Delivery risks:</strong> a 14-pixel halftone that would shimmer after compression, and 1-pixel grid lines that would vanish on a phone.</li></ul>
+    <p><strong>Check:</strong> every note should point at a shot, a time or a measurement. A review that only says "looks great, maybe tweak the colours" hasn't done the job.</p>
+    <p><strong>Likely problem:</strong> praise instead of critique.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>That's too kind. Score each shot out of 10 on hook, readability at phone size, motion, composition and polish, and name the three weakest moments with their timestamps and what you'd do about each.</pre></div>
+    <div class="stephead"><span class="num">8</span><h3>Apply the notes against a reference</h3></div>
+    <p><strong>Goal:</strong> turn the critique into a better film, on your terms.</p>
+    <p>I accepted the critique with three changes of my own:</p>
+    <ul><li>I kept "MOTION" as the hook; Claude had suggested my surname.</li><li>I put only my name on the end card.</li><li>I refused AI-generated images or footage. The film's own copy says "EVERY FRAME / WRITTEN, / NOT DRAWN.", and one generated shot would have made that untrue.</li></ul>
+    <p>I also gave it a quality bar: the launch films on whatships.com.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Apply your fixes, with these changes of mine: [keep "X" as the hook], [end card: my name only]. Don't use AI-generated images or video; every frame stays code. Aim for the finish of [reference, e.g. the launch films on whatships.com]: take their pacing and polish, never their content. Put your own design studies on any wall of work instead of frames from later in the film. Show me the updated storyboard and list every change you made.</pre></div>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/storyboard-v1.jpg" alt="the storyboard before the critique" loading="lazy"><figcaption>The storyboard before the critique</figcaption></figure>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/nine-shots.jpg" alt="the same nine shots in the final film" loading="lazy"><figcaption>The same nine shots in the final film</figcaption></figure>
+    <p><strong>What changed in the result:</strong></p>
+    <ul><li><strong>S05, the panel wall:</strong> where the kick drops out, it now floats slowly past original design studies with real depth of field, then lands one hard whip exactly on the next shot's first frame.</li><li><strong>S07, the UI:</strong> it sits in the full groove, so one container changes on every beat, and the clay dot itself became the cursor.</li><li><strong>Delivery-proofing:</strong><ul><li>the fine halftone grew from 14 to 16 pixels, and the printed dot grid to 32;</li><li>grid lines went from 1 to 2 pixels;</li><li>no type on cobalt gets thinner than weight 240.</li></ul></li></ul>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/s07-one-container.jpg" alt="S07: one container that never cuts, a new state on every beat, driven by the clay-dot cursor" loading="lazy"><figcaption>S07: one container that never cuts, a new state on every beat, driven by the clay-dot cursor</figcaption></figure>
+    <p>That UI shot is built on one idea from Movez's article: when a value changes target several times, add one spring per change instead of restarting the animation. The container's size is the sum of its springs:</p>
+    <div class="codebox"><span class="lbl">JavaScript</span><button class="copy" type="button">Copy</button><pre>// scenes/s07_interface.js: one container, many states. Each change adds its own spring,
+// so the motion never restarts and any frame can still be drawn on its own.
+for (let i = 1; i &lt; STATES.length; i++) {
+  const k = sp(u - STATES[i][0], 'UI');                  // this change's spring, 0 → 1
+  w   += (STATES[i][1] - STATES[i - 1][1]) * k;          // width
+  h   += (STATES[i][2] - STATES[i - 1][2]) * k;          // height
+  rad += (STATES[i][3] - STATES[i - 1][3]) * k;          // corner radius
+}</pre></div>
+    <p><strong>Check:</strong> compare the "list every change" reply with your notes. Nothing should appear that you didn't ask for or agree to.</p>
+    <p><strong>Likely problem:</strong> "improve everything" drifts into changes you never wanted.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Go through your list of changes against my notes. Revert anything I didn't ask for and you didn't flag in the critique, and show me the storyboard again.</pre></div>
+    <div class="stephead"><span class="num">9</span><h3>The animatic, on the real music</h3></div>
+    <p><strong>Goal:</strong> judge timing and pacing in motion, cheaply, before the expensive render.</p>
+    <p>An <strong>animatic</strong> is a rough, moving version of the film at low resolution. Here it was 960×540 with no motion blur, but already with the real music. Movez's article describes a render, score and fix loop; I kept it for every stop and added the checks that matter once things move.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Render the animatic: 960×540, no motion blur, with the real music. Then check it yourself before showing me: a contact sheet with one frame per beat, a sheet at 360 pixels wide to test phone readability, the last and first frame of every cut side by side, and 12-frame strips around the fastest moves. Score it out of 10, fix the three worst problems, and repeat until nothing scores below 8. Log each round.</pre></div>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/qa-beats.jpg" alt="the contact sheet: one frame per beat, downbeats marked" loading="lazy"><figcaption>The contact sheet: one frame per beat, downbeats marked</figcaption></figure>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/qa-phone.jpg" alt="the phone sheet: the film at 360 pixels wide, once per second" loading="lazy"><figcaption>The phone sheet: the film at 360 pixels wide, once per second</figcaption></figure>
+    <p><strong>What came back:</strong> three rounds of fixes you can't see in stills.</p>
+    <ul><li><strong>Dead starts:</strong> three shots began motionless for up to a second. They now start moving on their first frame, carrying the speed of the shot before.</li><li><strong>An empty pre-logo pause:</strong> the four beats before the logo were a lone dot. The dot now sends out a clay ring on every beat of the build.</li><li><strong>A weak match cut:</strong> the O of MOTION is slightly oval but the 3D ring opened as a perfect circle. Claude measured both, then tilted the ring stack by 22° until the two shapes matched: 417×447 pixels (ratio 0.933) against 436×466 (ratio 0.936).</li></ul>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/shape-match.jpg" alt="frames 108 and 109: the O at the end of S01 and the tilted ring at the start of S02" loading="lazy"><figcaption>Frames 108 and 109: the O at the end of S01 and the tilted ring at the start of S02</figcaption></figure>
+    <p><strong>Check:</strong> watch it with sound. Every hit you hear should have something landing on screen in the same frame.</p>
+    <p><strong>Likely problem:</strong> shots that start still or hold too long.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Find every beat where nothing new happens on screen and every shot that starts motionless. Each shot must be moving on its first frame and change something on every beat. Show me the beats you fixed.</pre></div>
+    <div class="stephead"><span class="num">10</span><h3>Review it like an editor</h3></div>
+    <p><strong>Goal:</strong> give notes on the moving film, at the exact moment and spot, including sound and trims.</p>
+    <p>A review page for notes on the video itself is another idea from the RoboNuggets guide. This is my version of the request.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Build review.html for this film: play and pause, 1× and 2× speed, a scrubbable timeline showing the shots and the beat grid, click on the picture to pin a note at the current time and spot, notes about the sound at the current time, drag handles on each shot to ask for a trim, and one button that copies every note and trim as a list with timestamps. Serve it through the local server.</pre></div>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/review-page.jpg" alt="the review page paused on S07, with a pinned note, a sound note and a trim request on S03 (example notes)" loading="lazy"><figcaption>The review page paused on S07, with a pinned note, a sound note and a trim request on S03 (example notes)</figcaption></figure>
+    <p><strong>Check:</strong> the video seeks when you click the timeline, and a pin appears only near its moment. Copy all should give lines like <code>0:17.90 · S07 · pin at 40% across, 36% down: …</code> and <code>S03 · trim …</code>.</p>
+    <p><strong>Likely problem:</strong> the video plays but won't seek.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The video won't jump when I click the timeline. Make the local server answer byte-range requests (HTTP 206), so the browser can seek.</pre></div>
+    <div class="stephead"><span class="num">11</span><h3>The final render, checked frame by frame</h3></div>
+    <p><strong>Goal:</strong> a master you can publish, and proof that it's clean.</p>
+    <p>My first final render passed a quick look, but it failed a frame-by-frame check. Three problems would have gone out to the world. The prompt below names each one, because a vague "check it" won't find them.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>It's approved: render the final. 1920×1080, 60 fps, motion blur, the mastered music, H.264 with BT.709 colour tags. Render in segments so an interruption only costs one segment. Before you hand it over, check it frame by frame:
+- no frame may blend two shots at a cut (check the last and first frame of every cut);
+- fast moves must blur smoothly, with no stepped copies (strips of 12 frames on the fastest moves);
+- the loop seam must be continuous (render the film twice back to back);
+- decode a frame in a browser and compare the brand colours with their hex values;
+- confirm 1,800 frames, 30.00 seconds and −14 LUFS.
+Tell me what you checked and what you fixed.</pre></div>
+    <p>These were the three failures in my first render.</p>
+    <p><strong>1. Flash frames at cuts.</strong> Motion blur averages several samples taken during a frame. When a cut fell between samples, one frame mixed two shots. At the cut from the cobalt UI to the clay type, that made a single purple frame.</p>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/flash-frame.jpg" alt="the S07→S08 cut, frames 1193–1195: the first render&#x27;s purple blend frame, and the final&#x27;s clean cut" loading="lazy"><figcaption>The S07→S08 cut, frames 1193–1195: the first render's purple blend frame, and the final's clean cut</figcaption></figure>
+    <p>The fix is the <code>tf</code> in <code>draw</code> at the top of this article. Every sample is painted with the shot its frame <em>starts</em> in, so cuts always land between frames. Instant changes inside a shot got the same treatment: the S08 colour cut, a counter, and a timecode.</p>
+    <p><strong>2. Stepped motion blur.</strong> Four samples per frame were far too few for fast springs. The layout slam in S06 showed four distinct ghost copies instead of a blur.</p>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/stepped-vs-smooth.jpg" alt="S06 frame 873: four ghost copies in the first render, one smooth blur in the final" loading="lazy"><figcaption>S06 frame 873: four ghost copies in the first render, one smooth blur in the final</figcaption></figure>
+    <p>The fix has two parts:</p>
+    <ul><li><strong>A 180° shutter.</strong> The <strong>shutter angle</strong> says how much of each frame's interval the "camera" records; 180° is the film standard, and it halves the smear.</li><li><strong>Measured sample counts.</strong> Claude measured how far things move in every frame of the animatic, then gave each frame 4, 8 or 16 samples, enough to keep each step of the blur under 4 pixels.</li></ul>
+    <div class="codebox"><span class="lbl">Python</span><button class="copy" type="button">Copy</button><pre># tools/motion_map.py: how many samples does a frame need?
+blur = motion_px * 0.5                                  # a 180° shutter records half a frame's travel
+n = 4 if blur &lt;= 16 else 8 if blur &lt;= 32 else 16        # keep each step of the blur under 4 px</pre></div>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/motion-map.png" alt="motion per frame across the whole film; 1,346 calm frames at 4 samples, 270 at 8, 184 fast frames at 16" loading="lazy"><figcaption>Motion per frame across the whole film; 1,346 calm frames at 4 samples, 270 at 8, 184 fast frames at 16</figcaption></figure>
+    <p><strong>3. Colours that shifted in the browser.</strong> ffmpeg, by default, converted the frames with the colour maths meant for old standard-definition video and left the file untagged. Browsers assume the high-definition standard, <strong>BT.709</strong>, so cobalt drifted green and clay turned orange. Converting and tagging the file as BT.709 fixed it. The check was done in a browser, where your viewers actually watch:</p>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/colour-check.png" alt="design hex vs the untagged first render vs the BT.709-tagged final, as decoded in a browser" loading="lazy"><figcaption>Design hex vs the untagged first render vs the BT.709-tagged final, as decoded in a browser</figcaption></figure>
+    <p>The render loop that came out of all this is short:</p>
+    <div class="codebox"><span class="lbl">JavaScript</span><button class="copy" type="button">Copy</button><pre>// tools/render.mjs (simplified): n samples per frame over a 180° shutter, averaged into one frame
+for (const f of FRAMES) {
+  const tf = f / FPS, n = subAt(f);                     // 4, 8 or 16, from the motion map
+  acc.fill(0);
+  for (let s = 0; s &lt; n; s++) {
+    await page.evaluate(([t, tf]) =&gt; window.seek(t, tf), [tf + (s / n) * (0.5 / FPS), tf]);
+    accumulatePNG(await capture(), acc);                // add this sample to the running total
+  }
+  for (let j = 0; j &lt; acc.length; j++) frame[j] = Math.round(acc[j] / n);   // the average is the blur
+  await send(frame);                                    // one finished frame to ffmpeg
+}</pre></div>
+    <p><strong>What you should get:</strong> <code>out/final.mp4</code> and a list of passed checks.</p>
+    <figure class="fig"><img src="tutorial-claude-motion-reel/qa-cuts.jpg" alt="the last and first frame of every cut in the final, plus the loop seam: no blends" loading="lazy"><figcaption>The last and first frame of every cut in the final, plus the loop seam: no blends</figcaption></figure>
+    <p><strong>Likely problem:</strong> the render dies partway through a long run. It happened three times here: twice when the session ended mid-render, and once when three heavy 3D segments running together stalled the graphics chip.</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The render keeps stopping. Make it resumable: split the film into segments, skip segments that are already finished, retry a stalled capture on a fresh browser, and never run more than one heavy 3D segment at a time.</pre></div>
+  </section>
+  <section class="prose">
+    <div class="kicker">Export</div>
+    <h2>Rendering and export</h2>
+    <p>The commands this project used, run from the project folder:</p>
+    <div class="codebox"><span class="lbl">Terminal</span><button class="copy" type="button">Copy</button><pre># the animatic: 960×540, no motion blur, with the music
+node tools/render.mjs --sub 1 --whip 1 --scale 0.5 --fmt jpeg --audio audio/master.wav --out out/animatic.mp4
+
+# the final master: segments, 180° shutter, 4–16 samples per frame, music added at the end
+node tools/render_final.mjs
+
+# re-render one shot only: S05 is frames 652–814, so --from 652/60 and --dur 163/60
+node tools/render.mjs --from 10.8667 --dur 2.7167 --map docs/motion_map.json --shutter 0.5 --out out/s05.mp4
+
+# checks, loop test, poster, contact and phone sheets
+python tools/deliver.py</pre></div>
+    <p>The encode settings inside the renderer: H.264 at CRF 16 (CRF is quality; lower means better and bigger), converted and tagged as BT.709:</p>
+    <div class="codebox"><span class="lbl">Terminal</span><button class="copy" type="button">Copy</button><pre>ffmpeg -f rawvideo -pix_fmt rgb24 -s 1920x1080 -framerate 60 -i - \
+  -vf "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=tv" \
+  -c:v libx264 -crf 16 -preset slow -movflags +faststart out/segment.mp4</pre></div>
+    <p>Mastering the music to −14 LUFS takes two passes of ffmpeg's <code>loudnorm</code> filter. The first measures:</p>
+    <div class="codebox"><span class="lbl">Terminal</span><button class="copy" type="button">Copy</button><pre>ffmpeg -i audio/edit.wav -af loudnorm=I=-14:TP=-1:LRA=11:print_format=json -f null -</pre></div>
+    <p>The second applies the measured values in linear mode, so the music isn't squashed:</p>
+    <div class="codebox"><span class="lbl">Terminal</span><button class="copy" type="button">Copy</button><pre>ffmpeg -i audio/edit.wav -af "loudnorm=I=-14:TP=-1:LRA=11:measured_I=[I]:measured_TP=[TP]:measured_LRA=[LRA]:measured_thresh=[thresh]:offset=[offset]:linear=true" -ar 48000 -c:a pcm_s24le audio/master.wav</pre></div>
+    <p>Lighter copies for the web, a preview GIF and a loop check:</p>
+    <div class="codebox"><span class="lbl">Terminal</span><button class="copy" type="button">Copy</button><pre># a 1080p copy for the web (about 20 MB here); the BT.709 tags carry over
+ffmpeg -i out/final.mp4 -c:v libx264 -preset slow -crf 21 -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart final-web-1080p.mp4
+
+# the hero GIF: the first 5.43 s at 15 fps, 640 px wide, with an optimised palette
+ffmpeg -t 5.43 -i out/final.mp4 -vf "fps=15,scale=640:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=160:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=4:diff_mode=rectangle" hero-loop.gif
+
+# play it twice back to back to check the loop seam
+ffmpeg -stream_loop 1 -i out/final.mp4 -c copy out/loop_check.mp4</pre></div>
+    <h3 class="sub">Formats for social</h3>
+    <div class="tablewrap"><table><thead><tr><th>Where</th><th>Size</th><th>Aspect</th><th>How to get it</th></tr></thead><tbody><tr><td>Website, YouTube, X, LinkedIn</td><td>1920×1080</td><td>16:9</td><td>The master as rendered</td></tr><tr><td>Square feed posts</td><td>1080×1080</td><td>1:1</td><td>Re-lay out each shot (don't crop)</td></tr><tr><td>Reels, TikTok, Shorts</td><td>1080×1920</td><td>9:16</td><td>Re-lay out each shot (don't crop)</td></tr></tbody></table></div>
+    <p>For every version: H.264 High profile, <code>yuv420p</code>, 60 fps (or 30 if a platform insists), AAC 48 kHz, −14 LUFS, and BT.709 tags.</p>
+    <p>Don't crop the 16:9 master into the other formats. In this film the type in S08 is set from the left edge of the grid, so a centre crop would slice words in half. Ask for a re-layout from the same timeline instead:</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Make a [9:16, 1080×1920] version from the same timeline. Keep the music edit and every cut on the same beats, but re-lay out each shot for the new frame: reposition and resize type and objects rather than cropping. Keep text and the logo clear of the top [250] and bottom [400] pixels, where apps put their buttons. Show me one still per shot before you render.</pre></div>
+  </section>
+  <section class="prose">
+    <div class="kicker">Variations</div>
+    <h2>Making it your own</h2>
+    <p>Everything that defines the look lives in a few named places, so changes are cheap:</p>
+    <div class="tablewrap"><table><thead><tr><th>What to change</th><th>Where it lives</th><th>In this project</th></tr></thead><tbody><tr><td>Colour</td><td><code>scenes/common.js</code> → the <code>C</code> tokens</td><td>cream, cobalt, clay, butter, sky, ink</td></tr><tr><td>Type</td><td><code>index.html</code> (<code>@font-face</code>) and <code>fvs()</code> in <code>scenes/common.js</code></td><td>Fraunces (display) and Geist (interface)</td></tr><tr><td>Tempo and grid</td><td><code>docs/beats.json</code> → <code>BEAT</code>, <code>BAR</code> in <code>scenes/common.js</code></td><td>132.6 BPM; one bar = 1.81 s</td></tr><tr><td>Shot timing</td><td>Each scene's <code>from</code> and <code>to</code>, in bars</td><td>1 to 2 bars per shot</td></tr><tr><td>Easing</td><td>The spring presets <code>SP</code> in <code>scenes/common.js</code></td><td>SNAP, STD, UI, HEAVY</td></tr><tr><td>Motion blur</td><td><code>--shutter</code> in the renderer, <code>STEP</code> in <code>tools/motion_map.py</code></td><td>180°, 4 px steps</td></tr></tbody></table></div>
+    <div class="codebox"><span class="lbl">JavaScript</span><button class="copy" type="button">Copy</button><pre>// scenes/common.js: the palette, the beat grid and the four springs every shot uses
+export const C = { cream: '#FFF6EA', cobalt: '#2E3BFF', clay: '#D97757', butter: '#FFD34E',
+                   sky: '#A8D8FF', ink: '#141413', creamShade: '#F1E4D0', hair: '#C9BBA6' };
+export const BEAT = 0.452414, BAR = 4 * BEAT;          // measured from the track: 132.62 BPM
+const SP = { SNAP: [420, 40], STD: [170, 26], UI: [300, 30], HEAVY: [60, 15.5] };   // [stiffness, damping]
+export const sp = (t, name = 'STD') =&gt; spring(t, SP[name][0], SP[name][1]);</pre></div>
+    <p>A <strong>spring</strong> here is two numbers: stiffness (how hard it pulls towards the target) and damping (how quickly it stops wobbling). SNAP is fast with no overshoot, for type and colour blocks. UI allows about 0.4% overshoot, for interface elements. HEAVY is slow, for the 3D camera.</p>
+    <p>A prompt for each kind of variation:</p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Colour: Change the palette to [5–6 hex values, with roles]. Keep [logo colour] reserved for the protagonist shape and the logo only. Check every text-on-background pair for contrast, update the style guide, and re-render one still per shot.</pre></div>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Type: Change the display face to [font] and the interface face to [font], both variable fonts with open licences. Download them into assets/fonts with their licence files, keep every size readable in the 360-pixel phone sheet, and show me S01 and S08 before and after.</pre></div>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Timing: Re-time the film to [new track]. Measure it, rebuild the 30-second edit on bar lines with the drop at 0:00 and the logo on the final hit, and move every shot boundary and payoff onto the new grid. Keep the shot order, and show me the new beat sheet before rendering.</pre></div>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Easing: Make the motion feel [snappier / heavier]. Adjust the spring presets (stiffness and damping), keep overshoot at or under 0.5% on interface elements and zero on type, and show me a 12-frame strip of [a fast move] before and after.</pre></div>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Pacing: Give [shot] one more bar and take it from [shot]. Keep every cut on a beat and every payoff on a downbeat, check the music under each shot still matches the energy on screen, and show me the new beat sheet.</pre></div>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The protagonist: Replace the clay shape with [your brand shape] and keep the match cuts. List every cut, the shape that carries across it, and its size and position on both sides, then show me each cut as a pair of frames.</pre></div>
+  </section>
+  <section class="prose">
+    <div class="kicker">Principles</div>
+    <h2>What made it work</h2>
+    <p><strong>1. Let the music set the clock, then talk in beats and frames.</strong> Once the track was measured, every decision had a number: shots in bars, hits on beats, bugs at frame 873 or 1194. Notes like "at the downbeat of bar 8" leave Claude nothing to guess.</p>
+    <p><strong>2. Ask Claude to measure, not to eyeball.</strong> The strongest fixes came from numbers:</p>
+    <ul><li>the loudness under each shot, which moved the busiest shot off the breakdown;</li><li>the O against the ring, 0.933 versus 0.936;</li><li>the brand colours decoded in a browser.</li></ul>
+    <p>"Does it match?" gets an opinion. "Measure both" gets an answer.</p>
+    <p><strong>3. Put a review sheet in front of Claude at every stop.</strong> Contact sheets, phone sheets and 12-frame strips caught problems before I saw them: glitch-like bands, a toy-like 3D object, dead starts, ghosted blur. The score-and-fix loop comes from Movez's article; running it at every stop is what made it pay.</p>
+    <p><strong>4. Ask for a critic, not an approval.</strong> The single prompt asking Claude to review the storyboard as a senior motion designer changed more of the film than any instruction I wrote myself. Compare the two storyboards in Step 8.</p>
+    <p><strong>5. Name the failure you're hunting.</strong> The final render passed a casual look. It failed only when the check named the failures: blended frames at cuts, stepped blur, colour tags.</p>
+    <p><strong>6. Decide what the film is allowed to claim.</strong> "Written, not drawn" is true because I said no to generated imagery. Make that kind of decision before you pick tools, and the tools follow.</p>
+  </section>
+  <section class="prose">
+    <div class="kicker">Prompt pack</div>
+    <h2>The prompt pack</h2>
+    <p>Every prompt from this article, in the order you'd use them. Replace everything in [square brackets].</p>
+    <p><strong>1 · Set up</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Set up this folder for a motion graphics project made entirely in code. Check what's installed on this [Windows / Mac] machine: Node 22 or newer, Python 3.11 or newer, ffmpeg, and Chromium for Playwright. Install whatever is missing (npm: playwright and three; pip: numpy, scipy, librosa, soundfile and pillow), create the folders assets/, audio/, refs/, docs/, generated/ and out/, and tell me exactly what you installed and which versions you found. Don't write any animation yet.</pre></div>
+    <p class="fix"><em>Fix:</em> The setup script uses Homebrew, which I don't have. Do the same steps with the tools on this machine (winget, npm and pip), then prove each one runs by printing its version.</p>
+    <p><strong>2 · House rules and engine</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Create CLAUDE.md with the rules every scene in this project must follow:
+- The film is a function of time: window.seek(t) draws the frame at time t completely, on its own. No timers, no CSS transitions, no requestAnimationFrame, nothing carried over from the last frame.
+- Randomness only from a seeded generator, so a frame renders the same every time.
+- Motion uses closed-form springs (a formula that gives the position at any moment), with at most a tiny overshoot. No bouncy easing.
+- Fonts are loaded before the first frame. Logos are used as supplied, never redrawn.
+- Looks to avoid: titles centred on a gradient, fades used as transitions, text parked in corners, glow on interface elements, dead time.
+- Stop and wait for me after the style guide and shot list, after the storyboard, after the animatic, and before the final render.
+- Before showing me anything, check your work on review sheets: a contact sheet and a phone-size sheet.
+
+Then build the smallest working engine: index.html with one placeholder scene and window.seek(t); tools/render.mjs, which steps through time in headless Chromium with Playwright and pipes frames to ffmpeg (H.264, yuv420p, CRF 16), with optional motion blur from several samples per frame; and tools/beats.py, which measures a track's tempo, beats and downbeats with librosa into docs/beats.json. Render the same 2 seconds twice and show me that the two files are identical.</pre></div>
+    <p class="fix"><em>Fix:</em> The page doesn't load when opened from disk. Add a tiny local web server to tools/ and make the renderer and my previews use it instead of file:// paths.</p>
+    <p><strong>3 · The brief</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>You're the designer, animator and render engineer on a [30]-second, 16:9 motion piece that [shows what I can do as a motion designer / launches my product, name and one line]. It ends on "[end card text]" with [my name or credit line] underneath, using the logo files in ./assets as supplied.
+
+Format: 1920×1080, 60 fps, H.264 MP4 with the music, rendered with motion blur. Shots: [8 to 10] shots, each a different technique ([list them: e.g. kinetic type, a lit 3D object, a shader, a 2D-to-3D fold, a camera move through space, an editorial grid, a UI morph]), 2 to 4 seconds each, cutting on the beat. The first 2 seconds must be the strongest image; the last frame must lead back into the first so it loops.
+
+Start with docs/style_guide.md (palette in hex, fonts, spring settings, how text enters and exits, which transitions are allowed) and docs/shotlist.md (for every shot: frames, technique, camera, text, the beat it lands on). Then stop and show me both, with a list of anything you need from me.</pre></div>
+    <p class="fix"><em>Fix:</em> This shot list relies on fades and a centred title. Rewrite it so every transition is a match cut, a morph, a whip or a hard cut on a beat, and tell me the shape that carries across each cut.</p>
+    <p><strong>4 · Palette</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The end card uses [brand] logo in its own colour, [hex, e.g. clay #D97757], which can't change. I want the film to feel [bright and beautiful]. Suggest three palettes built around the logo's colour. For each: 5 to 6 hex values with the role of each one, the pairs that must never touch, and a small mock-up showing where the logo lands. Recommend one and say why.</pre></div>
+    <p class="fix"><em>Fix:</em> Put the palette in one place (a single tokens object every scene imports), remove every hard-coded colour from the scenes, and re-render one still per shot so I can see it applied.</p>
+    <p><strong>5 · Music (Suno), then the edit</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Style:
+Instrumental high-energy big beat, 130 BPM, huge live breakbeat drums, fuzzy distorted bass riff, gritty electric guitar power chords, bright brass stabs, hand claps, crowd-hype energy, bold and swaggering, punchy and loud, stadium energy from the first second, no intro
+
+Exclude:
+vocals, lyrics, techno, house, minimal, ambient, pads, cartoon, children, kalimba, ukulele, orchestral trailer, slow intro, fade in, lo-fi
+
+Structure (with Instrumental on):
+[Instrumental]
+[Intro: full band hits immediately]
+[Main riff]
+[Build: drum fill, rising energy]
+[Drop: biggest riff, full power]
+[Break: sudden stop]
+[Outro: one final big hit, ring out]</pre></div>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>The music is audio/[track].wav. Measure its tempo, beats and bars, and find the biggest drop and the final big hit. Build a [30]-second edit without changing the music itself: cut only on bar lines, with short crossfades so the splices don't click. Start the film on the drop and land the logo on the final hit. Make the last beat lead back into the first so the loop is seamless. Master it to −14 LUFS, save the beat grid to docs/beats.json, and re-time the shot list to it.</pre></div>
+    <p class="fix"><em>Fix:</em> The cuts drift off the drums. Fit the beat period only over the section of the song the edit uses, check that the drop and the final hit fall on the grid to within one frame, and rebuild the edit.</p>
+    <p><strong>6 · Storyboard</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Next stop: the storyboard. Build every shot as real scene code in its final look, and render one still per shot at 1920×1080. No animation yet. Put the stills in order on storyboard.html, each with its shot number, start and end time, technique, and two sentences on what moves. Let me click anywhere on a still to pin a note that records the shot, the time and where I clicked (as % across and % down), and give me one button that copies every note as a single list. Make the page work when I double-click it: embed the images and fonts in the file. Critique the stills yourself for three rounds before you show me, and log the scores in docs/review_log.md.</pre></div>
+    <p class="fix"><em>Fix:</em> The storyboard shows fallback fonts when I double-click it. Inline the font files and the stills into storyboard.html as data, so it works from disk and can be shared as one file.</p>
+    <p><strong>7 · Senior critique</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Act as a senior motion designer reviewing this storyboard for a top studio. Be specific and unsentimental: what stops this from being an agency-level reel? Measure the music under each shot and check that the energy of the picture matches it. Look for transitions that repeat, anything that talks about itself too much, a hook that's too polite, and anything that will break on a phone or after compression (thin lines, fine patterns, thin type on saturated colour). Score it, rank the fixes, and don't change anything yet.</pre></div>
+    <p class="fix"><em>Fix:</em> That's too kind. Score each shot out of 10 on hook, readability at phone size, motion, composition and polish, and name the three weakest moments with their timestamps and what you'd do about each.</p>
+    <p><strong>8 · Apply the notes</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Apply your fixes, with these changes of mine: [keep "X" as the hook], [end card: my name only]. Don't use AI-generated images or video; every frame stays code. Aim for the finish of [reference, e.g. the launch films on whatships.com]: take their pacing and polish, never their content. Put your own design studies on any wall of work instead of frames from later in the film. Show me the updated storyboard and list every change you made.</pre></div>
+    <p class="fix"><em>Fix:</em> Go through your list of changes against my notes. Revert anything I didn't ask for and you didn't flag in the critique, and show me the storyboard again.</p>
+    <p><strong>9 · Animatic</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Render the animatic: 960×540, no motion blur, with the real music. Then check it yourself before showing me: a contact sheet with one frame per beat, a sheet at 360 pixels wide to test phone readability, the last and first frame of every cut side by side, and 12-frame strips around the fastest moves. Score it out of 10, fix the three worst problems, and repeat until nothing scores below 8. Log each round.</pre></div>
+    <p class="fix"><em>Fix:</em> Find every beat where nothing new happens on screen and every shot that starts motionless. Each shot must be moving on its first frame and change something on every beat. Show me the beats you fixed.</p>
+    <p><strong>10 · Review page</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Build review.html for this film: play and pause, 1× and 2× speed, a scrubbable timeline showing the shots and the beat grid, click on the picture to pin a note at the current time and spot, notes about the sound at the current time, drag handles on each shot to ask for a trim, and one button that copies every note and trim as a list with timestamps. Serve it through the local server.</pre></div>
+    <p class="fix"><em>Fix:</em> The video won't jump when I click the timeline. Make the local server answer byte-range requests (HTTP 206), so the browser can seek.</p>
+    <p><strong>11 · Final render</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>It's approved: render the final. 1920×1080, 60 fps, motion blur, the mastered music, H.264 with BT.709 colour tags. Render in segments so an interruption only costs one segment. Before you hand it over, check it frame by frame:
+- no frame may blend two shots at a cut (check the last and first frame of every cut);
+- fast moves must blur smoothly, with no stepped copies (strips of 12 frames on the fastest moves);
+- the loop seam must be continuous (render the film twice back to back);
+- decode a frame in a browser and compare the brand colours with their hex values;
+- confirm 1,800 frames, 30.00 seconds and −14 LUFS.
+Tell me what you checked and what you fixed.</pre></div>
+    <p class="fix"><em>Fixes, if you hit them:</em></p>
+    <ul><li>A frame at a cut blends two shots. Paint every motion-blur sample with the shot its frame starts in, so cuts land between frames, and do the same for any instant change inside a shot.</li><li>Fast moves show stepped copies. Use a 180° shutter, measure how far things move in each frame of the animatic, and give fast frames enough samples to keep each blur step under 4 pixels.</li><li>Browsers show my brand colours shifted. Convert with the BT.709 matrix, tag the file BT.709, and check a frame decoded in a browser against the hex values.</li><li>The render keeps stopping. Make it resumable: split the film into segments, skip segments that are already finished, retry a stalled capture on a fresh browser, and never run more than one heavy 3D segment at a time.</li></ul>
+    <p><strong>12 · Other formats</strong></p>
+    <div class="promptbox"><span class="lbl">Prompt</span><button class="copy" type="button">Copy</button><pre>Make a [9:16, 1080×1920] version from the same timeline. Keep the music edit and every cut on the same beats, but re-lay out each shot for the new frame: reposition and resize type and objects rather than cropping. Keep text and the logo clear of the top [250] and bottom [400] pixels, where apps put their buttons. Show me one still per shot before you render.</pre></div>
+    <p><strong>13 · Variations:</strong> see the six prompts under "Making it your own" (colour, type, timing, easing, pacing, the protagonist).</p>
+  </section>
+  <section class="prose">
+    <div class="kicker">Credits</div>
+    <h2>Credits and resources</h2>
+    <p><strong>What I followed and adapted</strong></p>
+    <ul><li>Movez (@0xMovez), <a href="https://x.com/0xMovez/article/2104216919033192746" target="_blank" rel="noopener">How to build motion design studio with Opus 5.5 (Full-course)</a>, X article, 27 September 2026. It's the source of:<ul><li>the film-as-a-function-of-time approach (<code>seek(t)</code> and frame-by-frame capture);</li><li>the project rules file (<code>CLAUDE.md</code>);</li><li>the closed-form spring helpers and the sum-of-springs pattern;</li><li>the librosa beat script;</li><li>the score-and-fix critique loop and the QA sheets.</li></ul></li><li>Jay E, RoboNuggets, <a href="https://www.youtube.com/watch?v=YKFpSe28mlg" target="_blank" rel="noopener">Opus 5.5 Motion Graphics is Unbelievably Good (prompts included)</a>, YouTube, 29 September 2026. Its free PDF, <em>The 3 Levels of AI Motion Graphics</em>, is linked from the video description via <a href="https://www.skool.com/robonuggets-free" target="_blank" rel="noopener">skool.com/robonuggets-free</a>. It's the source of:<ul><li>storyboarding before building;</li><li>the storyboard you comment on by pinning notes to the frame;</li><li>the review page;</li><li>holding the final render until you approve it.</li></ul></li><li>The starter folder's prompt library also collects prompt patterns credited in Movez's article to <a href="https://x.com/kloss_xyz" target="_blank" rel="noopener">@kloss_xyz</a>, <a href="https://x.com/1littlecoder" target="_blank" rel="noopener">@1littlecoder</a> and <a href="https://x.com/sonnylazuardi" target="_blank" rel="noopener">@sonnylazuardi</a>. They weren't used in this build.</li></ul>
+    <p><strong>Libraries and tools</strong></p>
+    <ul><li><a href="https://threejs.org/" target="_blank" rel="noopener">three.js</a> 0.186.1, MIT. This includes the example add-ons used for the 3D shots: <code>EffectComposer</code>, <code>RenderPass</code>, <code>BokehPass</code> (depth of field), <code>OutputPass</code> and <code>RoomEnvironment</code>.</li><li><a href="https://playwright.dev/" target="_blank" rel="noopener">Playwright</a> 1.63.0, Apache-2.0, with its bundled Chromium headless shell. Microsoft Edge was used for one screenshot of the review page, because it plays H.264.</li><li><a href="https://ffmpeg.org/" target="_blank" rel="noopener">ffmpeg</a> 8.1.1, the full build from <a href="https://www.gyan.dev/ffmpeg/builds/" target="_blank" rel="noopener">gyan.dev</a>, GPL.</li><li><a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js</a> 22.18.0, MIT, and <a href="https://www.python.org/" target="_blank" rel="noopener">Python</a> 3.12.6, PSF licence.</li><li><a href="https://numpy.org/" target="_blank" rel="noopener">numpy</a> 2.1.1 (BSD-3-Clause), <a href="https://scipy.org/" target="_blank" rel="noopener">SciPy</a> 1.16.1 (BSD-3-Clause), <a href="https://librosa.org/" target="_blank" rel="noopener">librosa</a> 1.0.0 (ISC), <a href="https://github.com/bastibe/python-soundfile" target="_blank" rel="noopener">python-soundfile</a> 0.14.0 (BSD-3-Clause), <a href="https://python-pillow.org/" target="_blank" rel="noopener">Pillow</a> 11.3.0 (MIT-CMU).</li><li>The simplex noise in the S03 shader is by Ashima Arts and Stefan Gustavson, <a href="https://github.com/ashima/webgl-noise" target="_blank" rel="noopener">webgl-noise</a>, MIT.</li><li>The seeded random generator in <code>tools/motion.js</code> is mulberry32 (Tommy Ettinger).</li><li>Tone mapping is three.js's implementation of Khronos PBR Neutral.</li></ul>
+    <p><strong>Fonts</strong></p>
+    <ul><li><a href="https://github.com/undercasetype/Fraunces" target="_blank" rel="noopener">Fraunces</a>, SIL Open Font License 1.1, © 2018 The Fraunces Project Authors.</li><li><a href="https://github.com/vercel/geist-font" target="_blank" rel="noopener">Geist</a>, SIL Open Font License 1.1, © 2024 The Geist Project Authors.</li><li>Both were downloaded from <a href="https://github.com/google/fonts" target="_blank" rel="noopener">google/fonts</a>. The licence files are in <code>assets/fonts/</code>.</li></ul>
+    <p><strong>Assets, music and references</strong></p>
+    <ul><li>The Claude logo (<code>assets/Claude_AI_symbol.svg.webp</code>) is Anthropic's trademark, used as supplied and never redrawn. Check Anthropic's brand guidelines before you publish your own "Made with Claude" card.</li><li>Music: "Final Big Hit", generated in <a href="https://suno.com/" target="_blank" rel="noopener">Suno</a> from the prompt in Step 5. Usage rights depend on your Suno plan.</li><li>Reference for polish (pacing only, no content taken): <a href="https://whatships.com/" target="_blank" rel="noopener">whatships.com</a>.</li></ul>
+    <p><strong>Repositories listed in the starter folder</strong> (not used in this build; check each licence before borrowing)</p>
+    <ul><li><a href="https://github.com/JohnHeibel/PDoomVideo" target="_blank" rel="noopener">JohnHeibel/PDoomVideo</a></li><li><a href="https://github.com/JohnHeibel/ClaudeAnimationBase" target="_blank" rel="noopener">JohnHeibel/ClaudeAnimationBase</a></li><li><a href="https://github.com/buildwithhanif/claude-animation-skill" target="_blank" rel="noopener">buildwithhanif/claude-animation-skill</a></li><li><a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noopener">heygen-com/hyperframes</a></li><li><a href="https://www.remotion.dev/docs/ai/skills" target="_blank" rel="noopener">Remotion AI skills</a></li><li><a href="https://github.com/WinterArc21/Battle-of-Austerlitz-Film" target="_blank" rel="noopener">WinterArc21/Battle-of-Austerlitz-Film</a></li><li><a href="https://github.com/guanmo-ai/awesome-ai-motion" target="_blank" rel="noopener">guanmo-ai/awesome-ai-motion</a></li><li><a href="https://github.com/athemeroy/awesome-opus-5-5-videos" target="_blank" rel="noopener">athemeroy/awesome-opus-5-5-videos</a></li></ul>
+    <p><strong>Docs you'll need</strong></p>
+    <ul><li><a href="https://code.claude.com/docs" target="_blank" rel="noopener">Claude Code docs</a></li><li><a href="https://playwright.dev/docs/intro" target="_blank" rel="noopener">Playwright: installation</a></li><li><a href="https://ffmpeg.org/ffmpeg-filters.html" target="_blank" rel="noopener">ffmpeg filters</a> (<code>loudnorm</code>, <code>palettegen</code>, <code>paletteuse</code>, <code>ebur128</code>)</li><li><a href="https://threejs.org/docs/" target="_blank" rel="noopener">three.js docs</a></li><li><a href="https://librosa.org/doc/latest/generated/librosa.beat.beat_track.html" target="_blank" rel="noopener">librosa beat tracking</a></li><li><a href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">Google Fonts: Fraunces</a> and <a href="https://fonts.google.com/specimen/Geist" target="_blank" rel="noopener">Geist</a></li></ul>
+  </section>
+  <section>
+    <div class="ctarow">
+      <a class="btn gold" href="tutorial-claude-motion-reel/motion-reel.mp4" download>Download the film &darr;</a>
+      <a class="btn ghost" href="#film">Watch it again &uarr;</a>
+      <a class="btn ghost" href="index.html#cases">All case studies &rarr;</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wm">Prompt <em>Atelier</em></div>
+  <p>TUTORIAL &middot; CLAUDE CODE &middot; NEW CASE STUDIES EVERY WEEK</p>
+  <div class="socials-x">
+    <a href="https://www.youtube.com/@thePromptAtelier" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://github.com/adcunico/prompt-atelier" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <a href="https://www.linkedin.com/in/alinecunico/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var text = b.parentElement.querySelector('pre').innerText, done = function (ok) {
+      b.textContent = ok ? 'Copied' : 'Select and copy'; setTimeout(function () { b.textContent = 'Copy'; }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    else done(false);
+  });
+});
+</script>
+</body>
+</html>
